@@ -4,11 +4,11 @@ Client to create, issue, manage and share [Blockcerts](https://www.blockcerts.or
 
 ## Introduction
 
-*blockcerts-ethereum-client* is an opensource client to create, issue, manage and share online Blockcerts certificates on the Ethereum blockchain. Issuing a batch of up to thousands of certificates does not even cost $0.01.
+**blockcerts-ethereum-client** is an opensource client to create, issue, manage and share online Blockcerts certificates on the Ethereum blockchain. Issuing a batch of up to thousands of certificates does not even cost $0.01.
 
 This project is purely a client-side frontend application and can be used alone. However, it's intended to be best used with the [Blockcerts API](https://github.com/guix77/blockcerts-api) project.
 
-This application has been originally developed with financial support by GIZ Lab as a component of a project with [GIZ](https://www.giz.de/en/html/index.html) (Deutsche Gesellschaft für Internationale Zusammenarbeit GmbH) and [SEAMEO INNOTECH](https://www.seameo-innotech.org/) (Regional Center for Educational Innovation and Technology, Southeast Asian Ministers of Education Organization).
+*This application has been originally developed with financial support by GIZ Lab as a component of a project with [GIZ](https://www.giz.de/en/html/index.html) (Deutsche Gesellschaft für Internationale Zusammenarbeit GmbH) and [SEAMEO INNOTECH](https://www.seameo-innotech.org/) (Regional Center for Educational Innovation and Technology, Southeast Asian Ministers of Education Organization).*
 
 ## Installation (basic)
 
