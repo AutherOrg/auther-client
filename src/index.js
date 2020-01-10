@@ -1,12 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { MuiThemeProvider } from '@material-ui/core/styles'
+import { Provider } from 'react-redux'
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import theme from './providers/mui/mui.theme'
+import store from './providers/redux/redux.store'
+import CustomWeb3ReactProvider from './providers/web3/CustomWeb3ReactProvider'
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+import App from './App'
+import * as serviceWorker from './serviceWorker'
+import './index.css'
+
+ReactDOM.render(
+  <MuiThemeProvider theme={theme}>
+    <Provider store={store}>
+      <CustomWeb3ReactProvider>
+        <App />
+      </CustomWeb3ReactProvider>
+    </Provider>
+  </MuiThemeProvider>,
+  document.getElementById('root')
+)
+
+serviceWorker.unregister()

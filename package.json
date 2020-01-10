@@ -1,20 +1,41 @@
 {
-  "name": "blockcerts-client",
-  "version": "0.1.0",
-  "private": true,
+  "name": "blockcerts-ethereum-client",
+  "version": "1.0.0",
+  "description": "Client to create, issue, manage and share online Blockcerts certificates on Ethereum.",
+  "repository": "git@github.com:guix77/blockcerts-ethereum-client.git",
+  "author": "Guillaume Duveau <guillaume.duveau@gmail.com>",
+  "license": "MIT",
+  "private": false,
   "dependencies": {
+    "@ethersproject/providers": "^5.0.0-beta.147",
+    "@material-ui/core": "^4.8.3",
+    "@material-ui/icons": "^4.5.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "@web3-react/core": "^6.0.2",
+    "@web3-react/injected-connector": "^6.0.3",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-scripts": "3.3.0"
+    "react-redux": "^7.1.3",
+    "react-scripts": "3.3.0",
+    "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "standard",
+    "start": "react-scripts start",
+    "test": "react-scripts test"
+  },
+  "standard": {
+    "ignore": [
+      "App.test.js",
+      "serviceWorker.js",
+      "setupTests.js"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -30,5 +51,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "standard": "^14.3.1"
   }
 }

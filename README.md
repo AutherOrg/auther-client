@@ -1,68 +1,82 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Blockcerts Ethereum client
 
-## Available Scripts
+Client to create, issue, manage and share [Blockcerts](https://www.blockcerts.org) certificates on Ethereum.
 
-In the project directory, you can run:
+## Introduction
 
-### `yarn start`
+*blockcerts-ethereum-client* is an opensource client to create, issue, manage and share online Blockcerts certificates on the Ethereum blockchain. Issuing a batch of up to thousands of certificates does not even cost $0.01.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+This project is purely a client-side frontend application and can be used alone. However, it's intended to be best used with the [Blockcerts API](https://github.com/guix77/blockcerts-api) project.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+This application has been originally developed with financial support by GIZ Lab as a component of a project with [GIZ](https://www.giz.de/en/html/index.html) (Deutsche Gesellschaft für Internationale Zusammenarbeit GmbH) and [SEAMEO INNOTECH](https://www.seameo-innotech.org/) (Regional Center for Educational Innovation and Technology, Southeast Asian Ministers of Education Organization).
 
-### `yarn test`
+## Installation (basic)
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+This project was bootstrapped with [Create React App](https://create-react-app.dev/). Please read the documentation if you are new to React, otherwise you know what to do.
 
-### `yarn build`
+Install and launch application:
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+````
+yarn install
+yarn start
+````
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+To sign certificates, you will need to have Ethereum connectivity in your browser. You can for instance install the [Metamask](https://metamask.io/) extension (Firefox + Chrome). Also, you will need to have a little bit of Ether. On the Ethereum testnet Ropsten, you can have some for free. On Ethereum Mainnet, on which you should issue real certificates, it won't even cost $0.01 to issue a batch of up to thousands certificates.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Installation (along with blockcerts-api)
 
-### `yarn eject`
+To share online certificates, you will need to install the [Blockcerts API](https://github.com/guix77/blockcerts-api) project as well. Without it, you can still create, issue and manage certificates, but to enable people to view them they will have to upload the JSON certificates. Also, *Blockcerts API* has email notifications, whereas this pure client-side application doesn't.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+First install, configure and launch *Blockcerts-API* and then come back here.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+````
+cp .env.development .env.development.local
+cp .env.production .env.development.production
+````
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Edit .env.development.local and / or .env.production.local accordingly to your setup.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Issuing certificates
 
-## Learn More
+TODO
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Certificates sources
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+TODO
 
-### Code Splitting
+### Certificates templates
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+TODO
 
-### Analyzing the Bundle Size
+## Production considerations
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+Along with classic considerations for production release (among other things, see [React documentation](https://create-react-app.dev/docs/production-build/) if needed), you have to make a major decision that will impact ALL the certificates you issue: the management of the issuer profile and the revocation list.
 
-### Making a Progressive Web App
+As you probably know, they are both JSON files. The issuer profile JSON's URL is in each certificate issued by an issuer. The URL where it is hosted must never change, otherwise all previously issued certificates will not be valid any more.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+This application allows you to generate both those JSON files. In a development / test instance and together with a dev / test *Blockcerts-API* instance, for your convenience it's possible to host those JSONs in the API.
 
-### Advanced Configuration
+**In production we advise NOT to use this feature, but to host those 2 files traditionnally on a simple classic HTTP server. Even better, you could additionnaly use the [w3id.org](https://w3id.org/), the Permanent Identifiers for the Web project.**
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+## Issues
 
-### Deployment
+Please report issues [here](https://github.com/guix77/blockcerts-ethereum-client/issues).
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+## General discussion
 
-### `yarn build` fails to minify
+Please post on the [Blockcerts.org forum topic](https://community.blockcerts.org/t/TODO).
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## Development
+
+Please read the [contribution guidelines](CONTRIBUTING.md).
+
+## Credits
+
+### Developers
+
++ Guillaume Duveau, freelance blockchain & web developer, original author of this [Blockcerts](https://guillaumeduveau.com/en/blockcerts) Ethereum application
+
+### Partners
+
++ [GIZ](https://www.giz.de/en/html/index.html) (Deutsche Gesellschaft für Internationale Zusammenarbeit GmbH)
++ [SEAMEO INNOTECH](https://www.seameo-innotech.org/) (Regional Center for Educational Innovation and Technology, Southeast Asian Ministers of Education Organization)
