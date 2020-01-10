@@ -13,6 +13,7 @@ import { Add, Check, Edit } from '@material-ui/icons'
 import batchActions from '../../actions/batch.actions'
 import transactionActions from '../../actions/transaction.actions'
 import ethereumConstants from '../../constants/ethereum.constants'
+import Web3Wrapper from '../web3/Web3Wrapper'
 
 export default () => {
   const dispatch = useDispatch()
@@ -65,45 +66,47 @@ export default () => {
   }
 
   return (
-    <Card>
-      <CardHeader title='Basic issuing process' />
-      <CardContent>
-        {isRunning() && <CircularProgress />}
-        {batchReducer.merkleTreeRoot !== '' && (
-          <Typography>
-            Merkle tree root: {batchReducer.merkleTreeRoot}
-          </Typography>
-        )}
-      </CardContent>
-      <CardActions>
-        <Button
-          onClick={() => dispatch(batchActions.set([certificate], true))}
-          disabled={isRunning()}
-          startIcon={<Add />}
-          color='primary'
-          variant='contained'
-        >
-          Create certificates batch
-        </Button>
-        <Button
-          onClick={() => handleSign()}
-          disabled={isRunning()}
-          startIcon={<Edit />}
-          color='primary'
-          variant='contained'
-        >
-          Sign certificates batch
-        </Button>
-        <Button
-          onClick={() => handleFinalize()}
-          disabled={isRunning()}
-          startIcon={<Check />}
-          color='primary'
-          variant='contained'
-        >
-          Finalize certificates batch
-        </Button>
-      </CardActions>
-    </Card>
+    <Web3Wrapper>
+      <Card>
+        <CardHeader title='Basic issuing process' />
+        <CardContent>
+          {isRunning() && <CircularProgress />}
+          {batchReducer.merkleTreeRoot !== '' && (
+            <Typography>
+              Merkle tree root: {batchReducer.merkleTreeRoot}
+            </Typography>
+          )}
+        </CardContent>
+        <CardActions>
+          <Button
+            onClick={() => dispatch(batchActions.set([certificate], true))}
+            disabled={isRunning()}
+            startIcon={<Add />}
+            color='primary'
+            variant='contained'
+          >
+            Create certificates batch
+          </Button>
+          <Button
+            onClick={() => handleSign()}
+            disabled={isRunning()}
+            startIcon={<Edit />}
+            color='primary'
+            variant='contained'
+          >
+            Sign certificates batch
+          </Button>
+          <Button
+            onClick={() => handleFinalize()}
+            disabled={isRunning()}
+            startIcon={<Check />}
+            color='primary'
+            variant='contained'
+          >
+            Finalize certificates batch
+          </Button>
+        </CardActions>
+      </Card>
+    </Web3Wrapper>
   )
 }

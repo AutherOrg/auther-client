@@ -1,18 +1,19 @@
 import { applyMiddleware, compose, createStore } from 'redux'
 import thunk from 'redux-thunk'
-import { createLogger } from 'redux-logger'
+import { createBrowserHistory } from 'history'
+import { routerMiddleware } from 'connected-react-router'
 
-import reducers from '../../reducers/reducers'
+import createRootReducer from '../../reducers/reducers'
+
+export const history = createBrowserHistory()
 
 const middleware = [thunk]
-if (process.env.NODE_ENV !== 'production') {
-  middleware.push(createLogger())
-}
+middleware.push(routerMiddleware(history))
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
-const configureStore = preloadedState => {
+export default preloadedState => {
   const store = createStore(
-    reducers,
+    createRootReducer(history),
     preloadedState,
     composeEnhancers(
       applyMiddleware(...middleware)
@@ -20,5 +21,3 @@ const configureStore = preloadedState => {
   )
   return store
 }
-
-export default configureStore()

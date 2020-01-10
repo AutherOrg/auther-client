@@ -1,16 +1,13 @@
 import { combineReducers } from 'redux'
+import { connectRouter } from 'connected-react-router'
 
 import batchReducer from './batch.reducer'
 import transactionReducer from './transaction.reducer'
 
-const reducers = combineReducers({
+const createRootReducer = history => combineReducers({
+  router: connectRouter(history),
   batchReducer,
   transactionReducer
 })
 
-export default (state, action) => {
-  if (action.type === 'RESET_STORE') {
-    state = undefined
-  }
-  return reducers(state, action)
-}
+export default createRootReducer

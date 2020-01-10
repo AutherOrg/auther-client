@@ -32,4 +32,8 @@ Please do not commit specific editor files or directories such as .vscode.
 
 If you need to create them locally, please add them to the .gitignore.
 
+## Redux devtools extension
+
+You can install the [Redux devtools extension](https://github.com/zalmoxisus/redux-devtools-extension#installation), everything is already configured.
+
 *Happy coding!*
