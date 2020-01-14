@@ -3,7 +3,7 @@ import { Typography } from '@material-ui/core'
 
 function Home () {
   return (
-    <Typography>TODO Home</Typography>
+    <Typography>TODO</Typography>
   )
 }
 

@@ -75,11 +75,11 @@ function App () {
       <List>
         <ListItem button>
           <ListItemIcon>{<LockOpen />}</ListItemIcon>
-          <ListItemText primary='Login' />
+          <ListItemText primary='Login (TODO)' />
         </ListItem>
         <ListItem button onClick={() => dispatch(push('/test/basic'))}>
           <ListItemIcon>{<ArrowRight />}</ListItemIcon>
-          <ListItemText primary='Basic' />
+          <ListItemText primary='Basic issuer' />
         </ListItem>
       </List>
     </div>
