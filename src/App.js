@@ -59,7 +59,9 @@ export default function App () {
   const theme = useTheme()
   const [mobileOpen, setMobileOpen] = React.useState(false)
   const dispatch = useDispatch()
-
+  React.useEffect(() => {
+    document.title = process.env.REACT_APP_APPLICATION_NAME
+  }, [])
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
   }
