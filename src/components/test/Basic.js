@@ -10,15 +10,15 @@ import {
 } from '@material-ui/core'
 import { Add, Check, Edit } from '@material-ui/icons'
 
-import batchActions from '../../actions/batch.actions'
-import transactionActions from '../../actions/transaction.actions'
+import batchesActions from '../../actions/batches.actions'
+import transactionsActions from '../../actions/transactions.actions'
 import ethereumConstants from '../../constants/ethereum.constants'
 import Web3Wrapper from '../web3/Web3Wrapper'
 
 export default () => {
   const dispatch = useDispatch()
-  const batchReducer = useSelector(state => state.batchReducer)
-  const transactionReducer = useSelector(state => state.transactionReducer)
+  const batchesReducer = useSelector(state => state.batchesReducer)
+  const transactionsReducer = useSelector(state => state.transactionsReducer)
   const certificate = new Certificate({
     recipient: {
       identity: 'alice@example.org'
@@ -54,15 +54,15 @@ export default () => {
     const tx = {
       to: ethereumConstants.BURN_ADDRESS,
       gasLimit: ethereumConstants.GAS_LIMIT,
-      data: '0x' + batchReducer.merkleTreeRoot
+      data: '0x' + batchesReducer.merkleTreeRoot
     }
-    dispatch(transactionActions.send(tx, account, library))
+    dispatch(transactionsActions.send(tx, account, library))
   }
   const handleFinalize = () => {
-    dispatch(batchActions.sign(batchReducer.certificates, transactionReducer.hash))
+    dispatch(batchesActions.sign(batchesReducer.certificates, transactionsReducer.hash))
   }
   const isRunning = () => {
-    return batchReducer.isRunning || transactionReducer.isRunning
+    return batchesReducer.isRunning || transactionsReducer.isRunning
   }
 
   return (
@@ -71,15 +71,15 @@ export default () => {
         <CardHeader title='Basic issuing process' />
         <CardContent>
           {isRunning() && <CircularProgress />}
-          {batchReducer.merkleTreeRoot !== '' && (
+          {batchesReducer.merkleTreeRoot !== '' && (
             <Typography>
-              Merkle tree root: {batchReducer.merkleTreeRoot}
+              Merkle tree root: {batchesReducer.merkleTreeRoot}
             </Typography>
           )}
         </CardContent>
         <CardActions>
           <Button
-            onClick={() => dispatch(batchActions.set([certificate], true))}
+            onClick={() => dispatch(batchesActions.set([certificate], true))}
             disabled={isRunning()}
             startIcon={<Add />}
             color='primary'

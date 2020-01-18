@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux'
 import { connectRouter } from 'connected-react-router'
 
-import batchReducer from './batch.reducer'
-import transactionReducer from './transaction.reducer'
+import batchesReducer from './batches.reducer'
+import transactionsReducer from './transactions.reducer'
 
 const createRootReducer = history => combineReducers({
   router: connectRouter(history),
-  batchReducer,
-  transactionReducer
+  batchesReducer,
+  transactionsReducer
 })
 
 export default createRootReducer
