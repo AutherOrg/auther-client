@@ -14,9 +14,10 @@ import {
   Typography
 } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
-import { ArrowRight, Home as HomeIcon, LockOpen, Menu } from '@material-ui/icons'
+import { ArrowRight, Home as HomeIcon, List as ListIcon, LockOpen, Menu } from '@material-ui/icons'
 
 import Home from './components/pages/Home'
+import Batches from './components/pages/Batches'
 import Basic from './components/test/Basic'
 
 const drawerWidth = 240
@@ -53,7 +54,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function App () {
+export default function App () {
   const classes = useStyles()
   const theme = useTheme()
   const [mobileOpen, setMobileOpen] = React.useState(false)
@@ -69,6 +70,10 @@ function App () {
         <ListItem button onClick={() => dispatch(push('/'))}>
           <ListItemIcon>{<HomeIcon />}</ListItemIcon>
           <ListItemText primary='Home' />
+        </ListItem>
+        <ListItem button onClick={() => dispatch(push('/batches'))}>
+          <ListItemIcon>{<ListIcon />}</ListItemIcon>
+          <ListItemText primary='Certificate batches' />
         </ListItem>
       </List>
       <Divider />
@@ -137,28 +142,10 @@ function App () {
       <main className={classes.content}>
         <Switch>
           <Route exact path='/' component={Home} />
+          <Route exact path='/batches' component={Batches} />
           <Route exact path='/test/basic' component={Basic} />
         </Switch>
       </main>
     </div>
   )
 }
-
-export default App
-
-// export default () => {
-//   return (
-//     <ResponsiveDrawer />
-//     <Grid container>
-//       <Grid item xs={12}>
-//         <Switch>
-//           <Route exact path='/' render={() => (<div>Match</div>)} />
-//           <Route render={() => (<div>Miss</div>)} />
-//         </Switch>
-//         <Web3Wrapper>
-//           <Basic />
-//         </Web3Wrapper>
-//       </Grid>
-//     </Grid>
-//   )
-// }

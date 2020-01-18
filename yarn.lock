@@ -1693,7 +1693,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*":
+"@types/react@*", "@types/react@^16.9.1":
   version "16.9.17"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.17.tgz#58f0cc0e9ec2425d1441dd7b623421a867aa253e"
   integrity sha512-UP27In4fp4sWF5JgyV6pwVPAQM83Fj76JOcg02X5BZcpSu5Wx+fP9RMqc2v0ssBoQIFvD5JdKY41gjJJKmw6Bg==
@@ -3633,6 +3633,11 @@ data-urls@^1.0.0, data-urls@^1.1.0:
     abab "^2.0.0"
     whatwg-mimetype "^2.2.0"
     whatwg-url "^7.0.0"
+
+date-fns@^2.9.0:
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.9.0.tgz#d0b175a5c37ed5f17b97e2272bbc1fa5aec677d2"
+  integrity sha512-khbFLu/MlzLjEzy9Gh8oY1hNt/Dvxw3J6Rbc28cVoYWQaC1S3YI4xwkF9ZWcjDLscbZlY9hISMr66RFzZagLsA==
 
 debug-log@^1.0.0:
   version "1.0.1"
@@ -8954,7 +8959,7 @@ react-dev-utils@^10.0.0:
     strip-ansi "5.2.0"
     text-table "0.2.0"
 
-react-dom@^16.12.0:
+react-dom@^16.12.0, react-dom@^16.9.0:
   version "16.12.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.12.0.tgz#0da4b714b8d13c2038c9396b54a92baea633fe11"
   integrity sha512-LMxFfAGrcS3kETtQaCkTKjMiifahaMySFDn71fZUNpPHZQEzmk/GiAeIT8JSOrHB23fnuCOMruL2a8NYlw+8Gw==
@@ -8968,6 +8973,16 @@ react-error-overlay@^6.0.4:
   version "6.0.4"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.4.tgz#0d165d6d27488e660bc08e57bdabaad741366f7a"
   integrity sha512-ueZzLmHltszTshDMwyfELDq8zOA803wQ1ZuzCccXa1m57k1PxSHfflPD5W9YIiTXLs0JTLzoj6o1LuM5N6zzNA==
+
+react-indexed-db@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/react-indexed-db/-/react-indexed-db-1.0.8.tgz#f041fa20257e04893fb8fac1b91054e8cc4a30f9"
+  integrity sha512-nmnPWzJW6qXi5GBwKLplYam0bSoQPsskb5AHw5AKy0yZBzQAGc8vGxKtgilum5wFxsiPlJ+wmSsy6BKQf4Z/Zw==
+  dependencies:
+    "@types/react" "^16.9.1"
+    react "^16.9.0"
+    react-dom "^16.9.0"
+    react-scripts "^3.1.1"
 
 react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.0, react-is@^16.8.1, react-is@^16.8.4, react-is@^16.9.0:
   version "16.12.0"
@@ -9002,7 +9017,7 @@ react-router@^5.1.2:
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
 
-react-scripts@3.3.0:
+react-scripts@3.3.0, react-scripts@^3.1.1:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/react-scripts/-/react-scripts-3.3.0.tgz#f26a21f208f20bd04770f43e50b5bbc151920c2a"
   integrity sha512-hzPc6bxCc9GnsspWqk494c2Gpd0dRbk/C8q76BNQIENi9GMwoxFljOEcZoZcpFpJgQ45alxFR6QaLt+51qie7g==
@@ -9072,7 +9087,7 @@ react-transition-group@^4.3.0:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react@^16.12.0:
+react@^16.12.0, react@^16.9.0:
   version "16.12.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.12.0.tgz#0c0a9c6a142429e3614834d5a778e18aa78a0b83"
   integrity sha512-fglqy3k5E+81pA8s+7K0/T3DBCF0ZDOher1elBFzF7O6arXJgzyu/FW+COxFvAWXJoJN9KIZbT2LXlukwphYTA==
