@@ -60,7 +60,7 @@ const getAllError = error => ({
 })
 
 const reset = () => ({
-  type: types.RESET_BATCH
+  type: types.RESET_BATCHES
 })
 
 const set = (certificates, validate = false) => {

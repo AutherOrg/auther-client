@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router'
 import { push } from 'connected-react-router'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   AppBar,
   CssBaseline,
@@ -14,11 +14,17 @@ import {
   Typography
 } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
-import { ArrowRight, Home as HomeIcon, List as ListIcon, LockOpen, Menu } from '@material-ui/icons'
+import { ArrowRight, ExitToApp, Home as HomeIcon, List as ListIcon, LockOpen, Menu } from '@material-ui/icons'
 
-import Home from './components/pages/Home'
-import Batches from './components/pages/Batches'
+import constants from './constants/users.constants'
+import actions from './actions/auth.actions'
 import Basic from './components/test/Basic'
+import Home from './components/pages/Home'
+import Login from './components/pages/Login'
+import LoginFromPermanentToken from './components/pages/LoginFromPermanentToken'
+import ValidatePassword from './components/pages/ValidatePassword'
+import Unauthorized from './components/pages/Unauthorized'
+import Batches from './components/pages/Batches'
 
 const drawerWidth = 240
 
@@ -59,9 +65,15 @@ export default function App () {
   const theme = useTheme()
   const [mobileOpen, setMobileOpen] = React.useState(false)
   const dispatch = useDispatch()
+  const authReducer = useSelector(state => state.authReducer)
+
   React.useEffect(() => {
     document.title = process.env.REACT_APP_APPLICATION_NAME
-  }, [])
+    if (process.env.REACT_APP_API === 'none') {
+      dispatch(actions.setRole(constants.role.ISSUER))
+    }
+  }, [dispatch])
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
   }
@@ -73,23 +85,47 @@ export default function App () {
           <ListItemIcon>{<HomeIcon />}</ListItemIcon>
           <ListItemText primary='Home' />
         </ListItem>
-        <ListItem button onClick={() => dispatch(push('/batches'))}>
-          <ListItemIcon>{<ListIcon />}</ListItemIcon>
-          <ListItemText primary='Certificate batches' />
-        </ListItem>
+        {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
+          <ListItem button onClick={() => dispatch(push('/batches'))}>
+            <ListItemIcon>{<ListIcon />}</ListItemIcon>
+            <ListItemText primary='Certificate batches' />
+          </ListItem>
+        )}
       </List>
       <Divider />
       <List>
-        <ListItem button>
-          <ListItemIcon>{<LockOpen />}</ListItemIcon>
-          <ListItemText primary='Login (TODO)' />
-        </ListItem>
-        <ListItem button onClick={() => dispatch(push('/test/basic'))}>
-          <ListItemIcon>{<ArrowRight />}</ListItemIcon>
-          <ListItemText primary='Basic issuer' />
-        </ListItem>
+        {
+          authReducer.role === constants.role.ANONYMOUS
+            ? (
+              <ListItem button onClick={() => dispatch(push('/auth/login'))}>
+                <ListItemIcon>{<LockOpen />}</ListItemIcon>
+                <ListItemText primary='Login' />
+              </ListItem>
+            ) : (
+              <ListItem button onClick={() => dispatch(actions.logout())}>
+                <ListItemIcon>{<ExitToApp />}</ListItemIcon>
+                <ListItemText primary='Logout' />
+              </ListItem>
+            )
+        }
+        {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
+          <ListItem button onClick={() => dispatch(push('/test/basic'))}>
+            <ListItemIcon>{<ArrowRight />}</ListItemIcon>
+            <ListItemText primary='Basic issuer' />
+          </ListItem>
+        )}
       </List>
     </div>
+  )
+
+  const PrivateRoute = ({ component: Component, ...rest }) => (
+    <Route
+      {...rest}
+      render={
+        props =>
+          rest.userRoles.indexOf(authReducer.role) > -1 ? <Component {...props} /> : <Unauthorized />
+      }
+    />
   )
 
   return (
@@ -112,7 +148,6 @@ export default function App () {
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label='mailbox folders'>
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation='css'>
           <Drawer
             variant='temporary'
@@ -123,7 +158,7 @@ export default function App () {
               paper: classes.drawerPaper
             }}
             ModalProps={{
-              keepMounted: true // Better open performance on mobile.
+              keepMounted: true
             }}
           >
             {drawer}
@@ -144,8 +179,11 @@ export default function App () {
       <main className={classes.content}>
         <Switch>
           <Route exact path='/' component={Home} />
+          <Route exact path='/auth/login' component={Login} />
+          <Route exact path='/auth/login/permanent/:permanentToken' component={LoginFromPermanentToken} />
+          <Route exact path='/auth/password/validate/:passwordToken' component={ValidatePassword} />
           <Route exact path='/batches' component={Batches} />
-          <Route exact path='/test/basic' component={Basic} />
+          <PrivateRoute userRoles={[constants.role.ADMIN]} exact path='/test/basic' component={Basic} />
         </Switch>
       </main>
     </div>

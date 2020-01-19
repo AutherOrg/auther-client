@@ -90,15 +90,8 @@ export default (state = initialState, action) => {
         error: action.error
       }
 
-    case types.RESET_BATCH:
-      return {
-        ...state,
-        isRunning: initialState.isRunning,
-        error: initialState.error,
-        certificates: initialState.certificates,
-        merkleTreeRoot: initialState.merkleTreeRoot,
-        batches: initialState.batches
-      }
+    case types.RESET_BATCHES:
+      return initialState
 
     default:
       return state
