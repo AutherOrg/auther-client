@@ -54,6 +54,9 @@ const setPassword = async (email, password) => {
       }
     )
     const result = await response.json()
+    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+      console.log(result)
+    }
     return result
   } catch (e) {
     return e
