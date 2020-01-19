@@ -1,8 +1,8 @@
 {
-  "name": "blockcerts-ethereum-client",
+  "name": "openblockcerts-client",
   "version": "1.0.0",
   "description": "Client to create, issue, manage and share online Blockcerts certificates on Ethereum.",
-  "repository": "git@github.com:guix77/blockcerts-ethereum-client.git",
+  "repository": "https://github.com/openblockcerts/openblockcerts-client",
   "author": "Guillaume Duveau <guillaume.duveau@gmail.com>",
   "license": "MIT",
   "private": false,

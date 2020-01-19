@@ -7,6 +7,7 @@ import {
   CssBaseline,
   Divider,
   Drawer,
+  Grid,
   Hidden,
   IconButton,
   List, ListItem, ListItemIcon, ListItemText,
@@ -57,6 +58,13 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     padding: theme.spacing(3),
     marginTop: '64px'
+  },
+  poweredBy: {
+    fontSize: '0.7rem',
+    color: theme.palette.grey[500]
+  },
+  poweredByLink: {
+    color: theme.palette.grey[500]
   }
 }))
 
@@ -177,14 +185,21 @@ export default function App () {
         </Hidden>
       </nav>
       <main className={classes.content}>
-        <Switch>
-          <Route exact path='/' component={Home} />
-          <Route exact path='/auth/login' component={Login} />
-          <Route exact path='/auth/login/permanent/:permanentToken' component={LoginFromPermanentToken} />
-          <Route exact path='/auth/password/validate/:passwordToken' component={ValidatePassword} />
-          <Route exact path='/batches' component={Batches} />
-          <PrivateRoute userRoles={[constants.role.ADMIN]} exact path='/test/basic' component={Basic} />
-        </Switch>
+        <Grid container spacing={5}>
+          <Grid item xs={12}>
+            <Switch>
+              <Route exact path='/' component={Home} />
+              <Route exact path='/auth/login' component={Login} />
+              <Route exact path='/auth/login/permanent/:permanentToken' component={LoginFromPermanentToken} />
+              <Route exact path='/auth/password/validate/:passwordToken' component={ValidatePassword} />
+              <Route exact path='/batches' component={Batches} />
+              <PrivateRoute userRoles={[constants.role.ADMIN]} exact path='/test/basic' component={Basic} />
+            </Switch>
+          </Grid>
+          <Grid item xs={12} align='center'>
+            <Typography classes={{ root: classes.poweredBy }}>Powered by <a href='https://openblockcerts.org' target='blockcerts' rel='noopener noreferrer' className={classes.poweredByLink}>OpenBlockcerts</a>, an opensource implementation of blockchain-certified credentials</Typography>
+          </Grid>
+        </Grid>
       </main>
     </div>
   )
