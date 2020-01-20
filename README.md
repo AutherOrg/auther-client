@@ -1,12 +1,14 @@
 # OpenBlockcerts client
 
-Client to create, issue, manage and share online [Blockcerts](https://www.blockcerts.org) certificates on Ethereum.
+Client to create, issue, manage and share Blockcerts certificates.
 
 ## Introduction
 
 **OpenBlockcerts client** is an opensource client to create, issue, manage and share online Blockcerts certificates on the Ethereum blockchain. Issuing a batch of up to thousands of certificates does not even cost $0.01.
 
 This project is purely a client-side frontend application and can be used alone. However, it's intended to be best used with the [OpenBlockcerts API](https://github.com/openblockcerts/openblockcerts-api) project.
+
+It does not work with Bitcoin for now.
 
 ## Installation
 
@@ -60,11 +62,11 @@ This application allows you to generate both those JSON files. In a development 
 
 ## General discussion, installation and configuration help
 
-Please post on the [OpenBlockcerts.org forum](TODO).
++ [OpenBlockcerts.com forum](https://www.openblockcerts.com/forum)
 
 ## Paid technical support, development and commercial services
 
-Paid technical support and commercial services are available on [OpenBlockcerts.com](TODO).
++ [OpenBlockcerts.com services](https://www.openblockcerts.com/services).
 
 ## Development
 
