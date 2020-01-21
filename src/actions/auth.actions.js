@@ -2,7 +2,7 @@ import Cookies from 'js-cookie'
 import { push } from 'connected-react-router'
 
 import types from '../constants/actions.types.constants'
-import service from '../services/blockcerts-api/auth.blockcerts-api.service'
+import service from '../services/openblockcerts-api/auth.openblockcerts-api.service'
 import userConstants from '../constants/users.constants'
 
 const get = (email, password) => {
@@ -12,7 +12,13 @@ const get = (email, password) => {
       const result = await service.login(email, password)
       dispatch(getSuccess(result.user))
       Cookies.set('token', result.token, { expires: 1 })
-      dispatch(push('/'))
+      if (result.user.role === userConstants.role.RECIPIENT) {
+        dispatch(push('/certificates/my'))
+      } else if ([userConstants.role.ADMIN, userConstants.role.ISSUER].includes(result.user.role)) {
+        dispatch(push('/certificates/all'))
+      } else {
+        dispatch(push('/'))
+      }
     } catch (e) {
       dispatch(getError(e.message))
     }
@@ -46,6 +52,14 @@ const getFromPermanentToken = permanentToken => {
       dispatch(getSuccess(result.user))
       Cookies.set('token', result.token, { expires: 1 })
       if (result.user.status === userConstants.status.ACTIVE) {
+        if (result.user.role === userConstants.role.RECIPIENT) {
+          dispatch(push('/certificates/my'))
+        } else if ([userConstants.role.ADMIN, userConstants.role.ISSUER].includes(result.user.role)) {
+          dispatch(push('/certificates/all'))
+        } else {
+          dispatch(push('/'))
+        }
+      } else {
         dispatch(push('/'))
       }
     } catch (e) {
@@ -58,6 +72,7 @@ const logout = () => {
   return dispatch => {
     dispatch(logoutSuccess())
     Cookies.remove('token')
+    dispatch(push('/'))
   }
 }
 

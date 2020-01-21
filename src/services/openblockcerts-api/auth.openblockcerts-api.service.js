@@ -1,4 +1,4 @@
-import helper from './helpers/auth.blockcerts-api.helper'
+import helper from './helpers/headers.openblockcerts-api.helper'
 
 const route = process.env.REACT_APP_API + 'auth/local'
 
@@ -54,9 +54,6 @@ const setPassword = async (email, password) => {
       }
     )
     const result = await response.json()
-    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-      console.log(result)
-    }
     return result
   } catch (e) {
     return e

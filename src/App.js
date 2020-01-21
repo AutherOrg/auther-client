@@ -15,7 +15,7 @@ import {
   Typography
 } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
-import { ArrowRight, ExitToApp, Home as HomeIcon, List as ListIcon, LockOpen, Menu } from '@material-ui/icons'
+import { ArrowRight, ExitToApp, Home as HomeIcon, List as ListIcon, LockOpen, Menu, School } from '@material-ui/icons'
 
 import constants from './constants/users.constants'
 import actions from './actions/auth.actions'
@@ -25,6 +25,7 @@ import Login from './components/pages/Login'
 import LoginFromPermanentToken from './components/pages/LoginFromPermanentToken'
 import ValidatePassword from './components/pages/ValidatePassword'
 import Unauthorized from './components/pages/Unauthorized'
+import AllCertificates from './components/pages/AllCertificates'
 import Batches from './components/pages/Batches'
 
 const drawerWidth = 240
@@ -70,10 +71,18 @@ const useStyles = makeStyles(theme => ({
 
 export default function App () {
   const classes = useStyles()
+
   const theme = useTheme()
+
   const [mobileOpen, setMobileOpen] = React.useState(false)
+
   const dispatch = useDispatch()
+
   const authReducer = useSelector(state => state.authReducer)
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen)
+  }
 
   React.useEffect(() => {
     document.title = process.env.REACT_APP_APPLICATION_NAME
@@ -82,10 +91,6 @@ export default function App () {
     }
   }, [dispatch])
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen)
-  }
-
   const drawer = (
     <div>
       <List>
@@ -93,15 +98,24 @@ export default function App () {
           <ListItemIcon>{<HomeIcon />}</ListItemIcon>
           <ListItemText primary='Home' />
         </ListItem>
+        {[constants.role.RECIPIENT].includes(authReducer.role) && (
+          <ListItem button onClick={() => dispatch(push('/certificates/my'))}>
+            <ListItemIcon>{<School />}</ListItemIcon>
+            <ListItemText primary='My certificates' />
+          </ListItem>
+        )}
+        {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
+          <ListItem button onClick={() => dispatch(push('/certificates/all'))}>
+            <ListItemIcon>{<School />}</ListItemIcon>
+            <ListItemText primary='Certificates' />
+          </ListItem>
+        )}
         {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
           <ListItem button onClick={() => dispatch(push('/batches'))}>
             <ListItemIcon>{<ListIcon />}</ListItemIcon>
             <ListItemText primary='Certificate batches' />
           </ListItem>
         )}
-      </List>
-      <Divider />
-      <List>
         {
           authReducer.role === constants.role.ANONYMOUS
             ? (
@@ -192,7 +206,9 @@ export default function App () {
               <Route exact path='/auth/login' component={Login} />
               <Route exact path='/auth/login/permanent/:permanentToken' component={LoginFromPermanentToken} />
               <Route exact path='/auth/password/validate/:passwordToken' component={ValidatePassword} />
-              <Route exact path='/batches' component={Batches} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches' component={Batches} />
+              <PrivateRoute userRoles={[constants.role.RECIPIENT]} exact path='/certificates/my' component={AllCertificates} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/certificates/all' component={AllCertificates} />
               <PrivateRoute userRoles={[constants.role.ADMIN]} exact path='/test/basic' component={Basic} />
             </Switch>
           </Grid>

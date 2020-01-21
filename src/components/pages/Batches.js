@@ -10,10 +10,13 @@ import actions from '../../actions/batches.actions'
 
 export default function Batches () {
   const dispatch = useDispatch()
+
   const batchesReducer = useSelector(state => state.batchesReducer)
+
   React.useEffect(() => {
     dispatch(actions.getAll())
   }, [dispatch])
+
   return (
     <TableContainer component={Paper}>
       <Table>
