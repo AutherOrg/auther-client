@@ -30,7 +30,7 @@ import Unauthorized from './components/pages/Unauthorized'
 import MyCertificates from './components/pages/MyCertificates'
 import AllCertificates from './components/pages/AllCertificates'
 // Issuer.
-import IssuerProfile from './components/pages/IssuerProfile'
+import Issuer from './components/pages/Issuer'
 import Batches from './components/pages/Batches'
 
 const drawerWidth = 240
@@ -112,36 +112,39 @@ export default function App () {
           </ListItem>
         )}
         {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
-          <ListItem button onClick={() => dispatch(push('/certificates/all'))}>
-            <ListItemIcon>{<School />}</ListItemIcon>
-            <ListItemText primary='Certificates' />
-          </ListItem>
-        )}
-        {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
           <ListItem button onClick={() => dispatch(push('/batches'))}>
             <ListItemIcon>{<ListIcon />}</ListItemIcon>
             <ListItemText primary='Batches' />
           </ListItem>
         )}
         {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
+          <ListItem button onClick={() => dispatch(push('/certificates/all'))}>
+            <ListItemIcon>{<School />}</ListItemIcon>
+            <ListItemText primary='Certificates' />
+          </ListItem>
+        )}
+        {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
           <ListItem button onClick={() => dispatch(push('/issuers/my'))}>
             <ListItemIcon>{<AccountBalance />}</ListItemIcon>
-            <ListItemText primary='My issuer profile' />
+            <ListItemText primary='Issuer' />
           </ListItem>
         )}
         {
-          authReducer.role === constants.role.ANONYMOUS
+          (authReducer.role === constants.role.ANONYMOUS && authReducer.hasApi)
             ? (
               <ListItem button onClick={() => dispatch(push('/auth/login'))}>
                 <ListItemIcon>{<LockOpen />}</ListItemIcon>
                 <ListItemText primary='Login' />
               </ListItem>
-            ) : (
-              <ListItem button onClick={() => dispatch(actions.logout())}>
-                <ListItemIcon>{<ExitToApp />}</ListItemIcon>
-                <ListItemText primary='Logout' />
-              </ListItem>
             )
+            : authReducer.hasApi
+              ? (
+                <ListItem button onClick={() => dispatch(actions.logout())}>
+                  <ListItemIcon>{<ExitToApp />}</ListItemIcon>
+                  <ListItemText primary='Logout' />
+                </ListItem>
+              )
+              : null
         }
         {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
           <ListItem button onClick={() => dispatch(push('/test/basic'))}>
@@ -221,7 +224,7 @@ export default function App () {
               <Route exact path='/auth/password/validate/:passwordToken' component={ValidatePassword} />
               <PrivateRoute userRoles={[constants.role.RECIPIENT]} exact path='/certificates/my' component={MyCertificates} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/certificates/all' component={AllCertificates} />
-              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/issuer/my' component={IssuerProfile} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/issuers/my' component={Issuer} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches' component={Batches} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/test/basic' component={Basic} />
             </Switch>
