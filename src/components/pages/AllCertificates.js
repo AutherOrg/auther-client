@@ -19,7 +19,7 @@ export default function AllCertificates () {
 
   React.useEffect(() => {
     dispatch(actions.getAll(authReducer.hasApi))
-  }, [dispatch])
+  }, [dispatch, authReducer.hasApi])
 
   return (
     <Grid container spacing={5} justify='center'>

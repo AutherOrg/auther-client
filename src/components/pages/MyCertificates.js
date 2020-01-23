@@ -9,7 +9,7 @@ import {
   Typography
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { CloudDownload, Delete, Link, Share, Visibility } from '@material-ui/icons'
+import { CloudDownload, Delete, Share } from '@material-ui/icons'
 
 import actions from '../../actions/certificates.actions'
 
