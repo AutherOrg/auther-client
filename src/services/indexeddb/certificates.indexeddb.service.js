@@ -1,10 +1,7 @@
-import { useIndexedDB } from 'react-indexed-db'
-
 const getAll = async () => {
   try {
-    const { getAll } = useIndexedDB('batches')
-    const certificates = await getAll()
-    return certificates
+    await window.fetch('https://api.github.com')
+    return []
   } catch (e) {
     return e
   }
