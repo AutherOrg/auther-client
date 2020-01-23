@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   AppBar,
   CssBaseline,
-  Divider,
   Drawer,
   Grid,
   Hidden,
@@ -25,6 +24,7 @@ import Login from './components/pages/Login'
 import LoginFromPermanentToken from './components/pages/LoginFromPermanentToken'
 import ValidatePassword from './components/pages/ValidatePassword'
 import Unauthorized from './components/pages/Unauthorized'
+import MyCertificates from './components/pages/MyCertificates'
 import AllCertificates from './components/pages/AllCertificates'
 import Batches from './components/pages/Batches'
 
@@ -207,7 +207,7 @@ export default function App () {
               <Route exact path='/auth/login/permanent/:permanentToken' component={LoginFromPermanentToken} />
               <Route exact path='/auth/password/validate/:passwordToken' component={ValidatePassword} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches' component={Batches} />
-              <PrivateRoute userRoles={[constants.role.RECIPIENT]} exact path='/certificates/my' component={AllCertificates} />
+              <PrivateRoute userRoles={[constants.role.RECIPIENT]} exact path='/certificates/my' component={MyCertificates} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/certificates/all' component={AllCertificates} />
               <PrivateRoute userRoles={[constants.role.ADMIN]} exact path='/test/basic' component={Basic} />
             </Switch>
