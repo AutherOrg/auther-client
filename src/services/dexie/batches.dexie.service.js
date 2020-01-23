@@ -12,7 +12,7 @@ const create = async (batch) => {
 const getAll = async () => {
   try {
     const batches = await db.table('batches').toArray()
-    return []
+    return batches
   } catch (e) {
     return e
   }
