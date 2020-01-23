@@ -1,34 +1,33 @@
 import { createBatch, signBatch } from 'blockcerts-issuer-helper'
-import { useIndexedDB } from 'react-indexed-db'
 import { getUnixTime } from 'date-fns'
 
 import types from '../constants/actions.types.constants'
 import batchesConstants from '../constants/batches.constants'
+import service from '../services/dexie/batches.dexie.service'
 
-const add = batch => {
+const create = batch => {
   return async dispatch => {
-    dispatch(addBegin())
+    dispatch(createBegin())
     try {
-      const { add } = useIndexedDB('batches')
-      await add(batch)
-      dispatch(addSuccess())
+      await service.create(batch)
+      dispatch(createSuccess())
       dispatch(getAll())
     } catch (e) {
-      dispatch(addError(e.message))
+      dispatch(createError(e.message))
     }
   }
 }
 
-const addBegin = () => ({
-  type: types.ADD_BATCH_BEGIN
+const createBegin = () => ({
+  type: types.CREATE_BATCH_BEGIN
 })
 
-const addSuccess = () => ({
-  type: types.ADD_BATCH_SUCCESS
+const createSuccess = () => ({
+  type: types.CREATE_BATCH_SUCCESS
 })
 
-const addError = error => ({
-  type: types.ADD_BATCH_ERROR,
+const createError = error => ({
+  type: types.CREATE_BATCH_ERROR,
   error
 })
 
@@ -36,8 +35,7 @@ const getAll = () => {
   return async dispatch => {
     dispatch(getAllBegin())
     try {
-      const { getAll } = useIndexedDB('batches')
-      const batches = await getAll()
+      const batches = await service.getAll()
       dispatch(getAllSuccess(batches))
     } catch (e) {
       dispatch(getAllError(e.message))
@@ -96,7 +94,7 @@ const sign = (certificates, hash) => {
     try {
       const signedCertificates = await signBatch(certificates, 'ETHData', hash, 'ethereumRopsten', { validate: true })
       dispatch(signSuccess(signedCertificates))
-      dispatch(add({
+      dispatch(create({
         status: batchesConstants.STATUS.SIGNED,
         created: getUnixTime(new Date()),
         certificates: JSON.stringify(signedCertificates)
@@ -122,7 +120,7 @@ const signError = error => ({
 })
 
 export default {
-  add,
+  create,
   getAll,
   reset,
   set,
