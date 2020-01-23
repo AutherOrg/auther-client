@@ -17,8 +17,11 @@ import Web3Wrapper from '../web3/Web3Wrapper'
 
 export default () => {
   const dispatch = useDispatch()
+
   const batchesReducer = useSelector(state => state.batchesReducer)
+
   const transactionsReducer = useSelector(state => state.transactionsReducer)
+
   const certificate = new Certificate({
     recipient: {
       identity: 'alice@example.org'
@@ -48,8 +51,11 @@ export default () => {
     },
     displayHtml: '<h1>Computer Science MS Degree, Fictional University</h1>'
   })
+
   const context = useWeb3React()
+
   const { account, library } = context
+
   const handleSign = () => {
     const tx = {
       to: ethereumConstants.BURN_ADDRESS,
@@ -58,9 +64,11 @@ export default () => {
     }
     dispatch(transactionsActions.send(tx, account, library))
   }
+
   const handleFinalize = () => {
     dispatch(batchesActions.sign(batchesReducer.certificates, transactionsReducer.hash))
   }
+
   const isRunning = () => {
     return batchesReducer.isRunning || transactionsReducer.isRunning
   }

@@ -120,7 +120,7 @@ export default function App () {
         {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
           <ListItem button onClick={() => dispatch(push('/batches'))}>
             <ListItemIcon>{<ListIcon />}</ListItemIcon>
-            <ListItemText primary='Certificate batches' />
+            <ListItemText primary='Batches' />
           </ListItem>
         )}
         {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
@@ -223,7 +223,7 @@ export default function App () {
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/certificates/all' component={AllCertificates} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/issuer/my' component={IssuerProfile} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches' component={Batches} />
-              <PrivateRoute userRoles={[constants.role.ADMIN]} exact path='/test/basic' component={Basic} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/test/basic' component={Basic} />
             </Switch>
           </Grid>
           <Grid item xs={12} align='center'>
