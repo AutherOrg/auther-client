@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Resizer from 'react-image-file-resizer'
+import downloadjs from 'downloadjs'
 import {
   Button,
   CircularProgress,
@@ -9,7 +10,7 @@ import {
   TextField,
   Typography
 } from '@material-ui/core'
-import { LockOpen } from '@material-ui/icons'
+import { CloudDownload, Save } from '@material-ui/icons'
 
 import actions from '../../actions/issuers.actions'
 import constants from '../../constants/issuers.constants'
@@ -18,6 +19,31 @@ export default function Issuer () {
   const dispatch = useDispatch()
 
   const issuersReducer = useSelector(state => state.issuersReducer)
+
+  const download = () => {
+    const json = {
+      '@context': [
+        'https://w3id.org/openbadges/v2',
+        'https://w3id.org/blockcerts/v2'
+      ],
+      type: 'Profile',
+      id: issuersReducer.issuerProfileUrl,
+      name: issuersReducer.name,
+      email: issuersReducer.email,
+      url: issuersReducer.url,
+      introductionURL: issuersReducer.introductionUrl,
+      publicKey: [
+        {
+          id: issuersReducer.publicKey,
+          created: '2019-10-25T10:51:53.490752+00:00'
+        }
+      ],
+      revocationList: issuersReducer.revocationListUrl,
+      image: issuersReducer.image
+    }
+    const stringified = JSON.stringify(json)
+    downloadjs(stringified, 'issuer.json', 'text/plain')
+  }
 
   const handleImageChange = event => {
     if (event.target.files[0]) {
@@ -213,15 +239,26 @@ export default function Issuer () {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} align='center'>
+      <Grid item xs={6} align='right'>
         <Button
           onClick={() => submit()}
           disabled={!canSubmit()}
           variant='contained'
           color='primary'
-          startIcon={<LockOpen />}
+          startIcon={<Save />}
         >
           Save
+        </Button>
+      </Grid>
+      <Grid item xs={6} align='left'>
+        <Button
+          onClick={() => download()}
+          disabled={!isProfileComplete()}
+          variant='contained'
+          color='primary'
+          startIcon={<CloudDownload />}
+        >
+          Download
         </Button>
       </Grid>
     </Grid>
