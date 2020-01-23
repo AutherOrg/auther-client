@@ -14,18 +14,23 @@ import {
   Typography
 } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
-import { ArrowRight, ExitToApp, Home as HomeIcon, List as ListIcon, LockOpen, Menu, School } from '@material-ui/icons'
+import { AccountBalance, ArrowRight, ExitToApp, Home as HomeIcon, List as ListIcon, LockOpen, Menu, School } from '@material-ui/icons'
 
 import constants from './constants/users.constants'
 import actions from './actions/auth.actions'
+// TODO remove only dev
 import Basic from './components/test/Basic'
+// Public & auth.
 import Home from './components/pages/Home'
 import Login from './components/pages/Login'
 import LoginFromPermanentToken from './components/pages/LoginFromPermanentToken'
 import ValidatePassword from './components/pages/ValidatePassword'
 import Unauthorized from './components/pages/Unauthorized'
+// Recipient.
 import MyCertificates from './components/pages/MyCertificates'
 import AllCertificates from './components/pages/AllCertificates'
+// Issuer.
+import IssuerProfile from './components/pages/IssuerProfile'
 import Batches from './components/pages/Batches'
 
 const drawerWidth = 240
@@ -88,6 +93,8 @@ export default function App () {
     document.title = process.env.REACT_APP_APPLICATION_NAME
     if (process.env.REACT_APP_API === 'none') {
       dispatch(actions.setRole(constants.role.ISSUER))
+    } else {
+      dispatch(actions.setHasApi())
     }
   }, [dispatch])
 
@@ -114,6 +121,12 @@ export default function App () {
           <ListItem button onClick={() => dispatch(push('/batches'))}>
             <ListItemIcon>{<ListIcon />}</ListItemIcon>
             <ListItemText primary='Certificate batches' />
+          </ListItem>
+        )}
+        {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
+          <ListItem button onClick={() => dispatch(push('/issuers/my'))}>
+            <ListItemIcon>{<AccountBalance />}</ListItemIcon>
+            <ListItemText primary='My issuer profile' />
           </ListItem>
         )}
         {
@@ -206,9 +219,10 @@ export default function App () {
               <Route exact path='/auth/login' component={Login} />
               <Route exact path='/auth/login/permanent/:permanentToken' component={LoginFromPermanentToken} />
               <Route exact path='/auth/password/validate/:passwordToken' component={ValidatePassword} />
-              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches' component={Batches} />
               <PrivateRoute userRoles={[constants.role.RECIPIENT]} exact path='/certificates/my' component={MyCertificates} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/certificates/all' component={AllCertificates} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/issuer/my' component={IssuerProfile} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches' component={Batches} />
               <PrivateRoute userRoles={[constants.role.ADMIN]} exact path='/test/basic' component={Basic} />
             </Switch>
           </Grid>

@@ -80,6 +80,10 @@ const logoutSuccess = () => ({
   type: types.LOGOUT_SUCCESS
 })
 
+const setHasApi = () => ({
+  type: types.SET_HAS_API
+})
+
 const setPassword = (email, password) => {
   return async dispatch => {
     dispatch(setPasswordBegin())
@@ -106,7 +110,7 @@ const setPasswordError = error => ({
 })
 
 const setRole = role => ({
-  type: types.SET_USER_ROLE,
+  type: types.SET_ROLE,
   role
 })
 
@@ -142,6 +146,7 @@ export default {
   get,
   getFromPermanentToken,
   logout,
+  setHasApi,
   setPassword,
   setRole,
   validatePassword

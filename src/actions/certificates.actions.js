@@ -1,12 +1,13 @@
 import types from '../constants/actions.types.constants'
-import service from '../services/openblockcerts-api/certificates.openblockcerts-api.service'
+import apiService from '../services/openblockcerts-api/certificates.openblockcerts-api.service'
+import localService from '../services/indexeddb/certificates.indexeddb.service'
 
-const getAll = () => {
+const getAll = hasApi => {
   return async dispatch => {
     dispatch(getAllBegin())
     try {
-      const result = await service.getAll()
-      console.log(result)
+      const service = hasApi ? apiService : localService
+      const result = await [service].getAll()
       dispatch(getAllSuccess(result))
     } catch (e) {
       dispatch(getAllError(e.message))

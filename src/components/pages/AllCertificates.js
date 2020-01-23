@@ -14,10 +14,11 @@ import actions from '../../actions/certificates.actions'
 export default function AllCertificates () {
   const dispatch = useDispatch()
 
+  const authReducer = useSelector(state => state.authReducer)
   const certificatesReducer = useSelector(state => state.certificatesReducer)
 
   React.useEffect(() => {
-    dispatch(actions.getAll())
+    dispatch(actions.getAll(authReducer.hasApi))
   }, [dispatch])
 
   return (
