@@ -50,6 +50,10 @@ const getOneSuccess = issuer => ({
   issuer
 })
 
+const getOneNoResult = () => ({
+  type: types.GET_ISSUER_NO_RESULT
+})
+
 const getOneError = error => ({
   type: types.GET_ISSUER_ERROR,
   error
@@ -63,6 +67,8 @@ const getMy = () => {
       if (issuer) {
         dispatch(getOneSuccess(issuer))
         dispatch(setHasIssuer())
+      } else {
+        dispatch(getOneNoResult())
       }
     } catch (e) {
       dispatch(getOneError(e.message))

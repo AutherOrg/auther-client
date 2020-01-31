@@ -30,6 +30,7 @@ export default (state = initialState, action) => {
       }
 
     case types.CREATE_ISSUER_SUCCESS:
+    case types.GET_ISSUER_NO_RESULT:
     case types.UPDATE_ISSUER_SUCCESS:
       return {
         ...state,
