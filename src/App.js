@@ -102,7 +102,7 @@ export default function App () {
   }
 
   React.useEffect(() => {
-    document.title = process.env.REACT_APP_APPLICATION_NAME
+    document.title = process.env.REACT_APP_NAME
     if (process.env.REACT_APP_API === 'none') {
       dispatch(actions.setRole(constants.role.ISSUER))
     } else {
@@ -199,7 +199,7 @@ export default function App () {
             <Menu />
           </IconButton>
           <Typography variant='h6' noWrap>
-            {process.env.REACT_APP_APPLICATION_NAME}
+            {process.env.REACT_APP_NAME}
           </Typography>
         </Toolbar>
       </AppBar>

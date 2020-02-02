@@ -5,16 +5,31 @@ import {
   Button,
   CircularProgress,
   Card, CardHeader, CardContent,
+  FormControl,
   Grid,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
   Typography
 } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 import { Save } from '@material-ui/icons'
 
 import actions from '../../actions/models.actions'
 import constants from '../../constants/certificateModels.constants'
+import templates from '../../templates/index.templates'
+
+const useStyles = makeStyles(theme => ({
+  templateScreenshot: {
+    width: '100%',
+    height: 'auto'
+  }
+}))
 
 export default function Model ({ match }) {
+  const classes = useStyles()
+
   const dispatch = useDispatch()
 
   const modelsReducer = useSelector(state => state.modelsReducer)
@@ -35,6 +50,22 @@ export default function Model ({ match }) {
     }
   }
 
+  const getPreview = () => {
+    if (modelsReducer.template !== '') {
+      const template = templates.find(e => e.name === modelsReducer.template)
+      if (template) {
+        if (template.screenshot !== '') {
+          return (
+            <Grid item xs={12}>
+              <img src={template.screenshot} alt={template.name} className={classes.templateScreenshot} />
+            </Grid>
+          )
+        }
+      }
+    }
+    return null
+  }
+
   const isComplete = () => {
     return (
       modelsReducer.name !== '' &&
@@ -42,7 +73,8 @@ export default function Model ({ match }) {
       modelsReducer.image !== '' &&
       modelsReducer.narrative !== '' &&
       modelsReducer.signatureJobTitle !== '' &&
-      modelsReducer.signatureImage !== ''
+      modelsReducer.signatureImage !== '' &&
+      modelsReducer.template !== ''
     )
   }
 
@@ -61,7 +93,8 @@ export default function Model ({ match }) {
       image: modelsReducer.image,
       narrative: modelsReducer.narrative,
       signatureJobTitle: modelsReducer.signatureJobTitle,
-      signatureImage: modelsReducer.signatureImage
+      signatureImage: modelsReducer.signatureImage,
+      template: modelsReducer.template
     }
     if (modelsReducer.id > 0) {
       dispatch(actions.update(modelsReducer.id, model))
@@ -146,7 +179,7 @@ export default function Model ({ match }) {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} lg={6}>
+      <Grid item xs={12} lg={3}>
         <Card>
           <CardHeader title='Signature information' />
           <CardContent>
@@ -173,6 +206,35 @@ export default function Model ({ match }) {
                 )}
                 <input type='file' onChange={event => handleImageChange('signatureImage', event)} />
               </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item xs={12} lg={3}>
+        <Card>
+          <CardHeader title='Template' />
+          <CardContent>
+            <Grid container spacing={5}>
+              <Grid item xs={12}>
+                <FormControl fullWidth>
+                  <InputLabel id='label'>
+                    Template
+                  </InputLabel>
+                  <Select
+                    labelId='label'
+                    id='template'
+                    value={modelsReducer.template}
+                    onChange={event => dispatch(actions.setValue('template', event.target.value))}
+                  >
+                    {templates.map((template, index) => (
+                      <MenuItem key={index} value={template.name}>
+                        {template.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              {getPreview()}
             </Grid>
           </CardContent>
         </Card>

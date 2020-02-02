@@ -46,6 +46,7 @@ export default function Models () {
               <TableHead>
                 <TableRow>
                   <TableCell>Name</TableCell>
+                  <TableCell>Template</TableCell>
                   <TableCell>Created at</TableCell>
                   <TableCell>Updated at</TableCell>
                   <TableCell>Actions</TableCell>
@@ -55,6 +56,7 @@ export default function Models () {
                 {modelsReducer.models.map((model, index) => (
                   <TableRow key={index}>
                     <TableCell>{model.name}</TableCell>
+                    <TableCell>{model.template}</TableCell>
                     <TableCell>{format(fromUnixTime(model.createdAt), 'MM/dd/yyyy')}</TableCell>
                     <TableCell>{format(fromUnixTime(model.updatedAt), 'MM/dd/yyyy')}</TableCell>
                     <TableCell>

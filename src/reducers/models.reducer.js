@@ -13,7 +13,8 @@ const initialState = {
   image: '',
   narrative: '',
   signatureJobTitle: '',
-  signatureImage: ''
+  signatureImage: '',
+  template: ''
 }
 
 export default (state = initialState, action) => {
@@ -62,7 +63,8 @@ export default (state = initialState, action) => {
         image: action.model.image,
         narrative: action.model.narrative,
         signatureJobTitle: action.model.signatureJobTitle,
-        signatureImage: action.model.signatureImage
+        signatureImage: action.model.signatureImage,
+        template: action.model.template
       }
 
     case types.SET_MODEL_VALUE:
