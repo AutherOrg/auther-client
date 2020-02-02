@@ -1,7 +1,8 @@
+import { push } from 'connected-react-router'
 import { getUnixTime } from 'date-fns'
 
 import types from '../constants/actions.types.constants'
-import service from '../services/dexie/certificateModels.dexie.service'
+import service from '../services/dexie/models.dexie.service'
 
 const create = model => {
   return async dispatch => {
@@ -12,6 +13,7 @@ const create = model => {
       if (result) {
         dispatch(createSuccess())
         dispatch(getAll())
+        dispatch(push('/models'))
       }
     } catch (e) {
       dispatch(createError(e.message))
@@ -20,15 +22,41 @@ const create = model => {
 }
 
 const createBegin = () => ({
-  type: types.CREATE_CERTIFICATEMODEL_BEGIN
+  type: types.CREATE_MODEL_BEGIN
 })
 
 const createSuccess = () => ({
-  type: types.CREATE_CERTIFICATEMODEL_SUCCESS
+  type: types.CREATE_MODEL_SUCCESS
 })
 
 const createError = error => ({
-  type: types.CREATE_CERTIFICATEMODEL_ERROR,
+  type: types.CREATE_MODEL_ERROR,
+  error
+})
+
+const destroy = id => {
+  return async dispatch => {
+    dispatch(destroyBegin())
+    try {
+      await service.destroy(id)
+      dispatch(destroySuccess())
+      dispatch(getAll())
+    } catch (e) {
+      dispatch(destroyError(e.message))
+    }
+  }
+}
+
+const destroyBegin = () => ({
+  type: types.DESTROY_MODEL_BEGIN
+})
+
+const destroySuccess = model => ({
+  type: types.DESTROY_MODEL_SUCCESS
+})
+
+const destroyError = error => ({
+  type: types.DESTROY_MODEL_ERROR,
   error
 })
 
@@ -45,16 +73,16 @@ const getAll = () => {
 }
 
 const getAllBegin = () => ({
-  type: types.GET_ALL_CERTIFICATEMODELS_BEGIN
+  type: types.GET_ALL_MODELS_BEGIN
 })
 
 const getAllSuccess = models => ({
-  type: types.GET_ALL_CERTIFICATEMODELS_SUCCESS,
+  type: types.GET_ALL_MODELS_SUCCESS,
   models
 })
 
 const getAllError = error => ({
-  type: types.GET_ALL_CERTIFICATEMODELS_ERROR,
+  type: types.GET_ALL_MODELS_ERROR,
   error
 })
 
@@ -64,7 +92,6 @@ const getOne = id => {
     try {
       const result = await service.getOne(id)
       dispatch(getOneSuccess())
-      console.log(result)
       dispatch(setModel(result))
     } catch (e) {
       dispatch(getOneError(e.message))
@@ -73,31 +100,31 @@ const getOne = id => {
 }
 
 const getOneBegin = () => ({
-  type: types.GET_ONE_CERTIFICATEMODEL_BEGIN
+  type: types.GET_ONE_MODEL_BEGIN
 })
 
 const getOneSuccess = model => ({
-  type: types.GET_ONE_CERTIFICATEMODEL_SUCCESS
+  type: types.GET_ONE_MODEL_SUCCESS
 })
 
 const getOneError = error => ({
-  type: types.GET_ONE_CERTIFICATEMODEL_ERROR,
+  type: types.GET_ONE_MODEL_ERROR,
   error
 })
 
 const setModel = model => ({
-  type: types.SET_CERTIFICATEMODEL,
+  type: types.SET_MODEL,
   model
 })
 
 const setValue = (name, value) => ({
-  type: types.SET_CERTIFICATEMODEL_VALUE,
+  type: types.SET_MODEL_VALUE,
   name,
   value
 })
 
 const reset = () => ({
-  type: types.RESET_CERTIFICATEMODEL
+  type: types.RESET_MODEL
 })
 
 const update = (id, model) => {
@@ -108,6 +135,7 @@ const update = (id, model) => {
       await service.update(id, model)
       dispatch(updateSuccess())
       dispatch(getAll())
+      dispatch(push('/models'))
     } catch (e) {
       dispatch(updateError(e.message))
     }
@@ -115,20 +143,21 @@ const update = (id, model) => {
 }
 
 const updateBegin = () => ({
-  type: types.UPDATE_CERTIFICATEMODEL_BEGIN
+  type: types.UPDATE_MODEL_BEGIN
 })
 
 const updateSuccess = () => ({
-  type: types.UPDATE_CERTIFICATEMODEL_SUCCESS
+  type: types.UPDATE_MODEL_SUCCESS
 })
 
 const updateError = error => ({
-  type: types.UPDATE_CERTIFICATEMODEL_ERROR,
+  type: types.UPDATE_MODEL_ERROR,
   error
 })
 
 export default {
   create,
+  destroy,
   getAll,
   getOne,
   reset,

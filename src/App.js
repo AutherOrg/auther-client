@@ -41,8 +41,8 @@ import MyCertificates from './components/pages/MyCertificates'
 import AllCertificates from './components/pages/AllCertificates'
 // Issuer.
 import Issuer from './components/pages/Issuer'
-import CertificateModels from './components/pages/CertificateModels'
-import CertificateModel from './components/pages/CertificateModel'
+import Models from './components/pages/Models'
+import Model from './components/pages/Model'
 import Batches from './components/pages/Batches'
 
 const drawerWidth = 240
@@ -242,8 +242,8 @@ export default function App () {
               <Route exact path='/auth/password/validate/:passwordToken' component={ValidatePassword} />
               <PrivateRoute userRoles={[constants.role.RECIPIENT]} exact path='/certificates/my' component={MyCertificates} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/issuers/my' component={Issuer} />
-              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/models' component={CertificateModels} />
-              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/models/:id' component={CertificateModel} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/models' component={Models} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/models/:id' component={Model} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches' component={Batches} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/certificates/all' component={AllCertificates} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/test/basic' component={Basic} />

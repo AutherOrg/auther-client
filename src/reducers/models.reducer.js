@@ -18,40 +18,44 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case types.ADD_CERTIFICATEMODEL_BEGIN:
-    case types.GET_ALL_CERTIFICATEMODELS_BEGIN:
-    case types.GET_ONE_CERTIFICATEMODEL_BEGIN:
+    case types.ADD_MODEL_BEGIN:
+    case types.DESTROY_MODEL_BEGIN:
+    case types.GET_ALL_MODELS_BEGIN:
+    case types.GET_ONE_MODEL_BEGIN:
       return {
         ...state,
         isRunning: true
       }
 
-    case types.ADD_CERTIFICATEMODEL_SUCCESS:
-    case types.GET_ONE_CERTIFICATEMODEL_SUCCESS:
+    case types.ADD_MODEL_SUCCESS:
+    case types.DESTROY_MODEL_SUCCESS:
+    case types.GET_ONE_MODEL_SUCCESS:
       return {
         ...state,
         isRunning: false
       }
 
-    case types.ADD_CERTIFICATEMODEL_ERROR:
-    case types.GET_ALL_CERTIFICATEMODELS_ERROR:
-    case types.GET_ONE_CERTIFICATEMODEL_ERROR:
+    case types.ADD_MODEL_ERROR:
+    case types.DESTROY_MODEL_ERROR:
+    case types.GET_ALL_MODELS_ERROR:
+    case types.GET_ONE_MODEL_ERROR:
       return {
         ...state,
         isRunning: false,
         error: action.error
       }
 
-    case types.GET_ALL_CERTIFICATEMODELS_SUCCESS:
+    case types.GET_ALL_MODELS_SUCCESS:
       return {
         ...state,
         isRunning: false,
         models: action.models
       }
 
-    case types.SET_CERTIFICATEMODEL:
+    case types.SET_MODEL:
       return {
         ...state,
+        id: action.model.id,
         status: action.model.status,
         name: action.model.name,
         description: action.model.description,
@@ -61,7 +65,7 @@ export default (state = initialState, action) => {
         signatureImage: action.model.signatureImage
       }
 
-    case types.SET_CERTIFICATEMODEL_VALUE:
+    case types.SET_MODEL_VALUE:
       return {
         ...state,
         [action.name]: action.value,

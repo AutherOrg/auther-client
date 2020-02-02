@@ -10,14 +10,14 @@ import {
   Table, TableBody, TableCell, TableHead, TableRow,
   Typography
 } from '@material-ui/core'
-import { Add, Edit } from '@material-ui/icons'
+import { Add, Delete, Edit } from '@material-ui/icons'
 
-import actions from '../../actions/certificateModels.actions'
+import actions from '../../actions/models.actions'
 
-export default function CertificateModels () {
+export default function Models () {
   const dispatch = useDispatch()
 
-  const certificateModelsReducer = useSelector(state => state.certificateModelsReducer)
+  const modelsReducer = useSelector(state => state.modelsReducer)
 
   React.useEffect(() => {
     dispatch(actions.getAll())
@@ -52,7 +52,7 @@ export default function CertificateModels () {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {certificateModelsReducer.models.map((model, index) => (
+                {modelsReducer.models.map((model, index) => (
                   <TableRow key={index}>
                     <TableCell>{model.name}</TableCell>
                     <TableCell>{format(fromUnixTime(model.createdAt), 'MM/dd/yyyy')}</TableCell>
@@ -61,7 +61,12 @@ export default function CertificateModels () {
                       <IconButton
                         onClick={() => dispatch(push(`/models/${model.id}`))}
                       >
-                        <Edit />
+                        <Edit color='primary' />
+                      </IconButton>
+                      <IconButton
+                        onClick={() => dispatch(actions.destroy(model.id))}
+                      >
+                        <Delete color='error' />
                       </IconButton>
                     </TableCell>
                   </TableRow>

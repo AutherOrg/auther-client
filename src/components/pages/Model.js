@@ -11,13 +11,13 @@ import {
 } from '@material-ui/core'
 import { Save } from '@material-ui/icons'
 
-import actions from '../../actions/certificateModels.actions'
+import actions from '../../actions/models.actions'
 import constants from '../../constants/certificateModels.constants'
 
-export default function CertificateModel ({ match }) {
+export default function Model ({ match }) {
   const dispatch = useDispatch()
 
-  const certificateModelsReducer = useSelector(state => state.certificateModelsReducer)
+  const modelsReducer = useSelector(state => state.modelsReducer)
 
   const handleImageChange = (name, event) => {
     if (event.target.files[0]) {
@@ -37,18 +37,18 @@ export default function CertificateModel ({ match }) {
 
   const isComplete = () => {
     return (
-      certificateModelsReducer.name !== '' &&
-      certificateModelsReducer.description !== '' &&
-      certificateModelsReducer.image !== '' &&
-      certificateModelsReducer.narrative !== '' &&
-      certificateModelsReducer.signatureJobTitle !== '' &&
-      certificateModelsReducer.signatureImage !== ''
+      modelsReducer.name !== '' &&
+      modelsReducer.description !== '' &&
+      modelsReducer.image !== '' &&
+      modelsReducer.narrative !== '' &&
+      modelsReducer.signatureJobTitle !== '' &&
+      modelsReducer.signatureImage !== ''
     )
   }
 
   const canSubmit = () => {
     return (
-      certificateModelsReducer.hasChanged &&
+      modelsReducer.hasChanged &&
       isComplete()
     )
   }
@@ -56,15 +56,15 @@ export default function CertificateModel ({ match }) {
   const submit = () => {
     const model = {
       status: constants.STATUS.ACTIVE,
-      name: certificateModelsReducer.name,
-      description: certificateModelsReducer.description,
-      image: certificateModelsReducer.image,
-      narrative: certificateModelsReducer.narrative,
-      signatureJobTitle: certificateModelsReducer.signatureJobTitle,
-      signatureImage: certificateModelsReducer.signatureImage
+      name: modelsReducer.name,
+      description: modelsReducer.description,
+      image: modelsReducer.image,
+      narrative: modelsReducer.narrative,
+      signatureJobTitle: modelsReducer.signatureJobTitle,
+      signatureImage: modelsReducer.signatureImage
     }
-    if (certificateModelsReducer.id > 0) {
-      dispatch(actions.update(certificateModelsReducer.id, model))
+    if (modelsReducer.id > 0) {
+      dispatch(actions.update(modelsReducer.id, model))
     } else {
       dispatch(actions.create(model))
     }
@@ -84,7 +84,7 @@ export default function CertificateModel ({ match }) {
       <Grid item xs={12} align='center'>
         <Typography variant='h1'>Certificate model</Typography>
       </Grid>
-      {certificateModelsReducer.isRunning && (
+      {modelsReducer.isRunning && (
         <Grid item xs={12} align='center'>
           <CircularProgress />
         </Grid>
@@ -99,7 +99,7 @@ export default function CertificateModel ({ match }) {
                   id='name'
                   label='Name'
                   type='text'
-                  value={certificateModelsReducer.name}
+                  value={modelsReducer.name}
                   onChange={event => dispatch(actions.setValue('name', event.target.value))}
                   required
                   fullWidth
@@ -112,7 +112,7 @@ export default function CertificateModel ({ match }) {
                   id='description'
                   label='Description'
                   type='text'
-                  value={certificateModelsReducer.description}
+                  value={modelsReducer.description}
                   onChange={event => dispatch(actions.setValue('description', event.target.value))}
                   required
                   fullWidth
@@ -125,7 +125,7 @@ export default function CertificateModel ({ match }) {
                   id='narrative'
                   label='Narrative'
                   type='text'
-                  value={certificateModelsReducer.narrative}
+                  value={modelsReducer.narrative}
                   onChange={event => dispatch(actions.setValue('narrative', event.target.value))}
                   required
                   fullWidth
@@ -135,9 +135,9 @@ export default function CertificateModel ({ match }) {
               </Grid>
               <Grid item xs={12}>
                 <Typography gutterBottom>Image</Typography>
-                {certificateModelsReducer.image !== '' && (
+                {modelsReducer.image !== '' && (
                   <div>
-                    <img src={certificateModelsReducer.image} alt={certificateModelsReducer.name} />
+                    <img src={modelsReducer.image} alt={modelsReducer.name} />
                   </div>
                 )}
                 <input type='file' onChange={event => handleImageChange('image', event)} />
@@ -156,7 +156,7 @@ export default function CertificateModel ({ match }) {
                   id='signatureJobTitle'
                   label='Signature job title'
                   type='text'
-                  value={certificateModelsReducer.signatureJobTitle}
+                  value={modelsReducer.signatureJobTitle}
                   onChange={event => dispatch(actions.setValue('signatureJobTitle', event.target.value))}
                   required
                   fullWidth
@@ -166,9 +166,9 @@ export default function CertificateModel ({ match }) {
               </Grid>
               <Grid item xs={12}>
                 <Typography gutterBottom>Signature image</Typography>
-                {certificateModelsReducer.signatureImage !== '' && (
+                {modelsReducer.signatureImage !== '' && (
                   <div>
-                    <img src={certificateModelsReducer.signatureImage} alt={certificateModelsReducer.signatureJobTitle} />
+                    <img src={modelsReducer.signatureImage} alt={modelsReducer.signatureJobTitle} />
                   </div>
                 )}
                 <input type='file' onChange={event => handleImageChange('signatureImage', event)} />
