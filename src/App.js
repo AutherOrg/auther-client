@@ -20,7 +20,7 @@ import {
   Description,
   ExitToApp,
   Home as HomeIcon,
-  List as ListIcon,
+  LocalShipping,
   LockOpen,
   Menu,
   School
@@ -44,6 +44,7 @@ import Issuer from './components/pages/Issuer'
 import Models from './components/pages/Models'
 import Model from './components/pages/Model'
 import Batches from './components/pages/Batches'
+import CreateBatch from './components/pages/CreateBatch'
 
 const drawerWidth = 240
 
@@ -137,7 +138,7 @@ export default function App () {
         )}
         {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
           <ListItem button onClick={() => dispatch(push('/batches'))}>
-            <ListItemIcon>{<ListIcon />}</ListItemIcon>
+            <ListItemIcon>{<LocalShipping />}</ListItemIcon>
             <ListItemText primary='Batches' />
           </ListItem>
         )}
@@ -245,6 +246,7 @@ export default function App () {
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/models' component={Models} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/models/:id' component={Model} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches' component={Batches} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches/create' component={CreateBatch} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/certificates/all' component={AllCertificates} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/test/basic' component={Basic} />
             </Switch>

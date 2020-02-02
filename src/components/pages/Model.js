@@ -17,7 +17,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Save } from '@material-ui/icons'
 
 import actions from '../../actions/models.actions'
-import constants from '../../constants/certificateModels.constants'
+import constants from '../../constants/models.constants'
 import templates from '../../templates/index.templates'
 
 const useStyles = makeStyles(theme => ({

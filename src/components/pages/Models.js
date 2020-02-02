@@ -41,41 +41,43 @@ export default function Models () {
               </Fab>
             }
           />
-          <CardContent>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Template</TableCell>
-                  <TableCell>Created at</TableCell>
-                  <TableCell>Updated at</TableCell>
-                  <TableCell>Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {modelsReducer.models.map((model, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{model.name}</TableCell>
-                    <TableCell>{model.template}</TableCell>
-                    <TableCell>{format(fromUnixTime(model.createdAt), 'MM/dd/yyyy')}</TableCell>
-                    <TableCell>{format(fromUnixTime(model.updatedAt), 'MM/dd/yyyy')}</TableCell>
-                    <TableCell>
-                      <IconButton
-                        onClick={() => dispatch(push(`/models/${model.id}`))}
-                      >
-                        <Edit color='primary' />
-                      </IconButton>
-                      <IconButton
-                        onClick={() => dispatch(actions.destroy(model.id))}
-                      >
-                        <Delete color='error' />
-                      </IconButton>
-                    </TableCell>
+          {modelsReducer.models.length > 0 && (
+            <CardContent>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Template</TableCell>
+                    <TableCell>Created at</TableCell>
+                    <TableCell>Updated at</TableCell>
+                    <TableCell>Actions</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
+                </TableHead>
+                <TableBody>
+                  {modelsReducer.models.map((model, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{model.name}</TableCell>
+                      <TableCell>{model.template}</TableCell>
+                      <TableCell>{format(fromUnixTime(model.createdAt), 'MM/dd/yyyy')}</TableCell>
+                      <TableCell>{format(fromUnixTime(model.updatedAt), 'MM/dd/yyyy')}</TableCell>
+                      <TableCell>
+                        <IconButton
+                          onClick={() => dispatch(push(`/models/${model.id}`))}
+                        >
+                          <Edit color='primary' />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => dispatch(actions.destroy(model.id))}
+                        >
+                          <Delete color='error' />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          )}
         </Card>
       </Grid>
     </Grid>

@@ -1,10 +1,11 @@
 import types from '../constants/actions.types.constants'
-import constants from '../constants/certificateModels.constants'
+import constants from '../constants/models.constants'
 
 const initialState = {
   isRunning: false,
   error: '',
   models: [],
+  m: [],
   hasChanged: false,
   id: 0,
   status: constants.STATUS.ACTIVE,

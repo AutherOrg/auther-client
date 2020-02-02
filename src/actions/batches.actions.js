@@ -88,6 +88,12 @@ const setError = error => ({
   error
 })
 
+const setValue = (name, value) => ({
+  type: types.SET_BATCH_VALUE,
+  name,
+  value
+})
+
 const sign = (certificates, hash) => {
   return async dispatch => {
     dispatch(signBegin())
@@ -124,5 +130,6 @@ export default {
   getAll,
   reset,
   set,
+  setValue,
   sign
 }

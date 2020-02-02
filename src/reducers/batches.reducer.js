@@ -3,9 +3,12 @@ import types from '../constants/actions.types.constants'
 const initialState = {
   isRunning: false,
   error: '',
+  hasChanged: false,
+  batches: [],
+  recipients: [],
+  modelId: '',
   certificates: [],
-  merkleTreeRoot: '',
-  batches: []
+  merkleTreeRoot: ''
 }
 
 export default (state = initialState, action) => {
@@ -61,6 +64,13 @@ export default (state = initialState, action) => {
         isRunning: false,
         certificates: action.certificates,
         merkleTreeRoot: action.merkleTreeRoot
+      }
+
+    case types.SET_BATCH_VALUE:
+      return {
+        ...state,
+        [action.name]: action.value,
+        hasChanged: true
       }
 
     case types.SET_BATCH_ERROR:
