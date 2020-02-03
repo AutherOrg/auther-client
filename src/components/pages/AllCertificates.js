@@ -1,7 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
-  CircularProgress,
   Grid,
   Paper,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
@@ -26,11 +25,6 @@ export default function AllCertificates () {
       <Grid item xs={12} align='center'>
         <Typography variant='h1' gutterBottom>Certificates</Typography>
       </Grid>
-      {certificatesReducer.isRunning && (
-        <Grid item xs={12} align='center'>
-          <CircularProgress />
-        </Grid>
-      )}
       <Grid item xs={12}>
         <TableContainer component={Paper}>
           <Table>

@@ -1,7 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
-  CircularProgress,
   Grid,
   Typography
 } from '@material-ui/core'
@@ -22,11 +21,6 @@ export default function ValidatePassword ({ match }) {
       <Grid item xs={12} align='center'>
         <Typography variant='h1' gutterBottom>Password validation</Typography>
       </Grid>
-      {authReducer.isRunning && (
-        <Grid item xs={12} align='center'>
-          <CircularProgress />
-        </Grid>
-      )}
       {authReducer.passwordValidated && (
         <Grid item xs={12} align='center'>
           <Typography>Password validated.</Typography>

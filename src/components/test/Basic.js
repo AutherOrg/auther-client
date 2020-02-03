@@ -5,7 +5,6 @@ import { useWeb3React } from '@web3-react/core'
 import {
   Button,
   Card, CardHeader, CardContent, CardActions,
-  CircularProgress,
   Typography
 } from '@material-ui/core'
 import { Add, Check, Edit } from '@material-ui/icons'
@@ -78,7 +77,6 @@ export default () => {
       <Card>
         <CardHeader title='Basic issuing process' />
         <CardContent>
-          {isRunning() && <CircularProgress />}
           {batchesReducer.merkleTreeRoot !== '' && (
             <Typography>
               Merkle tree root: {batchesReducer.merkleTreeRoot}

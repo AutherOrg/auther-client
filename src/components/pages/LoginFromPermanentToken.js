@@ -2,7 +2,6 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   Button,
-  CircularProgress,
   Grid,
   TextField,
   Typography
@@ -38,60 +37,52 @@ export default function LoginFromPermanentToken ({ match }) {
         <Typography variant='h1' gutterBottom>Account activation</Typography>
       </Grid>
       {
-        authReducer.isRunning
-          ? <CircularProgress />
-          : (
+        authReducer.passwordEmailSent
+          ? (
+            <Grid item xs={12} align='center'>
+              <Typography>Please check your email, you should receive a message with a link to validate your password change.</Typography>
+            </Grid>
+          ) : (
             <>
-              {
-                authReducer.passwordEmailSent
-                  ? (
-                    <Grid item xs={12} align='center'>
-                      <Typography>Please check your email, you should receive a message with a link to validate your password change.</Typography>
-                    </Grid>
-                  ) : (
-                    <>
-                      <Grid item xs={12} align='center'>
-                        <Typography>It looks like it's your first time here, welcome!</Typography>
-                      </Grid>
-                      <Grid item xs={12} align='center'>
-                        <TextField
-                          id='password'
-                          label='Please set a password'
-                          type='password'
-                          value={values.password}
-                          onChange={handleChange('password')}
-                          required
-                        >
-                          Please set a password
-                        </TextField>
-                      </Grid>
-                      <Grid item xs={12} align='center'>
-                        <TextField
-                          id='passwordConfirmation'
-                          label='Confirm your password'
-                          type='text'
-                          value={values.passwordConfirmation}
-                          onChange={handleChange('passwordConfirmation')}
-                          error={values.password !== '' && values.passwordConfirmation !== '' && values.passwordConfirmation !== values.password}
-                          required
-                        >
-                          Confirm your password
-                        </TextField>
-                      </Grid>
-                      <Grid item xs={12} align='center'>
-                        <Button
-                          onClick={() => dispatch(actions.setPassword(authReducer.email, values.password))}
-                          disabled={values.password === '' || values.passwordConfirmation === '' || values.passwordConfirmation !== values.password}
-                          variant='contained'
-                          color='primary'
-                          startIcon={<LockOpen />}
-                        >
-                          Login
-                        </Button>
-                      </Grid>
-                    </>
-                  )
-              }
+              <Grid item xs={12} align='center'>
+                <Typography>It looks like it's your first time here, welcome!</Typography>
+              </Grid>
+              <Grid item xs={12} align='center'>
+                <TextField
+                  id='password'
+                  label='Please set a password'
+                  type='password'
+                  value={values.password}
+                  onChange={handleChange('password')}
+                  required
+                >
+                  Please set a password
+                </TextField>
+              </Grid>
+              <Grid item xs={12} align='center'>
+                <TextField
+                  id='passwordConfirmation'
+                  label='Confirm your password'
+                  type='text'
+                  value={values.passwordConfirmation}
+                  onChange={handleChange('passwordConfirmation')}
+                  error={values.password !== '' && values.passwordConfirmation !== '' && values.passwordConfirmation !== values.password}
+                  required
+                >
+                  Confirm your password
+                </TextField>
+              </Grid>
+              <Grid item xs={12} align='center'>
+                <Button
+                  onClick={() => dispatch(actions.setPassword(authReducer.email, values.password))}
+                  disabled={values.password === '' || values.passwordConfirmation === '' || values.passwordConfirmation !== values.password}
+                  variant='contained'
+                  color='primary'
+                  startIcon={<LockOpen />}
+                >
+                  Login
+                </Button>
+              </Grid>
             </>
           )
       }

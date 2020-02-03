@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import {
   Card, CardHeader, CardContent, CardMedia, CardActions,
   Chip,
-  CircularProgress,
   IconButton,
   Grid,
   Typography
@@ -43,11 +42,6 @@ export default function MyCertificates () {
       <Grid item xs={12} align='center'>
         <Typography variant='h1' gutterBottom>My certificates</Typography>
       </Grid>
-      {certificatesReducer.isRunning && (
-        <Grid item xs={12} align='center'>
-          <CircularProgress />
-        </Grid>
-      )}
       <Grid item xs={12}>
         <Grid container spacing={5} justify='center'>
           {/* {certificatesReducer.certificates.map((certificate, index) => (

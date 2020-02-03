@@ -4,7 +4,6 @@ import Resizer from 'react-image-file-resizer'
 import downloadjs from 'downloadjs'
 import {
   Button,
-  CircularProgress,
   Card, CardHeader, CardContent,
   Grid,
   TextField,
@@ -109,11 +108,6 @@ export default function Issuer () {
       <Grid item xs={12} align='center'>
         <Typography variant='h1'>Issuer profile</Typography>
       </Grid>
-      {issuersReducer.isRunning && (
-        <Grid item xs={12} align='center'>
-          <CircularProgress />
-        </Grid>
-      )}
       {issuersReducer.hasIssuer && (
         <Grid item xs={12} align='center'>
           <Typography color='error' gutterBottom>Warning: you should almost NEVER edit this.</Typography>

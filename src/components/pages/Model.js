@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import Resizer from 'react-image-file-resizer'
 import {
   Button,
-  CircularProgress,
   Card, CardHeader, CardContent,
   FormControl,
   Grid,
@@ -117,11 +116,6 @@ export default function Model ({ match }) {
       <Grid item xs={12} align='center'>
         <Typography variant='h1'>Certificate model</Typography>
       </Grid>
-      {modelsReducer.isRunning && (
-        <Grid item xs={12} align='center'>
-          <CircularProgress />
-        </Grid>
-      )}
       <Grid item xs={12} lg={6}>
         <Card>
           <CardHeader title='Badge information' />

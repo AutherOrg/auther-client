@@ -1,8 +1,7 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {
   Button,
-  CircularProgress,
   Grid,
   TextField,
   Typography
@@ -13,8 +12,6 @@ import actions from '../../actions/auth.actions'
 
 export default function Login () {
   const dispatch = useDispatch()
-
-  const authReducer = useSelector(state => state.authReducer)
 
   const [values, setValues] = React.useState({
     email: '',
@@ -33,49 +30,41 @@ export default function Login () {
       <Grid item xs={12} align='center'>
         <Typography variant='h1' gutterBottom>Login</Typography>
       </Grid>
-      {
-        authReducer.isRunning
-          ? <CircularProgress />
-          : (
-            <>
-              <Grid item xs={12} align='center'>
-                <TextField
-                  id='email'
-                  label='Email'
-                  type='email'
-                  value={values.email}
-                  autoFocus
-                  onChange={handleChange('email')}
-                  required
-                >
-                  Email
-                </TextField>
-              </Grid>
-              <Grid item xs={12} align='center'>
-                <TextField
-                  id='password'
-                  label='Password'
-                  type='password'
-                  value={values.password}
-                  onChange={handleChange('password')}
-                  required
-                >
-                  Password
-                </TextField>
-              </Grid>
-              <Grid item xs={12} align='center'>
-                <Button
-                  onClick={() => dispatch(actions.get(values.email, values.password))}
-                  variant='contained'
-                  color='primary'
-                  startIcon={<LockOpen />}
-                >
-                  Login
-                </Button>
-              </Grid>
-            </>
-          )
-      }
+      <Grid item xs={12} align='center'>
+        <TextField
+          id='email'
+          label='Email'
+          type='email'
+          value={values.email}
+          autoFocus
+          onChange={handleChange('email')}
+          required
+        >
+          Email
+        </TextField>
+      </Grid>
+      <Grid item xs={12} align='center'>
+        <TextField
+          id='password'
+          label='Password'
+          type='password'
+          value={values.password}
+          onChange={handleChange('password')}
+          required
+        >
+          Password
+        </TextField>
+      </Grid>
+      <Grid item xs={12} align='center'>
+        <Button
+          onClick={() => dispatch(actions.get(values.email, values.password))}
+          variant='contained'
+          color='primary'
+          startIcon={<LockOpen />}
+        >
+          Login
+        </Button>
+      </Grid>
     </Grid>
   )
 }
