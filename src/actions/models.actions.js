@@ -63,11 +63,11 @@ const destroyError = error => ({
 const getAll = () => {
   return async dispatch => {
     dispatch(getAllBegin())
-    try {
-      const result = await service.getAll()
+    const result = await service.getAll()
+    if (result instanceof TypeError) {
+      dispatch(getAllError(result.message))
+    } else {
       dispatch(getAllSuccess(result))
-    } catch (e) {
-      dispatch(getAllError(e.message))
     }
   }
 }

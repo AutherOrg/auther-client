@@ -28,8 +28,9 @@ import {
 
 import constants from './constants/users.constants'
 import actions from './actions/auth.actions'
-// TODO remove only dev
-import Basic from './components/test/Basic'
+import Basic from './components/test/Basic' // TODO remove
+import ServicesBackdrop from './components/organisms/ServicesBackdrop'
+import ServicesError from './components/organisms/ServicesError'
 // Public & auth.
 import Home from './components/pages/Home'
 import Login from './components/pages/Login'
@@ -256,6 +257,8 @@ export default function App () {
           </Grid>
         </Grid>
       </main>
+      <ServicesBackdrop />
+      <ServicesError />
     </div>
   )
 }
