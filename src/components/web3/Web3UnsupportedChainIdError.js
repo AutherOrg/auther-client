@@ -10,7 +10,7 @@ export default () => {
       <CardHeader title='Unsupported Ethereum network' />
       <CardContent>
         <Typography>
-          This application only works on Mainnet and Ropsten. Please switch to one of these networks in your Ethereum wallet.
+          {`Please switch to the ${process.env.REACT_APP_ETHEREUM_NETWORK} network in your Ethereum wallet.`}
         </Typography>
       </CardContent>
     </Card>

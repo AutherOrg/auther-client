@@ -252,7 +252,7 @@ export default function App () {
             </Switch>
           </Grid>
           <Grid item xs={12} align='center'>
-            <Typography classes={{ root: classes.poweredBy }}>Powered by <a href='https://openblockcerts.org' target='blockcerts' rel='noopener noreferrer' className={classes.poweredByLink}>OpenBlockcerts</a>, an opensource implementation of blockchain-certified credentials</Typography>
+            <Typography classes={{ root: classes.poweredBy }}>Powered by <a href='https://openblockcerts.org' target='openblockcerts' rel='noopener noreferrer' className={classes.poweredByLink}>OpenBlockcerts</a>, an opensource implementation of blockchain-certified credentials</Typography>
           </Grid>
         </Grid>
       </main>

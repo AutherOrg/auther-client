@@ -4,6 +4,7 @@ const initialState = {
   isRunning: false,
   error: '',
   hasChanged: false,
+  isSet: false,
   batches: [],
   recipients: [],
   modelId: '',
@@ -62,6 +63,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isRunning: false,
+        isSet: true,
         certificates: action.certificates,
         merkleTreeRoot: action.merkleTreeRoot
       }
