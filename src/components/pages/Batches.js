@@ -3,13 +3,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import { push } from 'connected-react-router'
 import { format, fromUnixTime } from 'date-fns'
 import {
-  Card, CardHeader, CardContent,
+  Card, CardHeader, CardContent, CardActions,
   Fab,
   Grid,
+  IconButton,
   Table, TableBody, TableCell, TableHead, TableRow,
   Typography
 } from '@material-ui/core'
-import { Add } from '@material-ui/icons'
+import { Add, Delete } from '@material-ui/icons'
 
 import actions from '../../actions/batches.actions'
 
@@ -52,8 +53,16 @@ export default function Batches () {
                 <TableBody>
                   {batchesReducer.batches.map((batch, index) => (
                     <TableRow key={index}>
-                      <TableCell>{format(fromUnixTime(batch.created), 'MM/dd/yyyy')}</TableCell>
-                      <TableCell>TODO</TableCell>
+                      <TableCell>
+                        {format(fromUnixTime(batch.created), 'MM/dd/yyyy')}
+                      </TableCell>
+                      <TableCell>
+                        <IconButton
+                          onClick={() => dispatch(actions.destroy(batch.id))}
+                        >
+                          <Delete />
+                        </IconButton>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

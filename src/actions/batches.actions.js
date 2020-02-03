@@ -32,6 +32,31 @@ const createError = error => ({
   error
 })
 
+const destroy = id => {
+  return async dispatch => {
+    dispatch(destroyBegin())
+    const result = await service.destroy(id)
+    if (result instanceof TypeError) {
+      dispatch(destroyError(result.message))
+    }
+    dispatch(destroySuccess())
+    dispatch(getAll())
+  }
+}
+
+const destroyBegin = () => ({
+  type: types.DESTROY_BATCH_BEGIN
+})
+
+const destroySuccess = () => ({
+  type: types.DESTROY_BATCH_SUCCESS
+})
+
+const destroyError = error => ({
+  type: types.DESTROY_BATCH_ERROR,
+  error
+})
+
 const getAll = () => {
   return async dispatch => {
     dispatch(getAllBegin())
@@ -129,6 +154,7 @@ const signError = error => ({
 
 export default {
   create,
+  destroy,
   getAll,
   reset,
   set,

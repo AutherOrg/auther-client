@@ -69,7 +69,7 @@ export default function Models () {
                         <IconButton
                           onClick={() => dispatch(actions.destroy(model.id))}
                         >
-                          <Delete color='error' />
+                          <Delete />
                         </IconButton>
                       </TableCell>
                     </TableRow>

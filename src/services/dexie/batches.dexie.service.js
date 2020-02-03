@@ -2,8 +2,15 @@ import db from '../../providers/dexie/db.dexie'
 
 const create = async (batch) => {
   try {
-    const result = await db.batches.add(batch)
-    return result
+    return await db.batches.add(batch)
+  } catch (e) {
+    return e
+  }
+}
+
+const destroy = async id => {
+  try {
+    return await db.batches.delete(Number(id))
   } catch (e) {
     return e
   }
@@ -11,8 +18,7 @@ const create = async (batch) => {
 
 const getAll = async () => {
   try {
-    const batches = await db.table('batches').toArray()
-    return batches
+    return await db.batches.toArray()
   } catch (e) {
     return e
   }
@@ -20,5 +26,6 @@ const getAll = async () => {
 
 export default {
   create,
+  destroy,
   getAll
 }
