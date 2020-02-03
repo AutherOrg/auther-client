@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { push } from 'connected-react-router'
 import { format, fromUnixTime } from 'date-fns'
 import {
-  Card, CardHeader, CardContent, CardActions,
+  Card, CardHeader, CardContent,
   Fab,
   Grid,
   IconButton,

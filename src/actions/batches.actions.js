@@ -4,7 +4,9 @@ import { push } from 'connected-react-router'
 
 import types from '../constants/actions.types.constants'
 import batchesConstants from '../constants/batches.constants'
+import jobsConstants from '../constants/jobs.constants'
 import service from '../services/dexie/batches.dexie.service'
+import jobsActions from '../actions/jobs.actions'
 
 const create = batch => {
   return async dispatch => {
@@ -123,17 +125,25 @@ const setValue = (name, value) => ({
 const sign = (certificates, hash) => {
   return async dispatch => {
     dispatch(signBegin())
-    try {
-      const signedCertificates = await signBatch(certificates, 'ETHData', hash, 'ethereumRopsten', { validate: true })
-      dispatch(signSuccess(signedCertificates))
+    const result = await signBatch(certificates, 'ETHData', hash, 'ethereumRopsten', { validate: true })
+    if (result instanceof TypeError) {
+      dispatch(signError(result.message))
+    } else {
+      dispatch(signSuccess(result))
       dispatch(create({
         status: batchesConstants.STATUS.SIGNED,
         created: getUnixTime(new Date()),
-        certificates: JSON.stringify(signedCertificates)
+        certificates: JSON.stringify(result)
       }))
+      dispatch(jobsActions.createJobs(result.map(certificate => {
+        return {
+          status: jobsConstants.STATUS.QUEUED,
+          name: 'Upload certificate',
+          action: 'uploadCertificate',
+          data: certificate
+        }
+      })))
       dispatch(push('/batches'))
-    } catch (e) {
-      dispatch(signError(e.message))
     }
   }
 }

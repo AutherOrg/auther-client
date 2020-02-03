@@ -30,6 +30,7 @@ export default function MyCertificates () {
   const dispatch = useDispatch()
 
   const certificatesReducer = useSelector(state => state.certificatesReducer)
+  console.log(certificatesReducer.certificates)
 
   const classes = useStyles()
 
