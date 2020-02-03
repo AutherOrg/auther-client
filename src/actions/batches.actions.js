@@ -1,5 +1,6 @@
 import { createBatch, signBatch } from 'blockcerts-issuer-helper'
 import { getUnixTime } from 'date-fns'
+import { push } from 'connected-react-router'
 
 import types from '../constants/actions.types.constants'
 import batchesConstants from '../constants/batches.constants'
@@ -105,6 +106,7 @@ const sign = (certificates, hash) => {
         created: getUnixTime(new Date()),
         certificates: JSON.stringify(signedCertificates)
       }))
+      dispatch(push('/batches'))
     } catch (e) {
       dispatch(signError(e.message))
     }

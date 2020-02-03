@@ -1,10 +1,11 @@
 import types from '../constants/actions.types.constants'
 
 const initialState = {
-  isRunning: false,
   error: '',
+  isRunning: false,
   hasChanged: false,
   isSet: false,
+  isSigned: false,
   batches: [],
   recipients: [],
   modelId: '',
@@ -104,6 +105,12 @@ export default (state = initialState, action) => {
 
     case types.RESET_BATCHES:
       return initialState
+
+    case types.SEND_TRANSACTION_SUCCESS:
+      return {
+        ...state,
+        isSigned: true
+      }
 
     default:
       return state

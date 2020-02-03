@@ -5,7 +5,6 @@ import { Certificate } from 'blockcerts-issuer-helper'
 import { useWeb3React } from '@web3-react/core'
 import {
   Button,
-  CircularProgress,
   Card, CardHeader, CardContent,
   FormControl,
   Grid,
@@ -16,12 +15,11 @@ import {
   Typography
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { Add, Edit } from '@material-ui/icons'
+import { Add, Edit, Save } from '@material-ui/icons'
 
 import batchesActions from '../../actions/batches.actions'
 import modelActions from '../../actions/models.actions'
 import transactionsActions from '../../actions/transactions.actions'
-import batchesConstants from '../../constants/batches.constants'
 import ethereumConstants from '../../constants/ethereum.constants'
 import templates from '../../templates/index.templates'
 import Web3Wrapper from '../web3/Web3Wrapper'
@@ -112,6 +110,12 @@ export default function CreateBatch () {
     )
   }
 
+  const canEdit = () => {
+    return (
+      !batchesReducer.isSet
+    )
+  }
+
   const isComplete = () => {
     return (
       isValidCsv() &&
@@ -130,6 +134,7 @@ export default function CreateBatch () {
   const canSet = () => {
     return (
       batchesReducer.hasChanged &&
+      !batchesReducer.isSigned &&
       isComplete() &&
       !isRunning() &&
       !canSign()
@@ -143,6 +148,7 @@ export default function CreateBatch () {
   const canSign = () => {
     return (
       batchesReducer.isSet &&
+      !batchesReducer.isSigned &&
       !isRunning()
     )
   }
@@ -154,6 +160,12 @@ export default function CreateBatch () {
       data: '0x' + batchesReducer.merkleTreeRoot
     }
     dispatch(transactionsActions.send(tx, account, library))
+  }
+
+  const canFinalize = () => {
+    return (
+      batchesReducer.isSigned
+    )
   }
 
   const handleFinalize = () => {
@@ -176,22 +188,24 @@ export default function CreateBatch () {
             <CardHeader title='Recipients' />
             <CardContent>
               <Grid container spacing={5}>
-                <Grid item xs={12}>
-                  <Typography>Select a CSV file</Typography>
-                  <CSVReader
-                    onFileLoaded={(data, fileName) => dispatch(batchesActions.setValue('recipients', data))}
-                    parserOptions={{
-                      header: true,
-                      dynamicTyping: true,
-                      skipEmptyLines: true,
-                      transformHeader: header =>
-                        header
-                          .toLowerCase()
-                          .replace(/\W/g, '')
-                    }}
-                    inputId='csv'
-                  />
-                </Grid>
+                {canEdit() && (
+                  <Grid item xs={12}>
+                    <Typography>Select a CSV file</Typography>
+                    <CSVReader
+                      onFileLoaded={(data, fileName) => dispatch(batchesActions.setValue('recipients', data))}
+                      parserOptions={{
+                        header: true,
+                        dynamicTyping: true,
+                        skipEmptyLines: true,
+                        transformHeader: header =>
+                          header
+                            .toLowerCase()
+                            .replace(/\W/g, '')
+                      }}
+                      inputId='csv'
+                    />
+                  </Grid>
+                )}
                 {batchesReducer.recipients.length > 0 && (
                   <Grid item xs={12}>
                     <Table>
@@ -241,25 +255,28 @@ export default function CreateBatch () {
             <CardHeader title='Model' />
             <CardContent>
               <Grid container spacing={5}>
-                <Grid item xs={12}>
-                  <FormControl fullWidth>
-                    <InputLabel id='modelLabel'>
-                      Select a model
-                    </InputLabel>
-                    <Select
-                      labelId='modelLabel'
-                      id='model'
-                      value={batchesReducer.modelId}
-                      onChange={event => dispatch(batchesActions.setValue('modelId', event.target.value))}
-                    >
-                      {modelsReducer.models.map((model, index) => (
-                        <MenuItem key={index} value={model.id}>
-                          {model.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
+                {canEdit() && (
+                  <Grid item xs={12}>
+                    <FormControl fullWidth>
+                      <InputLabel id='modelLabel'>
+                        Select a model
+                      </InputLabel>
+                      <Select
+                        labelId='modelLabel'
+                        id='model'
+                        value={batchesReducer.modelId}
+                        onChange={event => dispatch(batchesActions.setValue('modelId', event.target.value))}
+                        disabled={!canEdit()}
+                      >
+                        {modelsReducer.models.map((model, index) => (
+                          <MenuItem key={index} value={model.id}>
+                            {model.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                )}
                 {isComplete() && (
                   <Grid item xs={12}>
                     {getPreview()}
@@ -275,9 +292,7 @@ export default function CreateBatch () {
             disabled={!canSet()}
             variant='contained'
             color='primary'
-            startIcon={
-              batchesReducer.isRunning ? <CircularProgress size={24} color='inherit' /> : <Add />
-            }
+            startIcon={<Add />}
             classes={{ root: classes.button }}
           >
             Create
@@ -287,12 +302,20 @@ export default function CreateBatch () {
             disabled={!canSign()}
             variant='contained'
             color='primary'
-            startIcon={
-              batchesReducer.isRunning ? <CircularProgress size={24} color='inherit' /> : <Edit />
-            }
+            startIcon={<Edit />}
             classes={{ root: classes.button }}
           >
             Sign
+          </Button>
+          <Button
+            onClick={() => handleFinalize()}
+            disabled={!canFinalize()}
+            variant='contained'
+            color='primary'
+            startIcon={<Save />}
+            classes={{ root: classes.button }}
+          >
+            Finalize
           </Button>
         </Grid>
       </Grid>
