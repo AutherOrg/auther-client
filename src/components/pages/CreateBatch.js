@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { push } from 'connected-react-router'
 import CSVReader from 'react-csv-reader'
 import { Certificate } from 'blockcerts-issuer-helper'
 import { useWeb3React } from '@web3-react/core'
@@ -18,6 +19,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Add, Edit, Save } from '@material-ui/icons'
 
 import batchesActions from '../../actions/batches.actions'
+import issuersActions from '../../actions/issuers.actions'
 import modelActions from '../../actions/models.actions'
 import transactionsActions from '../../actions/transactions.actions'
 import ethereumConstants from '../../constants/ethereum.constants'
@@ -174,6 +176,10 @@ export default function CreateBatch () {
 
   React.useEffect(() => {
     dispatch(batchesActions.reset())
+    dispatch(issuersActions.getMy())
+    if (!issuersReducer.hasIssuer) {
+      dispatch(push('/issuers/my'))
+    }
     dispatch(modelActions.getAll())
   }, [dispatch])
 

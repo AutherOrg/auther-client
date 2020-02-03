@@ -108,11 +108,15 @@ export default function Issuer () {
       <Grid item xs={12} align='center'>
         <Typography variant='h1'>Issuer profile</Typography>
       </Grid>
-      {issuersReducer.hasIssuer && (
-        <Grid item xs={12} align='center'>
-          <Typography color='error' gutterBottom>Warning: you should almost NEVER edit this.</Typography>
-        </Grid>
-      )}
+      <Grid item xs={12} align='center'>
+        <Typography color='error' gutterBottom>
+          {
+            issuersReducer.hasIssuer
+              ? 'Warning: you should almost NEVER edit this.'
+              : 'Before issuing certificates you must setup your issuer and upload the profile and revocation list JSON on your server.'
+          }
+        </Typography>
+      </Grid>
       <Grid item xs={12} lg={6}>
         <Card>
           <CardHeader title='General information' />
