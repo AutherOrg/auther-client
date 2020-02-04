@@ -24,8 +24,17 @@ const getAll = async () => {
   }
 }
 
+const getOne = async id => {
+  try {
+    return await db.batches.get(Number(id))
+  } catch (e) {
+    return e
+  }
+}
+
 export default {
   create,
   destroy,
-  getAll
+  getAll,
+  getOne
 }

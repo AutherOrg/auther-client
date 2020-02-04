@@ -19,6 +19,10 @@ PRs can only be merged if the linting GitHub action succeeds.
 You can lint locally with:
 ````yarn lint````
 
+Please also follow the non-lintable general code style. Example: an empty line between external Node.JS packages and internal imports.
+
+Also, feel free to discuss the code quality and technical decisions before working on a PR. We wouldn't like you to work for nothing on modifications we're not open to.
+
 ## Tests
 
 Tests can be locally launched with:

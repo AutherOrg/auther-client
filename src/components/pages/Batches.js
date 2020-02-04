@@ -10,7 +10,7 @@ import {
   Table, TableBody, TableCell, TableHead, TableRow,
   Typography
 } from '@material-ui/core'
-import { Add, Delete } from '@material-ui/icons'
+import { Add, Delete, Edit } from '@material-ui/icons'
 
 import actions from '../../actions/batches.actions'
 
@@ -57,6 +57,11 @@ export default function Batches () {
                         {format(fromUnixTime(batch.created), 'MM/dd/yyyy')}
                       </TableCell>
                       <TableCell>
+                        <IconButton
+                          onClick={() => dispatch(push(`/batches/${batch.id}`))}
+                        >
+                          <Edit color='primary' />
+                        </IconButton>
                         <IconButton
                           onClick={() => dispatch(actions.destroy(batch.id))}
                         >

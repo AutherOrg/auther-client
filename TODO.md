@@ -1,3 +1,5 @@
-+ consistency in error management like on batches.actions::getAll
-+ consistency in reducers/actions
++ consolidate all errors in the new errors.reducer
++ consolidate all isRunning in the new backdrop.reducer
++ no try catch on actions
++ fix all reducers and actions, pay attention to immutability, split logic like batches and batch
 + confirmation on destroy

@@ -85,6 +85,32 @@ const getAllError = error => ({
   error
 })
 
+const getOne = id => {
+  return async dispatch => {
+    dispatch(getOneBegin())
+    const result = await service.getOne(id)
+    if (result instanceof TypeError) {
+      dispatch(getOneError(result.message))
+    } else {
+      dispatch(getOneSuccess(result))
+    }
+  }
+}
+
+const getOneBegin = () => ({
+  type: types.GET_BATCH_BEGIN
+})
+
+const getOneSuccess = batch => ({
+  type: types.GET_BATCH_SUCCESS,
+  batch
+})
+
+const getOneError = error => ({
+  type: types.GET_BATCH_ERROR,
+  error
+})
+
 const reset = () => ({
   type: types.RESET_BATCHES
 })
@@ -133,7 +159,9 @@ const sign = (certificates, hash) => {
       dispatch(create({
         status: batchesConstants.STATUS.SIGNED,
         created: getUnixTime(new Date()),
-        certificates: JSON.stringify(result)
+        certificates: JSON.stringify({
+          certificates: result
+        })
       }))
       dispatch(jobsActions.createJobs(result.map(certificate => {
         return {
@@ -166,6 +194,7 @@ export default {
   create,
   destroy,
   getAll,
+  getOne,
   reset,
   set,
   setValue,
