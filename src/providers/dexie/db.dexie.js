@@ -1,6 +1,6 @@
 import Dexie from 'dexie'
 
-const db = new Dexie('OpenBlockcertsClient')
+const db = new Dexie('OpenBlockcerts')
 
 db.version(1).stores({
   batches: '++id, status, certificates, createdAt',

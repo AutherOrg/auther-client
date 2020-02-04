@@ -34,7 +34,8 @@ export default (state = initialState, action) => {
     case types.UPDATE_ISSUER_SUCCESS:
       return {
         ...state,
-        isRunning: false
+        isRunning: false,
+        hasChanged: false
       }
 
     case types.GET_ISSUER_SUCCESS:
