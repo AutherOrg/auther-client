@@ -70,7 +70,6 @@ export default function Model ({ match }) {
       modelsReducer.name !== '' &&
       modelsReducer.description !== '' &&
       modelsReducer.image !== '' &&
-      modelsReducer.narrative !== '' &&
       modelsReducer.signatureJobTitle !== '' &&
       modelsReducer.signatureImage !== '' &&
       modelsReducer.template !== ''
@@ -90,7 +89,6 @@ export default function Model ({ match }) {
       name: modelsReducer.name,
       description: modelsReducer.description,
       image: modelsReducer.image,
-      narrative: modelsReducer.narrative,
       signatureJobTitle: modelsReducer.signatureJobTitle,
       signatureImage: modelsReducer.signatureImage,
       template: modelsReducer.template
@@ -145,19 +143,6 @@ export default function Model ({ match }) {
                   fullWidth
                 >
                   Description
-                </TextField>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  id='narrative'
-                  label='Narrative'
-                  type='text'
-                  value={modelsReducer.narrative}
-                  onChange={event => dispatch(actions.setValue('narrative', event.target.value))}
-                  required
-                  fullWidth
-                >
-                  Narrative
                 </TextField>
               </Grid>
               <Grid item xs={12}>

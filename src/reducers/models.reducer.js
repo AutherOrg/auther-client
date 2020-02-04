@@ -12,7 +12,6 @@ const initialState = {
   name: '',
   description: '',
   image: '',
-  narrative: '',
   signatureJobTitle: '',
   signatureImage: '',
   template: ''
@@ -62,7 +61,6 @@ export default (state = initialState, action) => {
         name: action.model.name,
         description: action.model.description,
         image: action.model.image,
-        narrative: action.model.narrative,
         signatureJobTitle: action.model.signatureJobTitle,
         signatureImage: action.model.signatureImage,
         template: action.model.template
