@@ -15,7 +15,7 @@ const get = (email, password) => {
       if (result.user.role === userConstants.role.RECIPIENT) {
         dispatch(push('/certificates/my'))
       } else if ([userConstants.role.ADMIN, userConstants.role.ISSUER].includes(result.user.role)) {
-        dispatch(push('/certificates/all'))
+        dispatch(push('/batches'))
       } else {
         dispatch(push('/'))
       }
