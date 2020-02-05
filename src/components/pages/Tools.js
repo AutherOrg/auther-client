@@ -8,7 +8,7 @@ import {
   Typography
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { CloudDownload, Save } from '@material-ui/icons'
+import { CloudDownload } from '@material-ui/icons'
 
 import batchesActions from '../../actions/batches.actions'
 import issuersActions from '../../actions/issuers.actions'

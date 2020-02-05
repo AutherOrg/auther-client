@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function MyCertificates () {
+export default function Certificates () {
   const dispatch = useDispatch()
 
   const certificatesReducer = useSelector(state => state.certificatesReducer)

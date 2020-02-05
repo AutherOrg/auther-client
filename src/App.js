@@ -16,9 +16,7 @@ import {
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import {
   AccountBalance,
-  ArrowRight,
   Build,
-  Description,
   ExitToApp,
   Home as HomeIcon,
   LocalShipping,
@@ -38,8 +36,7 @@ import LoginFromPermanentToken from './components/pages/LoginFromPermanentToken'
 import ValidatePassword from './components/pages/ValidatePassword'
 import Unauthorized from './components/pages/Unauthorized'
 // Recipient.
-import MyCertificates from './components/pages/MyCertificates'
-import AllCertificates from './components/pages/AllCertificates'
+import Certificates from './components/pages/Certificates'
 // Issuer.
 import Issuer from './components/pages/Issuer'
 import Models from './components/pages/Models'
@@ -122,21 +119,9 @@ export default function App () {
           <ListItemText primary='Home' />
         </ListItem>
         {[constants.role.RECIPIENT].includes(authReducer.role) && (
-          <ListItem button onClick={() => dispatch(push('/certificates/my'))}>
+          <ListItem button onClick={() => dispatch(push('/certificates'))}>
             <ListItemIcon>{<School />}</ListItemIcon>
-            <ListItemText primary='My certificates' />
-          </ListItem>
-        )}
-        {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
-          <ListItem button onClick={() => dispatch(push('/issuers/my'))}>
-            <ListItemIcon>{<AccountBalance />}</ListItemIcon>
-            <ListItemText primary='Issuer' />
-          </ListItem>
-        )}
-        {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
-          <ListItem button onClick={() => dispatch(push('/models'))}>
-            <ListItemIcon>{<Description />}</ListItemIcon>
-            <ListItemText primary='Models' />
+            <ListItemText primary='Certificates' />
           </ListItem>
         )}
         {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
@@ -146,9 +131,15 @@ export default function App () {
           </ListItem>
         )}
         {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
-          <ListItem button onClick={() => dispatch(push('/certificates/all'))}>
+          <ListItem button onClick={() => dispatch(push('/models'))}>
             <ListItemIcon>{<School />}</ListItemIcon>
-            <ListItemText primary='Certificates' />
+            <ListItemText primary='Models' />
+          </ListItem>
+        )}
+        {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
+          <ListItem button onClick={() => dispatch(push('/issuers/my'))}>
+            <ListItemIcon>{<AccountBalance />}</ListItemIcon>
+            <ListItemText primary='Issuer' />
           </ListItem>
         )}
         {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
@@ -244,14 +235,13 @@ export default function App () {
               <Route exact path='/auth/login' component={Login} />
               <Route exact path='/auth/login/permanent/:permanentToken' component={LoginFromPermanentToken} />
               <Route exact path='/auth/password/validate/:passwordToken' component={ValidatePassword} />
-              <PrivateRoute userRoles={[constants.role.RECIPIENT]} exact path='/certificates/my' component={MyCertificates} />
+              <PrivateRoute userRoles={[constants.role.RECIPIENT]} exact path='/certificates' component={Certificates} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/issuers/my' component={Issuer} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/models' component={Models} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/models/:id' component={Model} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches' component={Batches} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches/create' component={CreateBatch} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches/:id' component={Batch} />
-              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/certificates/all' component={AllCertificates} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/tools' component={Tools} />
             </Switch>
           </Grid>
