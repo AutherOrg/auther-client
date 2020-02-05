@@ -10,13 +10,21 @@ import {
   Typography
 } from '@material-ui/core'
 import { CloudDownload, Save } from '@material-ui/icons'
+import { makeStyles } from '@material-ui/core/styles'
 
 import actions from '../../actions/issuers.actions'
 import constants from '../../constants/issuers.constants'
 
-export default function Issuer () {
-  const dispatch = useDispatch()
+const useStyles = makeStyles(theme => ({
+  imgResponsive: {
+    width: '100%',
+    height: 'auto'
+  }
+}))
 
+export default function Issuer () {
+  const classes = useStyles()
+  const dispatch = useDispatch()
   const issuersReducer = useSelector(state => state.issuersReducer)
 
   const download = () => {
@@ -48,8 +56,8 @@ export default function Issuer () {
     if (event.target.files[0]) {
       Resizer.imageFileResizer(
         event.target.files[0],
-        200,
-        200,
+        1920,
+        1920,
         'PNG',
         100,
         0,
@@ -178,7 +186,7 @@ export default function Issuer () {
                 <Typography gutterBottom>Logo</Typography>
                 {issuersReducer.image !== '' && (
                   <div>
-                    <img src={issuersReducer.image} alt={issuersReducer.name} />
+                    <img src={issuersReducer.image} alt={issuersReducer.name} className={classes.imgResponsive} />
                   </div>
                 )}
                 <input type='file' onChange={handleImageChange} />

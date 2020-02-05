@@ -67,7 +67,7 @@ export default function CreateBatch () {
       badge: {
         name: model.name,
         description: model.description,
-        image: model.name,
+        image: model.image,
         criteria: {
           narrative: model.narrative
         },

@@ -37,8 +37,8 @@ export default function Model ({ match }) {
     if (event.target.files[0]) {
       Resizer.imageFileResizer(
         event.target.files[0],
-        200,
-        200,
+        1920,
+        1920,
         'PNG',
         100,
         0,
@@ -149,7 +149,7 @@ export default function Model ({ match }) {
                 <Typography gutterBottom>Image</Typography>
                 {modelsReducer.image !== '' && (
                   <div>
-                    <img src={modelsReducer.image} alt={modelsReducer.name} />
+                    <img src={modelsReducer.image} alt={modelsReducer.name} className={classes.templateScreenshot} />
                   </div>
                 )}
                 <input type='file' onChange={event => handleImageChange('image', event)} />

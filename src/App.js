@@ -45,6 +45,8 @@ import Batches from './components/pages/Batches'
 import Batch from './components/pages/Batch'
 import CreateBatch from './components/pages/CreateBatch'
 import Tools from './components/pages/Tools'
+// Dev tools.
+import DevTemplate from './components/dev/DevTemplate'
 
 const drawerWidth = 240
 
@@ -243,6 +245,7 @@ export default function App () {
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches/create' component={CreateBatch} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches/:id' component={Batch} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/tools' component={Tools} />
+              <Route exact path='/dev/template' component={DevTemplate} />
             </Switch>
           </Grid>
           <Grid item xs={12} align='center'>
