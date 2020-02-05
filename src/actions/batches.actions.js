@@ -14,7 +14,7 @@ const create = batch => {
     try {
       await service.create(batch)
       dispatch(createSuccess())
-      dispatch(getAll())
+      dispatch(get())
     } catch (e) {
       dispatch(createError(e.message))
     }
@@ -42,7 +42,7 @@ const destroy = id => {
       dispatch(destroyError(result.message))
     }
     dispatch(destroySuccess())
-    dispatch(getAll())
+    dispatch(get())
   }
 }
 
@@ -59,7 +59,7 @@ const destroyError = error => ({
   error
 })
 
-const getAll = () => {
+const get = () => {
   return async dispatch => {
     dispatch(getAllBegin())
     try {
@@ -193,7 +193,7 @@ const signError = error => ({
 export default {
   create,
   destroy,
-  getAll,
+  get,
   getOne,
   reset,
   set,

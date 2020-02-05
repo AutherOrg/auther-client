@@ -20,7 +20,7 @@ export default function Batches () {
   const batchesReducer = useSelector(state => state.batchesReducer)
 
   React.useEffect(() => {
-    dispatch(actions.getAll())
+    dispatch(actions.get())
   }, [dispatch])
 
   return (

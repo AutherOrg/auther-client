@@ -4,3 +4,4 @@
 + fix all reducers and actions, pay attention to immutability, split logic like batches and batch
 + confirmation on destroy
 + custom revocationReason
++ dexie export/import

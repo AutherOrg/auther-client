@@ -17,6 +17,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import {
   AccountBalance,
   ArrowRight,
+  Build,
   Description,
   ExitToApp,
   Home as HomeIcon,
@@ -47,6 +48,7 @@ import Model from './components/pages/Model'
 import Batches from './components/pages/Batches'
 import Batch from './components/pages/Batch'
 import CreateBatch from './components/pages/CreateBatch'
+import Tools from './components/pages/Tools'
 
 const drawerWidth = 240
 
@@ -150,6 +152,12 @@ export default function App () {
             <ListItemText primary='Certificates' />
           </ListItem>
         )}
+        {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
+          <ListItem button onClick={() => dispatch(push('/tools'))}>
+            <ListItemIcon>{<Build />}</ListItemIcon>
+            <ListItemText primary='Tools' />
+          </ListItem>
+        )}
         {
           (authReducer.role === constants.role.ANONYMOUS && authReducer.hasApi)
             ? (
@@ -251,6 +259,7 @@ export default function App () {
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches/create' component={CreateBatch} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches/:id' component={Batch} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/certificates/all' component={AllCertificates} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/tools' component={Tools} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/test/basic' component={Basic} />
             </Switch>
           </Grid>

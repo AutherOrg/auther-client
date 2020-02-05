@@ -31,12 +31,7 @@ export default function Transaction () {
       </DialogTitle>
       <DialogContent classes={{ root: classes.dialogContentRoot }}>
         {!transactionsReducer.isMined && transactionsReducer.error === '' && (
-          <>
-            <DialogContentText gutterBottom>
-              Please wait until the transaction is mined.
-            </DialogContentText>
-            <CircularProgress />
-          </>
+          <CircularProgress />
         )}
         {
           transactionsReducer.error !== '' && (
