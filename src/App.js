@@ -29,7 +29,6 @@ import {
 
 import constants from './constants/users.constants'
 import actions from './actions/auth.actions'
-import Basic from './components/test/Basic' // TODO remove
 import ServicesBackdrop from './components/organisms/ServicesBackdrop'
 import ServicesError from './components/organisms/ServicesError'
 // Public & auth.
@@ -175,12 +174,6 @@ export default function App () {
               )
               : null
         }
-        {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
-          <ListItem button onClick={() => dispatch(push('/test/basic'))}>
-            <ListItemIcon>{<ArrowRight />}</ListItemIcon>
-            <ListItemText primary='Basic issuer' />
-          </ListItem>
-        )}
       </List>
     </div>
   )
@@ -260,7 +253,6 @@ export default function App () {
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches/:id' component={Batch} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/certificates/all' component={AllCertificates} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/tools' component={Tools} />
-              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/test/basic' component={Basic} />
             </Switch>
           </Grid>
           <Grid item xs={12} align='center'>
