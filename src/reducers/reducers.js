@@ -6,10 +6,12 @@ import backdropReducer from './backdrop.reducer'
 import batchReducer from './batch.reducer'
 import batchesReducer from './batches.reducer'
 import certificatesReducer from './certificates.reducer'
+import confirmationReducer from './confirmation.reducer'
 import errorsReducer from './errors.reducer'
 import issuersReducer from './issuers.reducer'
 import jobsReducer from './jobs.reducer'
 import modelsReducer from './models.reducer'
+import revokedReducer from './revoked.reducer'
 import transactionsReducer from './transactions.reducer'
 
 const createRootReducer = history => combineReducers({
@@ -19,10 +21,12 @@ const createRootReducer = history => combineReducers({
   batchReducer,
   batchesReducer,
   certificatesReducer,
+  confirmationReducer,
   errorsReducer,
   issuersReducer,
   jobsReducer,
   modelsReducer,
+  revokedReducer,
   transactionsReducer
 })
 
