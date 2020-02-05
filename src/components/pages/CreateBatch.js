@@ -34,17 +34,11 @@ const useStyles = makeStyles(theme => ({
 
 export default function CreateBatch () {
   const classes = useStyles()
-
   const dispatch = useDispatch()
-
   const issuersReducer = useSelector(state => state.issuersReducer)
-
   const batchesReducer = useSelector(state => state.batchesReducer)
-
   const modelsReducer = useSelector(state => state.modelsReducer)
-
   const transactionsReducer = useSelector(state => state.transactionsReducer)
-
   const context = useWeb3React()
 
   const { account, library } = context
@@ -85,6 +79,9 @@ export default function CreateBatch () {
       },
       recipientProfile: {
         name: `${recipient.firstname} ${recipient.lastname}`
+      },
+      verification: {
+        publicKey: issuersReducer.publicKey
       }
     })
     const displayHtml = template.build(certificate.get())

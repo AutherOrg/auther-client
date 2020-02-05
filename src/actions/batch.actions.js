@@ -1,5 +1,6 @@
 import types from '../constants/actions.types.constants'
 import service from '../services/dexie/batches.dexie.service'
+import certificatesConstants from '../constants/certificates.constants'
 
 const get = id => {
   return async dispatch => {
@@ -27,11 +28,27 @@ const getError = error => ({
   error
 })
 
+// This one is a little bit awful.
+const getCertificate = certificateFromBatch => ({
+  type: types.GET_CERTIFICATE_SUCCESS,
+  certificate: {
+    id: 1,
+    status: certificatesConstants.STATUS.NOT_SHARED,
+    uuid: '',
+    json: certificateFromBatch,
+    createdAt: '',
+    updatedAt: '',
+    recipientId: 0,
+    issuerId: 0
+  }
+})
+
 const reset = () => ({
   type: types.RESET_BATCH
 })
 
 export default {
   get,
+  getCertificate,
   reset
 }

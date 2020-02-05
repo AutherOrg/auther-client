@@ -5,6 +5,7 @@ import authReducer from './auth.reducer'
 import backdropReducer from './backdrop.reducer'
 import batchReducer from './batch.reducer'
 import batchesReducer from './batches.reducer'
+import certificateReducer from './certificate.reducer'
 import certificatesReducer from './certificates.reducer'
 import confirmationReducer from './confirmation.reducer'
 import errorsReducer from './errors.reducer'
@@ -20,6 +21,7 @@ const createRootReducer = history => combineReducers({
   backdropReducer,
   batchReducer,
   batchesReducer,
+  certificateReducer,
   certificatesReducer,
   confirmationReducer,
   errorsReducer,

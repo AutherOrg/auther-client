@@ -8,18 +8,19 @@ import {
   TableContainer, Table, TableBody, TableCell, TableHead, TableRow,
   Typography
 } from '@material-ui/core'
-import { AddCircle, Check, Close, RemoveCircle } from '@material-ui/icons'
+import { AddCircle, Check, Close, RemoveCircle, School } from '@material-ui/icons'
 
 import actions from '../../actions/batch.actions'
 import revokedActions from '../../actions/revoked.actions'
 import confirmationActions from '../../actions/confirmation.actions'
 import constants from '../../constants/batches.constants'
+import CertificateDialog from '../organisms/CertificateDialog'
 import ConfirmationDialog from '../organisms/ConfirmationDialog'
 
 export default function Batch ({ match }) {
   const dispatch = useDispatch()
-
   const batchReducer = useSelector(state => state.batchReducer)
+  const certificateReducer = useSelector(state => state.certificateReducer)
   const revokedReducer = useSelector(state => state.revokedReducer)
 
   React.useEffect(() => {
@@ -88,13 +89,19 @@ export default function Batch ({ match }) {
                       {`${certificate.recipientProfile.name} (${certificate.recipient.identity})`}
                     </TableCell>
                     <TableCell>
+                      <Button
+                        onClick={() => dispatch(actions.getCertificate(certificate))}
+                        startIcon={<School />}
+                        color='primary'
+                      >
+                        View
+                      </Button>
                       {
                         isRevoked(certificate)
                           ? (
                             <Button
                               onClick={() => handleUnrevoke(certificate)}
                               startIcon={<AddCircle />}
-                              color='primary'
                             >
                               Unrevoke
                             </Button>
@@ -135,6 +142,7 @@ export default function Batch ({ match }) {
           </>
         }
       />
+      {certificateReducer.id > 0 && <CertificateDialog />}
     </>
   )
 }
