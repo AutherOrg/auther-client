@@ -18,6 +18,13 @@ export default (state = initialState, action) => {
     case types.UPDATE_CERTIFICATE_SUCCESS:
       return action.certificate
 
+    case types.GET_SHARED_CERTIFICATE_SUCCESS:
+      return {
+        ...state,
+        uuid: action.uuid,
+        json: action.json
+      }
+
     case types.RESET_CERTIFICATE:
     case types.DESTROY_CERTIFICATE_SUCCESS:
       return initialState

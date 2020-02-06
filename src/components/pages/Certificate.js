@@ -15,7 +15,7 @@ import confirmationActions from '../../actions/confirmation.actions'
 import constants from '../../constants/certificates.constants'
 import ConfirmationDialog from '../organisms/ConfirmationDialog'
 
-export default function MyCertificate ({ match }) {
+export default function Certificate ({ match }) {
   const dispatch = useDispatch()
   const reducer = useSelector(state => state.certificateReducer)
   const [copied, setCopied] = React.useState(null)

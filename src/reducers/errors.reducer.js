@@ -13,6 +13,7 @@ export default (state = initialState, action) => {
     case types.GET_REVOKED_ERROR:
     case types.DESTROY_CERTIFICATE_ERROR:
     case types.GET_CERTIFICATE_ERROR:
+    case types.GET_SHARED_CERTIFICATE_ERROR:
     case types.UPDATE_CERTIFICATE_ERROR:
     case types.CREATE_JOB_ERROR:
     case types.DESTROY_JOB_ERROR:

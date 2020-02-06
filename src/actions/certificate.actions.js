@@ -68,6 +68,36 @@ const getFromDexie = id => {
   }
 }
 
+const getShared = uuid => {
+  return async dispatch => {
+    dispatch(getSharedBegin())
+    const result = await apiService.getShared(uuid)
+    console.log(result)
+    if (result instanceof TypeError) {
+      dispatch(getSharedError(result.message))
+    } else if (result.error) {
+      dispatch(getSharedError(result.error))
+    } else {
+      dispatch(getSharedSuccess(result))
+    }
+  }
+}
+
+const getSharedBegin = () => ({
+  type: types.GET_SHARED_CERTIFICATE_BEGIN
+})
+
+const getSharedSuccess = certificate => ({
+  type: types.GET_SHARED_CERTIFICATE_SUCCESS,
+  uuid: certificate.uuid,
+  json: certificate.json
+})
+
+const getSharedError = error => ({
+  type: types.GET_SHARED_CERTIFICATE_ERROR,
+  error
+})
+
 const update = (id, data) => {
   return async dispatch => {
     dispatch(updateBegin())
@@ -102,6 +132,7 @@ export default {
   destroy,
   get,
   getFromDexie,
+  getShared,
   update,
   reset
 }

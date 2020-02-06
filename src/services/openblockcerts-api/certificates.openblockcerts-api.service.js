@@ -61,6 +61,20 @@ const getOne = async id => {
   }
 }
 
+const getShared = async uuid => {
+  try {
+    const response = await window.fetch(
+      `${route}/shared/${uuid}`, {
+        method: 'GET',
+        headers: helper.setHeadersWithToken()
+      }
+    )
+    return await response.json()
+  } catch (e) {
+    return e
+  }
+}
+
 const update = async (id, data) => {
   try {
     const response = await window.fetch(
@@ -81,5 +95,6 @@ export default {
   destroy,
   getAll,
   getOne,
+  getShared,
   update
 }

@@ -17,32 +17,28 @@ const useStyles = makeStyles(theme => ({
 
 export default function ServicesDialog () {
   const classes = useStyles()
-  const authReducer = useSelector(state => state.authReducer)
-  const batchesReducer = useSelector(state => state.batchesReducer)
-  const certificatesReducer = useSelector(state => state.certificatesReducer)
-  const issuersReducer = useSelector(state => state.issuersReducer)
-  const modelsReducer = useSelector(state => state.modelsReducer)
-
-  const getError = () => {
-    return [
-      authReducer.error,
-      batchesReducer.error,
-      certificatesReducer.error,
-      issuersReducer.error,
-      modelsReducer.error
-    ].join('')
-  }
+  // const authReducer = useSelector(state => state.authReducer)
+  // const batchesReducer = useSelector(state => state.batchesReducer)
+  // const certificatesReducer = useSelector(state => state.certificatesReducer)
+  // const issuersReducer = useSelector(state => state.issuersReducer)
+  // const modelsReducer = useSelector(state => state.modelsReducer)
+  const errorsReducer = useSelector(state => state.errorsReducer)
 
   return (
-    <Dialog open={getError() !== ''}>
-      <DialogTitle>Error</DialogTitle>
+    <Dialog open={errorsReducer.errors.length > 0}>
+      <DialogTitle>
+        {errorsReducer.errors.length > 1 ? 'Errors' : 'Error'}
+      </DialogTitle>
       <DialogContent classes={{ root: classes.dialogContentRoot }}>
-        <DialogContentText
-          color='error'
-          classes={{ root: classes.dialogContentTextRoot }}
-        >
-          {getError()}
-        </DialogContentText>
+        {errorsReducer.errors.map((error, index) => (
+          <DialogContentText
+            key={index}
+            color='error'
+            classes={{ root: classes.dialogContentTextRoot }}
+          >
+            {error}
+          </DialogContentText>
+        ))}
       </DialogContent>
     </Dialog>
   )

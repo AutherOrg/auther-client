@@ -13,6 +13,7 @@ export default (state = initialState, action) => {
     case types.GET_REVOKED_BEGIN:
     case types.DESTROY_CERTIFICATE_BEGIN:
     case types.GET_CERTIFICATE_BEGIN:
+    case types.GET_SHARED_CERTIFICATE_BEGIN:
     case types.UPDATE_CERTIFICATE_BEGIN:
     case types.CREATE_JOB_BEGIN:
     case types.DESTROY_JOB_BEGIN:
@@ -29,6 +30,7 @@ export default (state = initialState, action) => {
     case types.GET_REVOKED_SUCCESS:
     case types.DESTROY_CERTIFICATE_SUCCESS:
     case types.GET_CERTIFICATE_SUCCESS:
+    case types.GET_SHARED_CERTIFICATE_SUCCESS:
     case types.UPDATE_CERTIFICATE_SUCCESS:
     case types.CREATE_JOB_SUCCESS:
     case types.DESTROY_JOB_SUCCESS:
