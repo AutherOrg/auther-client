@@ -72,7 +72,6 @@ const getShared = uuid => {
   return async dispatch => {
     dispatch(getSharedBegin())
     const result = await apiService.getShared(uuid)
-    console.log(result)
     if (result instanceof TypeError) {
       dispatch(getSharedError(result.message))
     } else if (result.error) {
