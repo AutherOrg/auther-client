@@ -12,6 +12,9 @@ export default (state = initialState, action) => {
     case types.DESTROY_REVOKED_BEGIN:
     case types.GET_REVOKED_BEGIN:
     case types.GET_CERTIFICATE_BEGIN:
+    case types.CREATE_JOB_BEGIN:
+    case types.DESTROY_JOB_BEGIN:
+    case types.GET_JOBS_BEGIN:
       return {
         ...state,
         open: action.open
@@ -23,6 +26,9 @@ export default (state = initialState, action) => {
     case types.DESTROY_REVOKED_SUCCESS:
     case types.GET_REVOKED_SUCCESS:
     case types.GET_CERTIFICATE_SUCCESS:
+    case types.CREATE_JOB_SUCCESS:
+    case types.DESTROY_JOB_SUCCESS:
+    case types.GET_JOBS_SUCCESS:
       return initialState
 
     default:

@@ -27,6 +27,7 @@ import {
 
 import constants from './constants/users.constants'
 import actions from './actions/auth.actions'
+import JobsDialog from './components/organisms/JobsDialog'
 import ServicesBackdrop from './components/organisms/ServicesBackdrop'
 import ServicesError from './components/organisms/ServicesError'
 // Public & auth.
@@ -46,7 +47,7 @@ import Batch from './components/pages/Batch'
 import CreateBatch from './components/pages/CreateBatch'
 import Tools from './components/pages/Tools'
 // Dev tools.
-import DevTemplate from './components/dev/DevTemplate'
+// import DevTemplate from './components/dev/DevTemplate'
 
 const drawerWidth = 240
 
@@ -97,7 +98,6 @@ export default function App () {
   const [mobileOpen, setMobileOpen] = React.useState(false)
 
   const dispatch = useDispatch()
-
   const authReducer = useSelector(state => state.authReducer)
 
   const handleDrawerToggle = () => {
@@ -245,7 +245,7 @@ export default function App () {
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches/create' component={CreateBatch} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches/:id' component={Batch} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/tools' component={Tools} />
-              <Route exact path='/dev/template' component={DevTemplate} />
+              {/* <Route exact path='/dev/template' component={DevTemplate} /> */}
             </Switch>
           </Grid>
           <Grid item xs={12} align='center'>
@@ -255,6 +255,9 @@ export default function App () {
       </main>
       <ServicesBackdrop />
       <ServicesError />
+      {authReducer.hasApi && [constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
+        <JobsDialog />
+      )}
     </div>
   )
 }

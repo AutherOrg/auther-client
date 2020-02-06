@@ -13,7 +13,7 @@ const initialState = {
   role: constants.role.ANONYMOUS,
   createdAt: '',
   updatedAt: '',
-  hasApi: false
+  hasApi: process.env.REACT_APP_API !== 'none'
 }
 
 export default (state = initialState, action) => {

@@ -10,7 +10,7 @@ import {
   Table, TableBody, TableCell, TableHead, TableRow,
   Typography
 } from '@material-ui/core'
-import { Add, Edit } from '@material-ui/icons'
+import { Add, School } from '@material-ui/icons'
 
 import actions from '../../actions/batches.actions'
 
@@ -59,10 +59,10 @@ export default function Batches () {
                       <TableCell>
                         <Button
                           onClick={() => dispatch(push(`/batches/${batch.id}`))}
-                          startIcon={<Edit />}
+                          startIcon={<School />}
                           color='primary'
                         >
-                          Explore
+                          View certificates
                         </Button>
                       </TableCell>
                     </TableRow>

@@ -1,10 +1,11 @@
 import types from '../constants/actions.types.constants'
-import service from '../services/dexie/jobs.dexie.service'
+import jobsDexieService from '../services/dexie/jobs.dexie.service'
+import certificatesApiService from '../services/openblockcerts-api/certificates.openblockcerts-api.service'
 
 const create = data => {
   return async dispatch => {
     dispatch(createBegin())
-    const result = await service.create(data)
+    const result = await jobsDexieService.create(data)
     if (result instanceof TypeError) {
       dispatch(createError(result.message))
     } else {
@@ -38,7 +39,7 @@ const createJobs = jobs => {
 const destroy = id => {
   return async dispatch => {
     dispatch(destroyBegin())
-    const result = await service.destroy(id)
+    const result = await jobsDexieService.destroy(id)
     if (result instanceof TypeError) {
       dispatch(destroyError(result.message))
     } else {
@@ -64,11 +65,11 @@ const destroyError = error => ({
 const get = () => {
   return async dispatch => {
     dispatch(getBegin())
-    const result = await service.get()
+    const result = await jobsDexieService.get()
     if (result instanceof TypeError) {
       dispatch(getError(result.message))
     } else {
-      dispatch(getSuccess())
+      dispatch(getSuccess(result))
     }
   }
 }
@@ -87,9 +88,62 @@ const getError = error => ({
   error
 })
 
+const runJob = job => {
+  return async dispatch => {
+    dispatch(runJobBegin())
+    const result = await certificatesApiService.create(job.data)
+    if (result instanceof TypeError) {
+      dispatch(runJobError(result.message))
+    } else {
+      dispatch(destroy(job.id))
+      dispatch(runJobSuccess())
+    }
+  }
+}
+
+const runJobBegin = () => ({
+  type: types.RUN_JOB_BEGIN
+})
+
+const runJobSuccess = () => ({
+  type: types.RUN_JOB_SUCCESS
+})
+
+const runJobError = error => ({
+  type: types.RUN_JOB_ERROR,
+  error
+})
+
+const runJobs = jobs => {
+  return async dispatch => {
+    dispatch(runJobsBegin())
+    await Promise.all(jobs.map(async job => {
+      dispatch(runJobBegin())
+      const result = await certificatesApiService.create(job.data)
+      if (result instanceof TypeError) {
+        dispatch(runJobError(result.message))
+      } else {
+        dispatch(runJobSuccess())
+        dispatch(destroy(job.id))
+      }
+    }))
+    dispatch(runJobsSuccess())
+  }
+}
+
+const runJobsBegin = () => ({
+  type: types.RUN_JOBS_BEGIN
+})
+
+const runJobsSuccess = () => ({
+  type: types.RUN_JOBS_SUCCESS
+})
+
 export default {
   create,
   createJobs,
   destroy,
-  get
+  get,
+  runJob,
+  runJobs
 }

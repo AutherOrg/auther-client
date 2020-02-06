@@ -1,10 +1,10 @@
 import types from '../constants/actions.types.constants'
-import service from '../services/dexie/certificates.dexie.service'
+import dexieService from '../services/dexie/certificates.dexie.service'
 
 const get = id => {
   return async dispatch => {
     dispatch(getBegin())
-    const result = await service.getOne(id)
+    const result = await dexieService.getOne(id)
     if (result instanceof TypeError) {
       dispatch(getError(result.message))
     } else {
