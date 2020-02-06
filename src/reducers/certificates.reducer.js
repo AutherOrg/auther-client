@@ -2,7 +2,6 @@ import types from '../constants/actions.types.constants'
 
 const initialState = {
   isRunning: false,
-  error: '',
   certificates: []
 }
 
@@ -19,13 +18,6 @@ export default (state = initialState, action) => {
         ...state,
         certificates: action.certificates,
         isRunning: false
-      }
-
-    case types.GET_CERTIFICATES_ERROR:
-      return {
-        ...state,
-        isRunning: false,
-        error: action.error
       }
 
     default:

@@ -1,7 +1,6 @@
 import types from '../constants/actions.types.constants'
 
 const initialState = {
-  error: '',
   isRunning: false,
   hasChanged: false,
   isSet: false,
@@ -28,16 +27,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isRunning: false
-      }
-
-    case types.ADD_BATCH_ERROR:
-    case types.GET_ALL_BATCHES_ERROR:
-    case types.SET_BATCH_ERROR:
-    case types.SIGN_BATCH_ERROR:
-      return {
-        ...state,
-        isRunning: false,
-        error: action.error
       }
 
     case types.GET_ALL_BATCHES_SUCCESS:

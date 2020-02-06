@@ -3,7 +3,6 @@ import constants from '../constants/users.constants'
 
 const initialState = {
   isRunning: false,
-  error: '',
   isLogged: false,
   passwordEmailSent: false,
   passwordValidated: false,
@@ -37,13 +36,6 @@ export default (state = initialState, action) => {
         updatedAt: action.updatedAt
       }
 
-    case types.GET_AUTH_ERROR:
-      return {
-        ...state,
-        isRunning: false,
-        error: action.error
-      }
-
     case types.SET_HAS_API:
       return {
         ...state,
@@ -63,13 +55,6 @@ export default (state = initialState, action) => {
         passwordEmailSent: true
       }
 
-    case types.SET_PASSWORD_ERROR:
-      return {
-        ...state,
-        isRunning: false,
-        error: action.error
-      }
-
     case types.VALIDATE_PASSWORD_BEGIN:
       return {
         ...state,
@@ -81,13 +66,6 @@ export default (state = initialState, action) => {
         ...state,
         isRunning: false,
         passwordValidated: true
-      }
-
-    case types.VALIDATE_PASSWORD_ERROR:
-      return {
-        ...state,
-        isRunning: false,
-        error: action.error
       }
 
     case types.LOGOUT_SUCCESS:

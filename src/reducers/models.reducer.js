@@ -3,7 +3,6 @@ import constants from '../constants/models.constants'
 
 const initialState = {
   isRunning: false,
-  error: '',
   models: [],
   m: [],
   hasChanged: false,
@@ -34,16 +33,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isRunning: false
-      }
-
-    case types.ADD_MODEL_ERROR:
-    case types.DESTROY_MODEL_ERROR:
-    case types.GET_ALL_MODELS_ERROR:
-    case types.GET_ONE_MODEL_ERROR:
-      return {
-        ...state,
-        isRunning: false,
-        error: action.error
       }
 
     case types.GET_ALL_MODELS_SUCCESS:

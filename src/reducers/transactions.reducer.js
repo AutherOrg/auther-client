@@ -2,7 +2,6 @@ import types from '../constants/actions.types.constants'
 
 const initialState = {
   isRunning: false,
-  error: '',
   hash: '',
   mined: false
 }
@@ -28,20 +27,9 @@ export default (state = initialState, action) => {
         mined: true
       }
 
-    case types.SEND_TRANSACTION_ERROR:
-      return {
-        ...state,
-        isRunning: false,
-        error: action.error
-      }
-
     case types.RESET_TRANSACTION:
       return {
-        ...state,
-        isRunning: initialState.isRunning,
-        error: initialState.error,
-        hash: initialState.hash,
-        mined: initialState.mined
+        initialState
       }
 
     default:
