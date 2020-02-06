@@ -210,6 +210,7 @@ export default function Issuer () {
                   required
                   fullWidth
                   helperText={issuersReducer.hasIssuer ? 'Warning: changing this will invalid ALL your issued certificates.' : ''}
+                  error
                 >
                   Issuer profile URL
                 </TextField>
@@ -237,6 +238,7 @@ export default function Issuer () {
                   required
                   fullWidth
                   helperText={issuersReducer.hasIssuer ? 'Warning: changing this will invalid ALL your issued certificates.' : ''}
+                  error
                 >
                   Ethereum public key
                 </TextField>
