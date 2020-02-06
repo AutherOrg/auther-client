@@ -15,9 +15,11 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case types.GET_CERTIFICATE_SUCCESS:
+    case types.UPDATE_CERTIFICATE_SUCCESS:
       return action.certificate
 
     case types.RESET_CERTIFICATE:
+    case types.DESTROY_CERTIFICATE_SUCCESS:
       return initialState
 
     default:

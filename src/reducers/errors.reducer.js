@@ -11,7 +11,9 @@ export default (state = initialState, action) => {
     case types.CREATE_REVOKED_ERROR:
     case types.DESTROY_REVOKED_ERROR:
     case types.GET_REVOKED_ERROR:
+    case types.DESTROY_CERTIFICATE_ERROR:
     case types.GET_CERTIFICATE_ERROR:
+    case types.UPDATE_CERTIFICATE_ERROR:
     case types.CREATE_JOB_ERROR:
     case types.DESTROY_JOB_ERROR:
     case types.GET_JOBS_ERROR:

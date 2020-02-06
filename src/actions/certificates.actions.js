@@ -5,12 +5,12 @@ import dexieService from '../services/dexie/certificates.dexie.service'
 const getAll = hasApi => {
   return async dispatch => {
     dispatch(getAllBegin())
-    try {
-      const service = hasApi ? apiService : dexieService
-      const result = await service.getAll()
+    const service = hasApi ? apiService : dexieService
+    const result = await service.getAll()
+    if (result instanceof TypeError) {
+      dispatch(getAllError(result.message))
+    } else {
       dispatch(getAllSuccess(result))
-    } catch (e) {
-      dispatch(getAllError(e.message))
     }
   }
 }

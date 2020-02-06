@@ -23,6 +23,7 @@
     "js-cookie": "^2.2.1",
     "react": "^16.12.0",
     "react-blockcerts": "^0.9.0",
+    "react-copy-to-clipboard": "^5.0.2",
     "react-csv-reader": "^2.0.2",
     "react-dom": "^16.12.0",
     "react-image-file-resizer": "^0.2.1",

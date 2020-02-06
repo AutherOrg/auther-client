@@ -38,6 +38,7 @@ import ValidatePassword from './components/pages/ValidatePassword'
 import Unauthorized from './components/pages/Unauthorized'
 // Recipient.
 import Certificates from './components/pages/Certificates'
+import Certificate from './components/pages/Certificate'
 // Issuer.
 import Issuer from './components/pages/Issuer'
 import Models from './components/pages/Models'
@@ -238,6 +239,7 @@ export default function App () {
               <Route exact path='/auth/login/permanent/:permanentToken' component={LoginFromPermanentToken} />
               <Route exact path='/auth/password/validate/:passwordToken' component={ValidatePassword} />
               <PrivateRoute userRoles={[constants.role.RECIPIENT]} exact path='/certificates' component={Certificates} />
+              <PrivateRoute userRoles={[constants.role.RECIPIENT]} exact path='/certificates/:id' component={Certificate} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/issuers/my' component={Issuer} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/models' component={Models} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/models/:id' component={Model} />

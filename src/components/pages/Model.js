@@ -37,7 +37,7 @@ export default function Model ({ match }) {
     if (event.target.files[0]) {
       Resizer.imageFileResizer(
         event.target.files[0],
-        1366,
+        1024,
         768,
         'PNG',
         100,

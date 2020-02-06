@@ -26,8 +26,6 @@ export default function CertificateDialog () {
     return null
   }
 
-  console.log(reducer.json)
-
   return (
     <Dialog
       open={reducer.id > 0}
