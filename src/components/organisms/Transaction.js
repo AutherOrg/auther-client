@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import {
   Button,
   CircularProgress,
@@ -18,7 +18,6 @@ const useStyles = makeStyles(theme => ({
 export default function Transaction () {
   const classes = useStyles()
   const transactionsReducer = useSelector(state => state.transactionsReducer)
-  const dispatch = useDispatch()
 
   return (
     <Dialog open={transactionsReducer.isRunning}>
