@@ -37,10 +37,10 @@ export default function Model ({ match }) {
     if (event.target.files[0]) {
       Resizer.imageFileResizer(
         event.target.files[0],
-        1024,
-        768,
-        'PNG',
-        100,
+        1366,
+        1366,
+        'JPEG',
+        70,
         0,
         uri => {
           dispatch(actions.setValue(name, uri))

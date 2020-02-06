@@ -3,12 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   Button,
   CircularProgress,
-  Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions
+  Dialog, DialogTitle, DialogContent, DialogActions
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { Close, Link } from '@material-ui/icons'
-
-import actions from '../../actions/transactions.actions'
+import { Link } from '@material-ui/icons'
 
 const useStyles = makeStyles(theme => ({
   dialogContentRoot: {
@@ -19,25 +17,18 @@ const useStyles = makeStyles(theme => ({
 
 export default function Transaction () {
   const classes = useStyles()
-
   const transactionsReducer = useSelector(state => state.transactionsReducer)
-
   const dispatch = useDispatch()
 
   return (
-    <Dialog open={transactionsReducer.isRunning || transactionsReducer.error !== ''}>
+    <Dialog open={transactionsReducer.isRunning}>
       <DialogTitle>
         Ethereum transaction
       </DialogTitle>
       <DialogContent classes={{ root: classes.dialogContentRoot }}>
-        {!transactionsReducer.isMined && transactionsReducer.error === '' && (
+        {!transactionsReducer.isMined && (
           <CircularProgress />
         )}
-        {
-          transactionsReducer.error !== '' && (
-            <DialogContentText gutterBottom color='error'>{transactionsReducer.error}</DialogContentText>
-          )
-        }
       </DialogContent>
       <DialogActions>
         {transactionsReducer.hash.substring(0, 2) === '0x' && (
@@ -48,14 +39,6 @@ export default function Transaction () {
             startIcon={<Link />}
           >
             Info
-          </Button>
-        )}
-        {transactionsReducer.error !== '' && (
-          <Button
-            onClick={() => dispatch(actions.reset())}
-            startIcon={<Close />}
-          >
-            Close
           </Button>
         )}
       </DialogActions>

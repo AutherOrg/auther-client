@@ -5,3 +5,4 @@
 + confirmation on destroy
 + custom revocationReason
 + dexie export/import
++ convert Blockcerts compo to hooks

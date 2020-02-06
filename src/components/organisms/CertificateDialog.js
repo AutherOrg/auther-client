@@ -1,6 +1,5 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Blockcerts from 'react-blockcerts'
 import {
   Dialog, DialogContent,
   useMediaQuery
@@ -20,7 +19,7 @@ export default function CertificateDialog () {
   const reducer = useSelector(state => state.certificateReducer)
   const classes = useStyles()
   const theme = useTheme()
-  const fullScreen = useMediaQuery(theme.breakpoints.down('lg'))
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
   if (reducer.id === 0) {
     return null
@@ -30,12 +29,12 @@ export default function CertificateDialog () {
     <Dialog
       open={reducer.id > 0}
       onClose={() => dispatch(actions.reset())}
-      maxWidth='lg'
+      maxWidth='md'
       fullWidth
       fullScreen={fullScreen}
     >
       <DialogContent classes={{ root: classes.dialogContentRoot }}>
-        <Blockcerts src={reducer.json} />
+        <div dangerouslySetInnerHTML={{ __html: reducer.json.displayHtml.replace(/(<? *script)/gi, 'illegalscript') }} />
       </DialogContent>
     </Dialog>
   )

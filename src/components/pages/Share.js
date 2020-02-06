@@ -1,9 +1,9 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import Blockcerts from 'react-blockcerts'
 import { Grid } from '@material-ui/core'
 
 import actions from '../../actions/certificate.actions'
+import Blockcerts from '../organisms/Blockcerts'
 
 export default function Share ({ match }) {
   const dispatch = useDispatch()
