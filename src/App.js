@@ -252,9 +252,11 @@ export default function App () {
               {/* <Route exact path='/dev/template' component={DevTemplate} /> */}
             </Switch>
           </Grid>
-          <Grid item xs={12} align='center'>
-            <Typography classes={{ root: classes.poweredBy }}>Powered by <a href='https://openblockcerts.org' target='openblockcerts' rel='noopener noreferrer' className={classes.poweredByLink}>OpenBlockcerts</a>, an opensource implementation of blockchain-certified credentials</Typography>
-          </Grid>
+          {process.env.REACT_APP_FOOTER !== 'false' && (
+            <Grid item xs={12} align='center'>
+              <Typography classes={{ root: classes.poweredBy }}>Powered by <a href='https://openblockcerts.org' target='openblockcerts' rel='noopener noreferrer' className={classes.poweredByLink}>OpenBlockcerts</a>, an opensource implementation of blockchain-certified credentials</Typography>
+            </Grid>
+          )}
         </Grid>
       </main>
       <ServicesBackdrop />
