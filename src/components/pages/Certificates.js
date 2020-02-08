@@ -37,33 +37,29 @@ export default function Certificates () {
       <Grid item xs={12} align='center'>
         <Typography variant='h1' gutterBottom>My certificates</Typography>
       </Grid>
-      <Grid item xs={12}>
-        <Grid container spacing={5} justify='center'>
-          {certificatesReducer.certificates.map((certificate, index) => (
-            <Grid item xs={12} lg={3} key={index}>
-              <Card
-                onClick={() => dispatch(push(`/certificates/${certificate.id}`))}
-                onMouseOver={() => setRaised(index)}
-                onMouseOut={() => setRaised(null)}
-                raised={raised === index}
-                classes={{ root: classes.cardRoot }}
-              >
-                <CardHeader title={certificate.json.badge.name} />
-                <div>
-                  <img
-                    src={certificate.json.badge.image}
-                    alt={certificate.json.badge.name}
-                    className={classes.image}
-                  />
-                </div>
-                <CardContent>
-                  <Typography>{certificate.json.badge.issuer.name}</Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
+      {certificatesReducer.certificates.map((certificate, index) => (
+        <Grid item xs={12} lg={3} key={index}>
+          <Card
+            onClick={() => dispatch(push(`/certificates/${certificate.id}`))}
+            onMouseOver={() => setRaised(index)}
+            onMouseOut={() => setRaised(null)}
+            raised={raised === index}
+            classes={{ root: classes.cardRoot }}
+          >
+            <CardHeader title={certificate.json.badge.name} />
+            <div>
+              <img
+                src={certificate.json.badge.image}
+                alt={certificate.json.badge.name}
+                className={classes.image}
+              />
+            </div>
+            <CardContent>
+              <Typography>{certificate.json.badge.issuer.name}</Typography>
+            </CardContent>
+          </Card>
         </Grid>
-      </Grid>
+      ))}
     </Grid>
   )
 }

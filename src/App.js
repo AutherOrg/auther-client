@@ -131,7 +131,7 @@ export default function App () {
         {[constants.role.RECIPIENT].includes(authReducer.role) && (
           <ListItem button onClick={() => handlePush('/certificates')}>
             <ListItemIcon>{<School />}</ListItemIcon>
-            <ListItemText primary='Certificates' />
+            <ListItemText primary='My certificates' />
           </ListItem>
         )}
         {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (

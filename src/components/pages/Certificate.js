@@ -19,19 +19,16 @@ export default function Certificate ({ match }) {
   const dispatch = useDispatch()
   const reducer = useSelector(state => state.certificateReducer)
   const [copied, setCopied] = React.useState(null)
-
   const handleShare = () => {
     const newStatus = reducer.status === constants.STATUS.NOT_SHARED ? constants.STATUS.SHARED : constants.STATUS.NOT_SHARED
     dispatch(certificateActions.update(reducer.id, {
       status: newStatus
     }))
   }
-
   const handleDownload = () => {
     const stringified = JSON.stringify(reducer.json)
     downloadjs(stringified, `${reducer.json.badge.name}.json`, 'text/plain')
   }
-
   const handleCopied = () => {
     setCopied(true)
     setTimeout(
@@ -52,10 +49,10 @@ export default function Certificate ({ match }) {
   return (
     <>
       <Grid container spacing={5} justify='center'>
-        <Grid item xs={6}>
-          <div dangerouslySetInnerHTML={{ __html: reducer.json.displayHtml }} />
+        <Grid item xs={12} lg={6}>
+          <div dangerouslySetInnerHTML={{ __html: reducer.json.displayHtml.replace(/(<? *script)/gi, 'illegalscript') }} />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} lg={6}>
           <Grid container spacing={5}>
             <Grid item xs={12}>
               <Card>

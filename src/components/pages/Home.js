@@ -4,7 +4,14 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
   logo: {
-    width: '20%'
+    width: '100%',
+    height: 'auto',
+    [theme.breakpoints.up('md')]: {
+      width: '50%'
+    },
+    [theme.breakpoints.up('lg')]: {
+      maxWidth: '300px'
+    }
   }
 }))
 
@@ -17,7 +24,7 @@ function Home () {
         <img src={process.env.REACT_APP_LOGO} alt={process.env.REACT_APP_NAME} className={classes.logo} />
       </Grid>
       <Grid item xs={12} align='center'>
-        <Typography variant='h1'>{process.env.REACT_APP_NAME}</Typography>
+        <Typography variant='h1' noWrap>{process.env.REACT_APP_NAME}</Typography>
       </Grid>
       <Grid item xs={12} align='center'>
         <Typography variant='h4' gutterBottom>{process.env.REACT_APP_SLOGAN}</Typography>

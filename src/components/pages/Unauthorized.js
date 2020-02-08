@@ -8,7 +8,7 @@ export default function Unauthorized () {
   return (
     <Grid container spacing={5} justify='center'>
       <Grid item xs={12} align='center'>
-        <Typography variant='h1' gutterBottom>Unauthorized</Typography>
+        <Typography variant='h1' gutterBottom>Not authorized</Typography>
       </Grid>
     </Grid>
   )
