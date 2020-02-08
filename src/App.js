@@ -94,11 +94,8 @@ const useStyles = makeStyles(theme => ({
 
 export default function App () {
   const classes = useStyles()
-
   const theme = useTheme()
-
   const [mobileOpen, setMobileOpen] = React.useState(false)
-
   const dispatch = useDispatch()
   const authReducer = useSelector(state => state.authReducer)
 
