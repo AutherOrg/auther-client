@@ -16,6 +16,7 @@ export default (state = initialState, action) => {
 
     case types.RESET_CONFIRMATION:
     case types.CREATE_REVOKED_SUCCESS:
+    case types.DESTROY_CERTIFICATE_SUCCESS:
       return initialState
 
     default:
