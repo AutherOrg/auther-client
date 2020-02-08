@@ -98,9 +98,18 @@ export default function App () {
   const [mobileOpen, setMobileOpen] = React.useState(false)
   const dispatch = useDispatch()
   const authReducer = useSelector(state => state.authReducer)
-
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
+  }
+  const handlePush = route => {
+    if (mobileOpen) {
+      handleDrawerToggle()
+    }
+    dispatch(push(route))
+  }
+  const handleLogout = () => {
+    handlePush('/')
+    dispatch(actions.logout())
   }
 
   React.useEffect(() => {
@@ -115,36 +124,36 @@ export default function App () {
   const drawer = (
     <div>
       <List>
-        <ListItem button onClick={() => dispatch(push('/'))}>
+        <ListItem button onClick={() => handlePush('/')}>
           <ListItemIcon>{<HomeIcon />}</ListItemIcon>
           <ListItemText primary='Home' />
         </ListItem>
         {[constants.role.RECIPIENT].includes(authReducer.role) && (
-          <ListItem button onClick={() => dispatch(push('/certificates'))}>
+          <ListItem button onClick={() => handlePush('/certificates')}>
             <ListItemIcon>{<School />}</ListItemIcon>
             <ListItemText primary='Certificates' />
           </ListItem>
         )}
         {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
-          <ListItem button onClick={() => dispatch(push('/batches'))}>
+          <ListItem button onClick={() => handlePush('/batches')}>
             <ListItemIcon>{<LocalShipping />}</ListItemIcon>
             <ListItemText primary='Batches' />
           </ListItem>
         )}
         {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
-          <ListItem button onClick={() => dispatch(push('/models'))}>
+          <ListItem button onClick={() => handlePush('/models')}>
             <ListItemIcon>{<School />}</ListItemIcon>
             <ListItemText primary='Models' />
           </ListItem>
         )}
         {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
-          <ListItem button onClick={() => dispatch(push('/issuers/my'))}>
+          <ListItem button onClick={() => handlePush('/issuers/my')}>
             <ListItemIcon>{<AccountBalance />}</ListItemIcon>
             <ListItemText primary='Issuer' />
           </ListItem>
         )}
         {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
-          <ListItem button onClick={() => dispatch(push('/tools'))}>
+          <ListItem button onClick={() => handlePush('/tools')}>
             <ListItemIcon>{<Build />}</ListItemIcon>
             <ListItemText primary='Tools' />
           </ListItem>
@@ -152,14 +161,14 @@ export default function App () {
         {
           (authReducer.role === constants.role.ANONYMOUS && authReducer.hasApi)
             ? (
-              <ListItem button onClick={() => dispatch(push('/auth/login'))}>
+              <ListItem button onClick={() => handlePush('/auth/login')}>
                 <ListItemIcon>{<LockOpen />}</ListItemIcon>
                 <ListItemText primary='Login' />
               </ListItem>
             )
             : authReducer.hasApi
               ? (
-                <ListItem button onClick={() => dispatch(actions.logout())}>
+                <ListItem button onClick={() => handleLogout()}>
                   <ListItemIcon>{<ExitToApp />}</ListItemIcon>
                   <ListItemText primary='Logout' />
                 </ListItem>
