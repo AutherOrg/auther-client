@@ -4,22 +4,22 @@ const name = 'Default'
 
 const build = certificate => {
   return `
-    <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="display: flex; flex-direction: column; align-items: center; text-align: center; ">
       <div>
-        <img src="${certificate.badge.image}" alt="${certificate.badge.name}" style="width: 100%; height: auto; margin-bottom: 5rem" />
+        <img src="${certificate.badge.image}" alt="${certificate.badge.name}" style="width: 100%; height: auto; margin-bottom: 2.5rem" />
       </div>
-      <div style="display: flex; flex-direction: column; align-items: center; padding: 20px;">
+      <div style="display: flex; flex-direction: column; align-items: center;">
         <h1 style="font-family: Roboto, Helvetica, Arial, sans-serif; font-size:4em; font-weight: bold; text-shadow: 2px 2px #c8c8c8, 3px 3px #e0e0e0; margin: 0;">
           ${certificate.badge.name}
         </h1>
         <h2 style="font-family: Roboto, Helvetica, Arial, sans-serif; font-size:4em; font-weight: bold; text-shadow: 2px 2px #c8c8c8, 3px 3px #e0e0e0; margin:0;">
           ${certificate.recipientProfile.name}
         </h2>
-        <p style="font-family: Roboto, Helvetica, Arial, sans-serif; font-style: italic; text-align: justify; margin: 0 margin-top: 2rem;">
+        <p style="font-family: Roboto, Helvetica, Arial, sans-serif; font-style: italic; text-align: justify; margin: 0; margin-bottom: 5rem;">
           ${certificate.badge.description}
         </p>
         <div style="width: 100%; display: flex; flex-direction: column; align-items: center">
-          <img src="${certificate.badge.issuer.image}" alt="${certificate.badge.issuer.name}" style="max-width: 50%; height: auto; margin: 5rem 0;" />
+          <img src="${certificate.badge.issuer.image}" alt="${certificate.badge.issuer.name}" style="max-width: 300px; height: auto; margin: 0;" />
         </div>
         <div>
           <img src="${certificate.badge.signatureLines[0].image}" alt="${certificate.badge.signatureLines[0].jobTile}" style="max-width: 200px; height: auto;" />
