@@ -2,7 +2,6 @@ import types from '../constants/actions.types.constants'
 import constants from '../constants/users.constants'
 
 const initialState = {
-  isRunning: false,
   isLogged: false,
   passwordEmailSent: false,
   passwordValidated: false,
@@ -17,16 +16,9 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case types.GET_AUTH_BEGIN:
-      return {
-        ...state,
-        isRunning: true
-      }
-
     case types.GET_AUTH_SUCCESS:
       return {
         ...state,
-        isRunning: false,
         isLogged: true,
         id: action.id,
         email: action.email,
@@ -42,40 +34,26 @@ export default (state = initialState, action) => {
         hasApi: true
       }
 
-    case types.SET_PASSWORD_BEGIN:
-      return {
-        ...state,
-        isRunning: true
-      }
-
     case types.SET_PASSWORD_SUCCESS:
       return {
         ...state,
-        isRunning: false,
         passwordEmailSent: true
-      }
-
-    case types.VALIDATE_PASSWORD_BEGIN:
-      return {
-        ...state,
-        isRunning: true
       }
 
     case types.VALIDATE_PASSWORD_SUCCESS:
       return {
         ...state,
-        isRunning: false,
         passwordValidated: true
       }
-
-    case types.LOGOUT_SUCCESS:
-      return initialState
 
     case types.SET_ROLE:
       return {
         ...state,
         role: action.role
       }
+
+    case types.RESET_AUTH:
+      return initialState
 
     default:
       return state

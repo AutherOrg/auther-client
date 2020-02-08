@@ -73,7 +73,7 @@ const logout = () => {
 }
 
 const logoutSuccess = () => ({
-  type: types.LOGOUT_SUCCESS
+  type: types.RESET_AUTH
 })
 
 const setHasApi = () => ({

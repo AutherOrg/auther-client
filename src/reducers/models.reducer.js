@@ -2,7 +2,6 @@ import types from '../constants/actions.types.constants'
 import constants from '../constants/models.constants'
 
 const initialState = {
-  isRunning: false,
   models: [],
   m: [],
   hasChanged: false,
@@ -18,27 +17,9 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case types.ADD_MODEL_BEGIN:
-    case types.DESTROY_MODEL_BEGIN:
-    case types.GET_ALL_MODELS_BEGIN:
-    case types.GET_ONE_MODEL_BEGIN:
-      return {
-        ...state,
-        isRunning: true
-      }
-
-    case types.ADD_MODEL_SUCCESS:
-    case types.DESTROY_MODEL_SUCCESS:
-    case types.GET_ONE_MODEL_SUCCESS:
-      return {
-        ...state,
-        isRunning: false
-      }
-
     case types.GET_ALL_MODELS_SUCCESS:
       return {
         ...state,
-        isRunning: false,
         models: action.models
       }
 
