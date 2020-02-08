@@ -33,14 +33,14 @@ export default function Model ({ match }) {
 
   const modelsReducer = useSelector(state => state.modelsReducer)
 
-  const handleImageChange = (name, event) => {
+  const handleImageChange = (name, width, height, format, quality, event) => {
     if (event.target.files[0]) {
       Resizer.imageFileResizer(
         event.target.files[0],
-        1366,
-        1366,
-        'JPEG',
-        70,
+        width,
+        height,
+        format,
+        quality,
         0,
         uri => {
           dispatch(actions.setValue(name, uri))
@@ -152,7 +152,7 @@ export default function Model ({ match }) {
                     <img src={modelsReducer.image} alt={modelsReducer.name} className={classes.templateScreenshot} />
                   </div>
                 )}
-                <input type='file' onChange={event => handleImageChange('image', event)} />
+                <input type='file' onChange={event => handleImageChange('image', 1366, 1366, 'JPEG', 70, event)} />
               </Grid>
             </Grid>
           </CardContent>
@@ -183,7 +183,7 @@ export default function Model ({ match }) {
                     <img src={modelsReducer.signatureImage} alt={modelsReducer.signatureJobTitle} />
                   </div>
                 )}
-                <input type='file' onChange={event => handleImageChange('signatureImage', event)} />
+                <input type='file' onChange={event => handleImageChange('signatureImage', 200, 200, 'PNG', 100, event)} />
               </Grid>
             </Grid>
           </CardContent>

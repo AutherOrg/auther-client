@@ -9,10 +9,10 @@ const build = certificate => {
         <img src="${certificate.badge.image}" alt="${certificate.badge.name}" style="width: 100%; height: auto; margin-bottom: 2.5rem" />
       </div>
       <div style="display: flex; flex-direction: column; align-items: center;">
-        <h1 style="font-family: Roboto, Helvetica, Arial, sans-serif; font-size:4em; font-weight: bold; text-shadow: 2px 2px #c8c8c8, 3px 3px #e0e0e0; margin: 0;">
+        <h1 style="font-family: Roboto, Helvetica, Arial, sans-serif; font-size:3em; font-weight: bold; text-shadow: 2px 2px #c8c8c8, 3px 3px #e0e0e0; margin: 0;">
           ${certificate.badge.name}
         </h1>
-        <h2 style="font-family: Roboto, Helvetica, Arial, sans-serif; font-size:4em; font-weight: bold; text-shadow: 2px 2px #c8c8c8, 3px 3px #e0e0e0; margin:0;">
+        <h2 style="font-family: Roboto, Helvetica, Arial, sans-serif; font-size:3em; font-weight: bold; text-shadow: 2px 2px #c8c8c8, 3px 3px #e0e0e0; margin:0;">
           ${certificate.recipientProfile.name}
         </h2>
         <p style="font-family: Roboto, Helvetica, Arial, sans-serif; font-style: italic; text-align: justify; margin: 0; margin-bottom: 5rem;">
