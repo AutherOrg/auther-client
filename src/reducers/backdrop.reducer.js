@@ -35,7 +35,7 @@ export default (state = initialState, action) => {
     case types.GET_JOBS_BEGIN:
       return {
         ...state,
-        open: action.open
+        open: true
       }
 
     case types.RESET_BACKDROP:
