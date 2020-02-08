@@ -62,6 +62,9 @@ export default (state = initialState, action) => {
         hasChanged: true
       }
 
+    case types.RESET_MODEL:
+      return initialState
+
     default:
       return state
   }
