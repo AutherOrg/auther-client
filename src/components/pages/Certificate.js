@@ -66,24 +66,26 @@ export default function Certificate ({ match }) {
         <Grid item xs={12} lg={6}>
           <div ref={componentRef}>
             <div dangerouslySetInnerHTML={{ __html: reducer.json.displayHtml.replace(/(<? *script)/gi, 'illegalscript') }} />
-            <div className={classes.certificateView}>
-              <Typography variant='h6'>
-                Certificate verification
-              </Typography>
-              <Typography variant='caption'>
-                To verify this certificate, scan this QR code or go to:
-              </Typography>
-              <Typography variant='caption' paragraph>
-                {`${window.location.origin}/certificates/shared/${reducer.uuid}`}
-              </Typography>
-              <QRCode
-                bgColor='#FFFFFF'
-                fgColor='#000000'
-                level='Q'
-                style={{ width: 256 }}
-                value={`${window.location.origin}/certificates/shared/${reducer.uuid}`}
-              />
-            </div>
+            {reducer.status === constants.STATUS.SHARED && (
+              <div className={classes.certificateView}>
+                <Typography variant='h6'>
+                  Certificate verification
+                </Typography>
+                <Typography variant='caption'>
+                  To verify this certificate, scan this QR code or go to:
+                </Typography>
+                <Typography variant='caption' paragraph>
+                  {`${window.location.origin}/certificates/shared/${reducer.uuid}`}
+                </Typography>
+                <QRCode
+                  bgColor='#FFFFFF'
+                  fgColor='#000000'
+                  level='Q'
+                  style={{ width: 256 }}
+                  value={`${window.location.origin}/certificates/shared/${reducer.uuid}`}
+                />
+              </div>
+            )}
           </div>
         </Grid>
         <Grid item xs={12} lg={6}>
