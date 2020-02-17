@@ -220,7 +220,7 @@ export default function Blockcerts ({ src }) {
         </Grid>
       </Grid>
       {
-        values.verificationResult && values.verificationResult.status === 'success' && (
+        values.verificationResult && (
           <Dialog
             open={values.dialogOpen}
             onClose={() => handleDialog()}
@@ -229,8 +229,9 @@ export default function Blockcerts ({ src }) {
           >
             <DialogContent classes={{ root: classes.dialogContentRoot }}>
               <Typography variant='h4' gutterBottom paragraph>Is this certificate really valid?</Typography>
-              <Typography gutterBottom paragraph>{`You have to check that the following URL is really hosted on the official Issuer's website: ${src.badge.issuer.id}`}</Typography>
-              <Typography gutterBottom paragraph>{`You also have to decide if the current website can be trusted (it's not necessarly the same as the one above): ${window.location.origin}`}</Typography>
+              <Typography gutterBottom paragraph>First, is there a check after eeach verification step?</Typography>
+              <Typography gutterBottom paragraph>{`Then you have to check that the following URL is really hosted on the official Issuer's website: ${src.badge.issuer.id}`}</Typography>
+              <Typography gutterBottom paragraph>{`Finally you also have to decide if the current website can be trusted (it's not necessarly the same as the one above): ${window.location.origin}`}</Typography>
               <ExpansionPanel>
                 <ExpansionPanelSummary expandIcon={<ExpandMore />}>
                   <Typography>I want to know more!</Typography>
