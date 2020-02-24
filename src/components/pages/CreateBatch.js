@@ -6,10 +6,12 @@ import { useWeb3React } from '@web3-react/core'
 import {
   Button,
   Card, CardHeader, CardContent,
-  FormControl,
+  Divider,
+  FormControl, FormControlLabel, FormLabel,
   Grid,
   InputLabel,
   MenuItem,
+  Radio, RadioGroup,
   Select,
   Table, TableHead, TableBody, TableRow, TableCell,
   Typography
@@ -29,12 +31,17 @@ import Transaction from '../organisms/Transaction'
 const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(2)
+  },
+  dividerRoot: {
+    height: '5px',
+    backgroundColor: theme.palette.primary.main
   }
 }))
 
 export default function CreateBatch () {
   const classes = useStyles()
   const dispatch = useDispatch()
+  const [preview, setPreview] = React.useState('first')
   const issuersReducer = useSelector(state => state.issuersReducer)
   const batchesReducer = useSelector(state => state.batchesReducer)
   const modelsReducer = useSelector(state => state.modelsReducer)
@@ -43,10 +50,22 @@ export default function CreateBatch () {
 
   const { account, library } = context
 
-  const getPreview = () => {
-    const recipient = batchesReducer.recipients[0]
+  const getCertificatePreview = index => {
+    const recipient = batchesReducer.recipients[index]
     const certificate = buildCertificate(recipient)
     return <div dangerouslySetInnerHTML={{ __html: certificate.get().displayHtml }} />
+  }
+
+  const getPreview = () => {
+    if (preview === 'all') {
+      return batchesReducer.recipients.map((recipient, index) => (
+        <div key={index}>
+          {getCertificatePreview(index)}
+          <Divider classes={{ root: classes.dividerRoot }} />
+        </div>
+      ))
+    }
+    return getCertificatePreview(0)
   }
 
   const buildCertificate = recipient => {
@@ -280,9 +299,20 @@ export default function CreateBatch () {
                   </Grid>
                 )}
                 {isComplete() && (
-                  <Grid item xs={12}>
-                    {getPreview()}
-                  </Grid>
+                  <>
+                    <Grid item xs={12}>
+                      <FormControl component='fieldset' className={classes.formControl}>
+                        <FormLabel component='legend'>Preview</FormLabel>
+                        <RadioGroup name='gender1' value={preview} onChange={event => setPreview(event.target.value)}>
+                          <FormControlLabel value='first' control={<Radio />} label='First recipient only' />
+                          <FormControlLabel value='all' control={<Radio />} label='All recipients' />
+                        </RadioGroup>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12}>
+                      {getPreview()}
+                    </Grid>
+                  </>
                 )}
               </Grid>
             </CardContent>

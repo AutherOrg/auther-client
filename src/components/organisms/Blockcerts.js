@@ -118,6 +118,7 @@ export default function Blockcerts ({ src }) {
           const verificationStep = verificationSteps.length - 1
           setValues({ ...values, verificationStep, verificationSteps })
         }
+        console.log({ code, label, status, errorMessage })
       })
       if (verificationResult.status === 'success') {
         setValues({ ...values, verificationStep: 999 })
