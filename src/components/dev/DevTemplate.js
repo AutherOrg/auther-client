@@ -1,6 +1,6 @@
 import React from 'react'
 
-import template from '../../templates/default/default.template'
+import template from '../../templates/innotech/innotech.template'
 
 const url = 'https://raw.githubusercontent.com/guix77/blockcerts-certificates/master/ethereum/ropsten/certificates/fictionaluniversity/jane-doe-blockchain-for-developers-1.json'
 
