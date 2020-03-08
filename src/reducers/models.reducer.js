@@ -10,8 +10,7 @@ const initialState = {
   name: '',
   description: '',
   image: '',
-  signatureJobTitle: '',
-  signatureImage: '',
+  signatures: [],
   template: ''
 }
 
@@ -41,6 +40,18 @@ export default (state = initialState, action) => {
         ...state,
         [action.name]: action.value,
         hasChanged: true
+      }
+
+    case types.ADD_SIGNATURE_TO_MODEL:
+      return {
+        ...state,
+        signatures: [...state.signatures, action.id]
+      }
+
+    case types.REMOVE_SIGNATURE_FROM_MODEL:
+      return {
+        ...state,
+        signatures: state.signatures.filter(id => id !== action.id)
       }
 
     case types.RESET_MODEL:

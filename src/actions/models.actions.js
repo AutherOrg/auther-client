@@ -123,6 +123,16 @@ const setValue = (name, value) => ({
   value
 })
 
+const addSignature = id => ({
+  type: types.ADD_SIGNATURE_TO_MODEL,
+  id
+})
+
+const removeSignature = id => ({
+  type: types.REMOVE_SIGNATURE_FROM_MODEL,
+  id
+})
+
 const reset = () => ({
   type: types.RESET_MODEL
 })
@@ -163,5 +173,7 @@ export default {
   reset,
   setModel,
   setValue,
+  addSignature,
+  removeSignature,
   update
 }

@@ -4,7 +4,8 @@ import Resizer from 'react-image-file-resizer'
 import {
   Button,
   Card, CardHeader, CardContent,
-  FormControl,
+  Checkbox,
+  FormControl, FormControlLabel,
   Grid,
   InputLabel,
   MenuItem,
@@ -16,6 +17,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Save } from '@material-ui/icons'
 
 import actions from '../../actions/models.actions'
+import signaturesActions from '../../actions/signatures.actions'
 import constants from '../../constants/models.constants'
 import templates from '../../templates/index.templates'
 
@@ -28,10 +30,9 @@ const useStyles = makeStyles(theme => ({
 
 export default function Model ({ match }) {
   const classes = useStyles()
-
   const dispatch = useDispatch()
-
   const modelsReducer = useSelector(state => state.modelsReducer)
+  const signaturesReducer = useSelector(state => state.signaturesReducer)
 
   const handleImageChange = (name, width, height, format, quality, event) => {
     if (event.target.files[0]) {
@@ -46,6 +47,18 @@ export default function Model ({ match }) {
           dispatch(actions.setValue(name, uri))
         }
       )
+    }
+  }
+
+  const hasSignature = signatureId => {
+    return modelsReducer.signatures.findIndex(e => e === signatureId) > -1
+  }
+
+  const toggleSignature = signatureId => {
+    if (hasSignature(signatureId)) {
+      dispatch(actions.removeSignature(signatureId))
+    } else {
+      dispatch(actions.addSignature(signatureId))
     }
   }
 
@@ -70,8 +83,7 @@ export default function Model ({ match }) {
       modelsReducer.name !== '' &&
       modelsReducer.description !== '' &&
       modelsReducer.image !== '' &&
-      modelsReducer.signatureJobTitle !== '' &&
-      modelsReducer.signatureImage !== '' &&
+      modelsReducer.signatures.length > 0 &&
       modelsReducer.template !== ''
     )
   }
@@ -89,8 +101,7 @@ export default function Model ({ match }) {
       name: modelsReducer.name,
       description: modelsReducer.description,
       image: modelsReducer.image,
-      signatureJobTitle: modelsReducer.signatureJobTitle,
-      signatureImage: modelsReducer.signatureImage,
+      signatures: modelsReducer.signatures,
       template: modelsReducer.template
     }
     if (modelsReducer.id > 0) {
@@ -101,6 +112,7 @@ export default function Model ({ match }) {
   }
 
   React.useEffect(() => {
+    dispatch(signaturesActions.getAll())
     const { id } = match.params
     if (id > 0) {
       dispatch(actions.getOne(id))
@@ -114,9 +126,9 @@ export default function Model ({ match }) {
       <Grid item xs={12} align='center'>
         <Typography variant='h1'>Certificate model</Typography>
       </Grid>
-      <Grid item xs={12} lg={6}>
+      <Grid item xs={12} lg={4}>
         <Card>
-          <CardHeader title='Badge information' />
+          <CardHeader title='Badge' />
           <CardContent>
             <Grid container spacing={5}>
               <Grid item xs={12}>
@@ -159,38 +171,31 @@ export default function Model ({ match }) {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} lg={3}>
+      <Grid item xs={12} lg={4}>
         <Card>
-          <CardHeader title='Signature information' />
+          <CardHeader title='Signature(s)' />
           <CardContent>
-            <Grid container spacing={5}>
-              <Grid item xs={12}>
-                <TextField
-                  id='signatureJobTitle'
-                  label='Signature job title'
-                  type='text'
-                  value={modelsReducer.signatureJobTitle}
-                  onChange={event => dispatch(actions.setValue('signatureJobTitle', event.target.value))}
-                  required
-                  fullWidth
-                >
-                  Signature job title
-                </TextField>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography gutterBottom>Signature image</Typography>
-                {modelsReducer.signatureImage !== '' && (
-                  <div>
-                    <img src={modelsReducer.signatureImage} alt={modelsReducer.signatureJobTitle} />
-                  </div>
-                )}
-                <input type='file' onChange={event => handleImageChange('signatureImage', 200, 200, 'PNG', 100, event)} />
-              </Grid>
+            <Grid container>
+              {signaturesReducer.signatures.map((signature, index) => (
+                <Grid item xs={12} key={index}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={hasSignature(signature.id)}
+                        onChange={event => toggleSignature(Number(event.target.value))}
+                        value={signature.id}
+                        color='primary'
+                      />
+                    }
+                    label={`${signature.name}, ${signature.jobTitle}`}
+                  />
+                </Grid>
+              ))}
             </Grid>
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} lg={3}>
+      <Grid item xs={12} lg={4}>
         <Card>
           <CardHeader title='Template' />
           <CardContent>
