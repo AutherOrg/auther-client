@@ -5,10 +5,11 @@ const db = new Dexie('OpenBlockcerts')
 db.version(1).stores({
   batches: '++id, status, certificates, createdAt',
   certificates: '++id, status, uuid, json, createdAt, updatedAt, recipientId, issuerId',
-  jobs: '++id, status, name, action, data',
-  models: '++id, status, name, description, image, signatureJobTitle, signatureImage, template, createdAt, updatedAt',
-  issuers: '++id, status, issuerProfileUrl, name, email, url, introductionUrl, publicKey, revocationListUrl, image',
-  revoked: '++id, certificateId, revocationReason'
+  jobs: '++id, status, name, action, data, createdAt',
+  models: '++id, status, name, description, image, signatures, template, createdAt, updatedAt',
+  issuers: '++id, status, issuerProfileUrl, name, email, url, introductionUrl, publicKey, revocationListUrl, image, createdAt, updatedAt',
+  revoked: '++id, certificateId, revocationReason, createdAt, updatedAt',
+  signatures: '++id, status, name, image, jobTitle, createdAt, updatedAt'
 })
 
 export default db

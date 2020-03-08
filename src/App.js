@@ -17,6 +17,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import {
   AccountBalance,
   Build,
+  Edit,
   ExitToApp,
   Home as HomeIcon,
   LocalShipping,
@@ -44,6 +45,8 @@ import Certificate from './components/pages/Certificate'
 import Issuer from './components/pages/Issuer'
 import Models from './components/pages/Models'
 import Model from './components/pages/Model'
+import Signatures from './components/pages/Signatures'
+import Signature from './components/pages/Signature'
 import Batches from './components/pages/Batches'
 import Batch from './components/pages/Batch'
 import CreateBatch from './components/pages/CreateBatch'
@@ -144,6 +147,12 @@ export default function App () {
           <ListItem button onClick={() => handlePush('/models')}>
             <ListItemIcon>{<School />}</ListItemIcon>
             <ListItemText primary='Models' />
+          </ListItem>
+        )}
+        {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
+          <ListItem button onClick={() => handlePush('/signatures')}>
+            <ListItemIcon>{<Edit />}</ListItemIcon>
+            <ListItemText primary='Signatures' />
           </ListItem>
         )}
         {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
@@ -251,6 +260,8 @@ export default function App () {
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/issuers/my' component={Issuer} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/models' component={Models} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/models/:id' component={Model} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/signatures' component={Signatures} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/signatures/:id' component={Signature} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches' component={Batches} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches/create' component={CreateBatch} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches/:id' component={Batch} />

@@ -139,6 +139,7 @@ export default function Model ({ match }) {
                   type='text'
                   value={modelsReducer.description}
                   onChange={event => dispatch(actions.setValue('description', event.target.value))}
+                  multiline
                   required
                   fullWidth
                 >
