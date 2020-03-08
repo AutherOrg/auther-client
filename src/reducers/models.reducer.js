@@ -30,8 +30,7 @@ export default (state = initialState, action) => {
         name: action.model.name,
         description: action.model.description,
         image: action.model.image,
-        signatureJobTitle: action.model.signatureJobTitle,
-        signatureImage: action.model.signatureImage,
+        signatures: action.model.signatures,
         template: action.model.template
       }
 
