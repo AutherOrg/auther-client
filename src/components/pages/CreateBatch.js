@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { push } from 'connected-react-router'
 import CSVReader from 'react-csv-reader'
 import { Certificate } from 'blockcerts-issuer-helper'
 import { useWeb3React } from '@web3-react/core'
@@ -22,6 +23,7 @@ import { Add, Edit, Save } from '@material-ui/icons'
 import batchesActions from '../../actions/batches.actions'
 import issuersActions from '../../actions/issuers.actions'
 import modelActions from '../../actions/models.actions'
+import signaturesActions from '../../actions/signatures.actions'
 import transactionsActions from '../../actions/transactions.actions'
 import ethereumConstants from '../../constants/ethereum.constants'
 import templates from '../../templates/index.templates'
@@ -45,6 +47,7 @@ export default function CreateBatch () {
   const issuersReducer = useSelector(state => state.issuersReducer)
   const batchesReducer = useSelector(state => state.batchesReducer)
   const modelsReducer = useSelector(state => state.modelsReducer)
+  const signaturesReducer = useSelector(state => state.signaturesReducer)
   const transactionsReducer = useSelector(state => state.transactionsReducer)
   const context = useWeb3React()
 
@@ -90,11 +93,7 @@ export default function CreateBatch () {
         criteria: {
           narrative: model.narrative
         },
-        issuer,
-        signatureLines: {
-          jobTitle: model.signatureJobTitle,
-          image: model.signatureImage
-        }
+        issuer
       },
       recipientProfile: {
         name: `${recipient.firstname} ${recipient.lastname}`
@@ -103,6 +102,10 @@ export default function CreateBatch () {
         publicKey: issuersReducer.publicKey
       }
     })
+    const signatures = model.signatures.map(signatureId => {
+      return signaturesReducer.signatures.find(e => e.id === signatureId)
+    })
+    certificate.setSignatureLines(signatures)
     const displayHtml = template.build(certificate.get())
     certificate.setDisplayHtml(displayHtml)
     return certificate
@@ -193,9 +196,10 @@ export default function CreateBatch () {
     dispatch(batchesActions.reset())
     dispatch(issuersActions.getMy())
     if (!issuersReducer.hasIssuer) {
-      // dispatch(push('/issuers/my')) // TODO uncomment
+      dispatch(push('/issuers/my'))
     }
     dispatch(modelActions.getAll())
+    dispatch(signaturesActions.getAll())
   }, [dispatch, issuersReducer.hasIssuer])
 
   return (

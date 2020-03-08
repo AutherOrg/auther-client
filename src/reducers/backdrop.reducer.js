@@ -18,6 +18,11 @@ export default (state = initialState, action) => {
     case types.DESTROY_MODEL_BEGIN:
     case types.GET_ALL_MODELS_BEGIN:
     case types.GET_ONE_MODEL_BEGIN:
+    case types.GET_ALL_SIGNATURES_BEGIN:
+    case types.GET_ONE_SIGNATURE_BEGIN:
+    case types.CREATE_SIGNATURE_BEGIN:
+    case types.DESTROY_SIGNATURE_BEGIN:
+    case types.UPDATE_SIGNATURE_BEGIN:
     case types.ADD_BATCH_BEGIN:
     case types.GET_BATCH_BEGIN:
     case types.GET_ALL_BATCHES_BEGIN:
@@ -51,6 +56,11 @@ export default (state = initialState, action) => {
     case types.DESTROY_MODEL_SUCCESS:
     case types.GET_ONE_MODEL_SUCCESS:
     case types.GET_ALL_MODELS_SUCCESS:
+    case types.GET_ALL_SIGNATURES_SUCCESS:
+    case types.GET_ONE_SIGNATURE_SUCCESS:
+    case types.CREATE_SIGNATURE_SUCCESS:
+    case types.DESTROY_SIGNATURE_SUCCESS:
+    case types.UPDATE_SIGNATURE_SUCCESS:
     case types.ADD_BATCH_SUCCESS:
     case types.GET_BATCH_SUCCESS:
     case types.SET_BATCH_SUCCESS:

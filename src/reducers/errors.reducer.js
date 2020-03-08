@@ -17,6 +17,11 @@ export default (state = initialState, action) => {
     case types.DESTROY_MODEL_ERROR:
     case types.GET_ALL_MODELS_ERROR:
     case types.GET_ONE_MODEL_ERROR:
+    case types.GET_ALL_SIGNATURES_ERROR:
+    case types.GET_ONE_SIGNATURE_ERROR:
+    case types.CREATE_SIGNATURE_ERROR:
+    case types.DESTROY_SIGNATURE_ERROR:
+    case types.UPDATE_SIGNATURE_ERROR:
     case types.GET_BATCH_ERROR:
     case types.ADD_BATCH_ERROR:
     case types.GET_ALL_BATCHES_ERROR:

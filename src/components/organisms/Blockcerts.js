@@ -1,5 +1,5 @@
 import React from 'react'
-import { Certificate } from 'cert-verifier-js'
+import { Certificate } from '@blockcerts/cert-verifier-js'
 import {
   Button,
   Card, CardContent,
@@ -118,7 +118,6 @@ export default function Blockcerts ({ src }) {
           const verificationStep = verificationSteps.length - 1
           setValues({ ...values, verificationStep, verificationSteps })
         }
-        console.log({ code, label, status, errorMessage })
       })
       if (verificationResult.status === 'success') {
         setValues({ ...values, verificationStep: 999 })
