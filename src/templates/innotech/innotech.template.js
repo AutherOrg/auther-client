@@ -1,6 +1,19 @@
 import { format } from 'date-fns'
 
-const name = 'SEAMEO-INNOTECH'
+const name = 'Innotech'
+
+const buildSignatures = signatures => {
+  return signatures.map(signature => {
+    return `
+      <div style="display: flex; flex-direction: column; align-items: center; margin: 10px;">
+        <img src="${signature.image}" alt="${signature.name}" style="width: auto; height: 100px;" />
+        <p style="font-family: Roboto, Helvetica, Arial, sans-serif; font-style: italic; margin: 0;">
+          ${signature.name}, ${signature.jobTitle}
+        </p>
+      </div>
+    `
+  })
+}
 
 const build = certificate => {
   return `
@@ -38,24 +51,18 @@ const build = certificate => {
         <p style="font-family: Roboto, Helvetica, Arial, sans-serif; font-style: italic; text-align: justify; margin: 0; margin-bottom: 20px;">
           ${certificate.badge.description}
         </p>
-        <p style="font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; margin: 0;">
+        <p style="font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; margin-top: 20px;">
           Issued on ${format(new Date(certificate.issuedOn), 'MMMM dd, yyyy')}
         </p>
-        <div>
-          <img src="${certificate.badge.signatureLines[0].image}" alt="${certificate.badge.signatureLines[0].jobTile}" style="max-width: 200px; height: auto;" />
+        <div style="display: flex; flex-direction: row; justify-content: center;">
+          ${buildSignatures(certificate.badge.signatureLines)}
         </div>
-        <p style="font-family: Roboto, Helvetica, Arial, sans-serif; text-transform: uppercase; font-style: italic; margin: 0;">
-          ${certificate.badge.signatureLines[0].name}
-        </p>
-        <p style="font-family: Roboto, Helvetica, Arial, sans-serif; font-style: italic; margin: 0;">
-          ${certificate.badge.signatureLines[0].jobTitle}
-        </p>
       </div>
     </div>
   `
 }
 
-const screenshot = ''
+const screenshot = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=='
 
 export default {
   name,
