@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { push } from 'connected-react-router'
 import CSVReader from 'react-csv-reader'
 import { Certificate } from 'blockcerts-issuer-helper'
 import { useWeb3React } from '@web3-react/core'
@@ -195,7 +196,7 @@ export default function CreateBatch () {
     dispatch(batchesActions.reset())
     dispatch(issuersActions.getMy())
     if (!issuersReducer.hasIssuer) {
-      // dispatch(push('/issuers/my')) // TODO uncomment
+      dispatch(push('/issuers/my'))
     }
     dispatch(modelActions.getAll())
     dispatch(signaturesActions.getAll())
