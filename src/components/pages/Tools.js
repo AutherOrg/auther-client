@@ -53,12 +53,18 @@ export default function Tools () {
   }
 
   const handleDownloadRevocationList = () => {
+    const revokedAssertions = revokedReducer.revoked.map(revokedAssertion => {
+      return {
+        id: revokedAssertion.certificateId,
+        revocationReason: revokedAssertion.revocationReason
+      }
+    })
     const json = {
       '@context': 'https://w3id.org/openbadges/v2',
       id: issuersReducer.revocationListUrl,
       type: 'RevocationList',
       issuer: issuersReducer.issuerProfileUrl,
-      revokedAssertions: revokedReducer.revoked
+      revokedAssertions
     }
     const stringified = JSON.stringify(json)
     downloadjs(stringified, 'revocation.json', 'text/plain')
