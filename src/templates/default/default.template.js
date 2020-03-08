@@ -6,7 +6,7 @@ const buildSignatures = signatures => {
   return signatures.map(signature => {
     return `
       <div style="display: flex; flex-direction: column; align-items: center; margin: 10px;">
-        <img src="${signature.image}" alt="${signature.name}" style="width: auto; height: 100px;" />
+        <img src="${signature.image}" alt="${signature.name}" style="width: auto; height: 50px;" />
         <p style="font-family: Roboto, Helvetica, Arial, sans-serif; font-style: italic; margin: 0;">
           ${signature.name}, ${signature.jobTitle}
         </p>
@@ -35,7 +35,7 @@ const build = certificate => {
           Issued on ${format(new Date(certificate.issuedOn), 'yyyy/MM/dd')} by
         </p>
         <div style="display: flex; flex-direction: column; align-items: center;">
-          <img src="${certificate.badge.issuer.image}" alt="${certificate.badge.issuer.name}" style="max-width: 400px; height: auto; margin: 0; margin-bottom: 20px;" />
+          <img src="${certificate.badge.issuer.image}" alt="${certificate.badge.issuer.name}" style="max-width: 300px; height: auto; margin: 0; margin-bottom: 20px;" />
         </div>
         <div style="display: flex; flex-direction: row; justify-content: center;">
           ${buildSignatures(certificate.badge.signatureLines)}
