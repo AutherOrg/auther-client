@@ -1,5 +1,7 @@
 import { format } from 'date-fns'
 
+import screenshot from './innotech.template.png'
+
 const name = 'Innotech'
 
 const buildSignatures = signatures => {
@@ -61,8 +63,6 @@ const build = certificate => {
     </div>
   `
 }
-
-const screenshot = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=='
 
 export default {
   name,
