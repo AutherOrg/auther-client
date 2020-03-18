@@ -10,7 +10,8 @@ const create = async certificate => {
         headers: helper.setHeadersWithToken(),
         body: JSON.stringify({
           certificate
-        })
+        }),
+        mode: 'no-cors'
       }
     )
     return await response.json()
@@ -24,7 +25,8 @@ const destroy = async id => {
     const response = await window.fetch(
       `${route}/${Number(id)}`, {
         method: 'DELETE',
-        headers: helper.setHeadersWithToken()
+        headers: helper.setHeadersWithToken(),
+        mode: 'no-cors'
       }
     )
     return await response.json()
@@ -38,7 +40,8 @@ const getAll = async () => {
     const response = await window.fetch(
       route, {
         method: 'GET',
-        headers: helper.setHeadersWithToken()
+        headers: helper.setHeadersWithToken(),
+        mode: 'no-cors'
       }
     )
     return await response.json()
@@ -52,7 +55,8 @@ const getOne = async id => {
     const response = await window.fetch(
       `${route}/${Number(id)}`, {
         method: 'GET',
-        headers: helper.setHeadersWithToken()
+        headers: helper.setHeadersWithToken(),
+        mode: 'no-cors'
       }
     )
     return await response.json()
@@ -66,7 +70,8 @@ const getShared = async uuid => {
     const response = await window.fetch(
       `${route}/shared/${uuid}`, {
         method: 'GET',
-        headers: helper.setHeadersWithToken()
+        headers: helper.setHeaders(),
+        mode: 'no-cors'
       }
     )
     return await response.json()
@@ -81,7 +86,8 @@ const update = async (id, data) => {
       `${route}/${Number(id)}`, {
         method: 'PATCH',
         headers: helper.setHeadersWithToken(),
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
+        mode: 'no-cors'
       }
     )
     return await response.json()
