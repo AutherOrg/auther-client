@@ -16,10 +16,21 @@ It does not work with Bitcoin for now.
 
 This project was bootstrapped with [Create React App](https://create-react-app.dev/). Please read the documentation if you are new to React, otherwise you know what to do.
 
-Install and launch application:
+Install dependencies:
 
 ````
 yarn install
+````
+
+Init app:
+
+````
+yarn initfiles
+````
+
+Start the app:
+
+````
 yarn start
 ````
 
