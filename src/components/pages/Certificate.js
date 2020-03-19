@@ -20,7 +20,7 @@ import ConfirmationDialog from '../organisms/ConfirmationDialog'
 
 const useStyles = makeStyles(theme => ({
   certificateView: {
-    marginTop: '100px',
+    marginTop: '50px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
@@ -81,7 +81,7 @@ export default function Certificate ({ match }) {
                   bgColor='#FFFFFF'
                   fgColor='#000000'
                   level='Q'
-                  style={{ width: 256 }}
+                  style={{ width: 100 }}
                   value={`${window.location.origin}/certificates/shared/${reducer.uuid}`}
                 />
               </div>
