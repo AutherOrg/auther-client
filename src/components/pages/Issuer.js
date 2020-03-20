@@ -57,8 +57,8 @@ export default function Issuer () {
     if (event.target.files[0]) {
       Resizer.imageFileResizer(
         event.target.files[0],
-        1024,
-        768,
+        200,
+        350,
         'PNG',
         100,
         0,
