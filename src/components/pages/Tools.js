@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { exportDB, importInto } from 'dexie-export-import'
 import downloadjs from 'downloadjs'
 import {
   Button,
@@ -10,11 +11,16 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import { CloudDownload } from '@material-ui/icons'
 
+import db from '../../providers/dexie/db.dexie'
+import backdropActions from '../../actions/backdrop.actions'
 import batchesActions from '../../actions/batches.actions'
 import issuersActions from '../../actions/issuers.actions'
 import revokedActions from '../../actions/revoked.actions'
 
 const useStyles = makeStyles(theme => ({
+  cardHeaderRoot: {
+    textTransform: 'uppercase'
+  },
   typographyRoot: {
     wordWrap: 'break-word'
   }
@@ -79,6 +85,19 @@ export default function Tools () {
     downloadjs(stringified, 'certificates.json', 'text/plain')
   }
 
+  const handleExportDb = async () => {
+    const file = await exportDB(db)
+    downloadjs(file, 'OpenBlockcerts.json', 'application/json')
+  }
+
+  const handleImportDb = async event => {
+    if (event.target.files[0]) {
+      dispatch(backdropActions.create())
+      await importInto(db, event.target.files[0])
+      dispatch(backdropActions.close())
+    }
+  }
+
   React.useEffect(() => {
     dispatch(batchesActions.get())
     dispatch(issuersActions.getMy())
@@ -90,61 +109,114 @@ export default function Tools () {
       <Grid item xs={12} align='center'>
         <Typography variant='h1'>Tools</Typography>
       </Grid>
-      <Grid item xs={12} lg={4}>
+      <Grid item xs={12} lg={6}>
         <Card>
-          <CardHeader title='Issuer profile JSON' />
+          <CardHeader title='Profile and revocation list' classes={{ root: classes.cardHeaderRoot }} />
           <CardContent>
-            <Typography color='error' classes={{ root: classes.typographyRoot }}>
-              {`This file must be uploaded to this EXACT location: ${issuersReducer.issuerProfileUrl}`}
-            </Typography>
+            <Grid container spacing={5}>
+              <Grid item xs={12}>
+                <Card>
+                  <CardHeader title='Issuer profile' />
+                  <CardContent>
+                    <Typography color='error' classes={{ root: classes.typographyRoot }}>
+                      {`This file must be uploaded to this EXACT location: ${issuersReducer.issuerProfileUrl}`}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      onClick={() => handleDownloadIssuerProfile()}
+                      startIcon={<CloudDownload />}
+                      color='primary'
+                    >
+                      Download
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+              <Grid item xs={12}>
+                <Card>
+                  <CardHeader title='Revocation list JSON' />
+                  <CardContent>
+                    <Typography color='error' classes={{ root: classes.typographyRoot }}>
+                      {`This file must be uploaded to this EXACT location: ${issuersReducer.revocationListUrl}`}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      onClick={() => handleDownloadRevocationList()}
+                      startIcon={<CloudDownload />}
+                      color='primary'
+                    >
+                      Download
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            </Grid>
           </CardContent>
-          <CardActions>
-            <Button
-              onClick={() => handleDownloadIssuerProfile()}
-              startIcon={<CloudDownload />}
-              color='primary'
-            >
-              Download
-            </Button>
-          </CardActions>
         </Card>
       </Grid>
-      <Grid item xs={12} lg={4}>
+      <Grid item xs={12} lg={6}>
         <Card>
-          <CardHeader title='Revocation list JSON' />
+          <CardHeader title='Import / export' classes={{ root: classes.cardHeaderRoot }} />
           <CardContent>
-            <Typography color='error' classes={{ root: classes.typographyRoot }}>
-              {`This file must be uploaded to this EXACT location: ${issuersReducer.revocationListUrl}`}
-            </Typography>
+            <Grid container spacing={5}>
+              <Grid item xs={12}>
+                <Card>
+                  <CardHeader title='Export certificates' />
+                  <CardContent>
+                    <Typography>
+                      This file contains all the issued certificates.
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      onClick={() => handleBackupCertificates()}
+                      startIcon={<CloudDownload />}
+                      color='primary'
+                    >
+                      Download
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+              <Grid item xs={12}>
+                <Card>
+                  <CardHeader title='Export local DB' />
+                  <CardContent>
+                    <Typography>
+                      Export the local database of the browser (IndexedDB) to a file.
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      onClick={() => handleExportDb()}
+                      startIcon={<CloudDownload />}
+                      color='primary'
+                    >
+                      Export
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+              <Grid item xs={12}>
+                <Card>
+                  <CardHeader title='Import local DB' />
+                  <CardContent>
+                    <Typography paragraph>
+                      Import the local database of the browser (IndexedDB) from a file.
+                    </Typography>
+                    <Typography color='error'>
+                      WARNING: This will replace ALL the local data.
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <input type='file' onChange={handleImportDb} />
+                  </CardActions>
+                </Card>
+              </Grid>
+            </Grid>
           </CardContent>
-          <CardActions>
-            <Button
-              onClick={() => handleDownloadRevocationList()}
-              startIcon={<CloudDownload />}
-              color='primary'
-            >
-              Download
-            </Button>
-          </CardActions>
-        </Card>
-      </Grid>
-      <Grid item xs={12} lg={4}>
-        <Card>
-          <CardHeader title='All certificates' />
-          <CardContent>
-            <Typography>
-              This file contains all the issued certificates.
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button
-              onClick={() => handleBackupCertificates()}
-              startIcon={<CloudDownload />}
-              color='primary'
-            >
-              Download
-            </Button>
-          </CardActions>
         </Card>
       </Grid>
     </Grid>
