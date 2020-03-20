@@ -63,7 +63,7 @@ export default function LoginFromPermanentToken ({ match }) {
                 <TextField
                   id='passwordConfirmation'
                   label='Confirm your password'
-                  type='text'
+                  type='password'
                   value={values.passwordConfirmation}
                   onChange={handleChange('passwordConfirmation')}
                   error={values.password !== '' && values.passwordConfirmation !== '' && values.passwordConfirmation !== values.password}
