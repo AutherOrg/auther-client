@@ -22,6 +22,10 @@ import constants from '../../constants/models.constants'
 import templates from '../../templates/index.templates'
 
 const useStyles = makeStyles(theme => ({
+  modelImage: {
+    maxWidth: '200px',
+    height: 'auto'
+  },
   templateScreenshot: {
     width: '100%',
     height: 'auto'
@@ -162,7 +166,7 @@ export default function Model ({ match }) {
                 <Typography gutterBottom>Image</Typography>
                 {modelsReducer.image !== '' && (
                   <div>
-                    <img src={modelsReducer.image} alt={modelsReducer.name} className={classes.templateScreenshot} />
+                    <img src={modelsReducer.image} alt={modelsReducer.name} className={classes.modelImage} />
                   </div>
                 )}
                 <input type='file' onChange={event => handleImageChange('image', 1366, 1366, 'JPEG', 70, event)} />
