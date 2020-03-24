@@ -51,7 +51,9 @@ Edit .env.development.local and / or .env.production.local accordingly to your s
 
 ## Issuing certificates
 
-TODO
+### Gas price = 0
+
+Especially on Ropsten, from time to time when submitting a transaction to Metamask, the gas price is set to 0 which would lead to a rejection. When it's the case, please click on "Edit" in the Metamask popup and click on a transaction speed (medium for instance).
 
 ### Certificates sources
 
