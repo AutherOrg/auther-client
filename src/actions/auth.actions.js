@@ -4,23 +4,25 @@ import { push } from 'connected-react-router'
 import types from '../constants/actions.types.constants'
 import service from '../services/openblockcerts-api/auth.openblockcerts-api.service'
 import userConstants from '../constants/users.constants'
+import issuersActions from './issuers.actions'
 
 const get = (email, password) => {
   return async dispatch => {
     dispatch(getBegin())
-    try {
-      const result = await service.login(email, password)
+    const result = await service.login(email, password)
+    if (result instanceof TypeError) {
+      dispatch(getError(result.message))
+    } else {
       dispatch(getSuccess(result.user))
       Cookies.set('token', result.token, { expires: 1 })
       if (result.user.role === userConstants.role.RECIPIENT) {
         dispatch(push('/certificates'))
       } else if ([userConstants.role.ADMIN, userConstants.role.ISSUER].includes(result.user.role)) {
+        dispatch(issuersActions.getMy())
         dispatch(push('/batches'))
       } else {
         dispatch(push('/'))
       }
-    } catch (e) {
-      dispatch(getError(e.message))
     }
   }
 }
