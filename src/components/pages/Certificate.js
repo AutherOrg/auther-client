@@ -69,9 +69,6 @@ export default function Certificate ({ match }) {
               <div dangerouslySetInnerHTML={{ __html: reducer.json.displayHtml.replace(/(<? *script)/gi, 'illegalscript') }} />
               {reducer.status === constants.STATUS.SHARED && (
                 <div className={classes.certificateView}>
-                  <Typography variant='h6'>
-                    Certificate verification
-                  </Typography>
                   <Typography variant='caption'>
                     To verify this certificate, scan this QR code or go to:
                   </Typography>
