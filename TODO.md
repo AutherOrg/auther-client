@@ -3,3 +3,4 @@
 + confirmation on destroy
 + custom revocationReason
 + dexie export/import
++ follow upstream bug for non-working revocation: https://github.com/blockchain-certificates/cert-verifier-js/issues/308
