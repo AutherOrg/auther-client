@@ -36,26 +36,98 @@ To share online certificates, you will need to install the [OpenBlockcerts API](
 
 First install, configure and launch *OpenBlockcerts API* and then come back here.
 
+Then:
+
 ````
 cp .env.development .env.development.local
-cp .env.production .env.production.local
 ````
 
-Edit .env.development.local and / or .env.production.local accordingly to your setup.
+Edit .env.development.local and change `REACT_APP_API=none` to `REACT_APP_API=http://localhost:4000` or any other URL you're running the API on.
+
+Finally start again the app.
+
+## Configuration
+
++ Install the [Metamask extension](https://metamask.io/)
++ Open the app and click on *Issuer* to complete your issuer profile. Use your Ethereum public key. For the issuer profile URL and the revocation list URL, you need to enter URLs on which you will upload 2 JSON files that the app will generate for you. For instance: `https://fictionaluniversity.example.com/issuer.json` and `https://fictionaluniversity.example.com/revocation.json`
++ Click on *Tools* and then download the Issuer profile JSON and revocation list JSON. Upload them on your server at the URLs previously declared. For instance: `https://fictionaluniversity.example.com/issuer.json` and `https://fictionaluniversity.example.com/revocation.json`
 
 ## Issuing certificates
+
+### Ethereum network consideraitons
+
+#### Ropsten (Ethereum test network)
+
+By default the app uses the Ropsten network, which is an Ethereum testnet on which you can get Ether for free. The app will ask you to switch to Ropsten if you are on another network. You need to get free Ropsten Ether (click on *Deposit* then *Ropsten Faucet*).
+
+#### MainNet (Ethereum real network)
+
+To issue certificates on MainNet you need to buy Ether.
+
+Also, you must edit your environment file (.env.development.local or .env.production.local, depending on if you are using React's development mode or a built artifact) and change `REACT_APP_ETHEREUM_NETWORK=Ropsten` to `REACT_APP_ETHEREUM_NETWORK=MainNet`.
+
+The app will ask you to switch to MainNet if you are on another network.
+
+### Issuing process
+
+At the moment, there's only 1 process which uses a .csv file for the list of recipients, signatures and models.
+
+1. You must at least create 1 signature
+2. You must at least create 1 model
+3. You must have a .csv file listing your recipients (example below)
+
+recipients.csv:
+````
+First name,Last name,Email
+Jane,Doe,jane.doe@example.com
+John,Doe,john.doe@example.com
+````
+
++ Go to /batches and create a new batch
++ Select your .csv file
++ Select a model
++ Click on *Create*
++ Click on *Sign*
++ A Metamask popup should open. Sign the transaction here.
++ Wait for the transaction to be mined.
++ Click on *Finalize*
++ If you are also using *openblockcerts-api*, click on *Upload certificates* when it appears
 
 ### Gas price = 0
 
 Especially on Ropsten, from time to time when submitting a transaction to Metamask, the gas price is set to 0 which would lead to a rejection. When it's the case, please click on "Edit" in the Metamask popup and click on a transaction speed (medium for instance).
 
-### Certificates sources
+## Export / Import
 
-TODO
+In *Tools* you can backup all your issued certificates.
+
+You can also export your whole local database with your issuer profile, your signatures and models to a file. Then, on another machine / browser you can import this file to set up everything quickly. Of course you should use the same Ethereum address in Metamask.
+
 
 ### Certificates templates
 
-TODO
+In addition to the *Default* template, you can add more templates.
+
+Copy the `src/templates/default` directory into `src/templates/custom` for instance and rename all *default* to *custom*.
+
+Then add your new template to the templates index:
+
+src/templates/index.templates.js:
+````
+import defaultTemplate from './default/default.template'
+import customTemplate from './custom/custom.template'
+
+export default [
+  defaultTemplate,
+  customTemplate
+]
+````
+
+Then you can modify the *build* method in `src/templates/custom/custom.template.js` to use your own HTML.
+
+The app has a route to help template development by displaying a preview of a certificate.
+If you app runs on http://locahost:3000 then you can access this route at http://locahost:3000/dev/template
+By default this route uses the *default* template. To use your custom template, edit `src/components/dev/DevTemplate` and replace `import template from '../../templates/default/default.template'` by `import template from '../../templates/custom/custom.template'`
 
 ## Production considerations
 
