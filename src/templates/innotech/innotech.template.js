@@ -8,7 +8,7 @@ const buildSignatures = signatures => {
   return signatures.map(signature => {
     return `
       <div style="display: flex; flex-direction: column; align-items: center; margin: 10px;">
-        <img src="${signature.image}" alt="${signature.name}" style="width: auto; height: 25px;" />
+        <img src="${signature.image}" alt="${signature.name}" style="width: auto; height: 50px;" />
         <p style="font-family: Roboto, Helvetica, Arial, sans-serif; font-style: italic; margin: 0;">
           ${signature.name}, ${signature.jobTitle}
         </p>
@@ -18,6 +18,7 @@ const buildSignatures = signatures => {
 }
 
 const build = certificate => {
+  console.log(certificate)
   return `
     <div style="word-break: break-word; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 20px;">
       <div style="width: 100%; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-around; align-items: center;">

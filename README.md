@@ -22,13 +22,7 @@ Install dependencies:
 yarn install
 ````
 
-Init app:
-
-````
-yarn initfiles
-````
-
-Start the app:
+Start the app (in development mode)
 
 ````
 yarn start
@@ -44,7 +38,7 @@ First install, configure and launch *OpenBlockcerts API* and then come back here
 
 ````
 cp .env.development .env.development.local
-cp .env.production .env.development.production
+cp .env.production .env.production.local
 ````
 
 Edit .env.development.local and / or .env.production.local accordingly to your setup.
