@@ -14,7 +14,7 @@ const buildSignatures = signatures => {
         </p>
       </div>
     `
-  })
+  }).join('')
 }
 
 const build = certificate => {
