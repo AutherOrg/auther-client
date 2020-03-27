@@ -21,7 +21,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Add, Edit, Save } from '@material-ui/icons'
 
 import batchesActions from '../../actions/batches.actions'
-import issuersActions from '../../actions/issuers.actions'
 import modelActions from '../../actions/models.actions'
 import signaturesActions from '../../actions/signatures.actions'
 import transactionsActions from '../../actions/transactions.actions'
@@ -189,12 +188,11 @@ export default function CreateBatch () {
   }
 
   const handleFinalize = () => {
-    dispatch(batchesActions.sign(batchesReducer.certificates, transactionsReducer.hash))
+    dispatch(batchesActions.sign(batchesReducer.certificates, transactionsReducer.hash, ethereumConstants.NETWORK.CHAIN[context.chainId]))
   }
 
   React.useEffect(() => {
     dispatch(batchesActions.reset())
-    dispatch(issuersActions.getMy())
     if (!issuersReducer.hasIssuer) {
       dispatch(push('/issuers/my'))
     }

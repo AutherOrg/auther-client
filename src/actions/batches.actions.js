@@ -148,10 +148,10 @@ const setValue = (name, value) => ({
   value
 })
 
-const sign = (certificates, hash) => {
+const sign = (certificates, hash, chainId) => {
   return async dispatch => {
     dispatch(signBegin())
-    const result = await signBatch(certificates, 'ETHData', hash, 'ethereumRopsten', { validate: true })
+    const result = await signBatch(certificates, 'ETHData', hash, chainId, { validate: true })
     if (result instanceof TypeError) {
       dispatch(signError(result.message))
     } else {

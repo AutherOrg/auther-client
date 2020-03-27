@@ -9,6 +9,10 @@ export default {
     NAME: {
       1: 'MainNet',
       3: 'Ropsten'
+    },
+    CHAIN: {
+      1: 'ethereumMainnet',
+      3: 'ethereumRopsten'
     }
   }
 }

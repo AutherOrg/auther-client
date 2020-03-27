@@ -17,6 +17,7 @@ import constants from '../../constants/issuers.constants'
 
 const useStyles = makeStyles(theme => ({
   imgResponsive: {
+    maxWidth: '200px',
     width: '100%',
     height: 'auto'
   }

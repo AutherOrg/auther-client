@@ -13,7 +13,7 @@ export default (state = initialState, action) => {
     case types.CREATE_ISSUER_ERROR:
     case types.GET_ISSUER_ERROR:
     case types.UPDATE_ISSUER_ERROR:
-    case types.ADD_MODEL_ERROR:
+    case types.CREATE_MODEL_ERROR:
     case types.DESTROY_MODEL_ERROR:
     case types.GET_ALL_MODELS_ERROR:
     case types.GET_ONE_MODEL_ERROR:
@@ -23,7 +23,7 @@ export default (state = initialState, action) => {
     case types.DESTROY_SIGNATURE_ERROR:
     case types.UPDATE_SIGNATURE_ERROR:
     case types.GET_BATCH_ERROR:
-    case types.ADD_BATCH_ERROR:
+    case types.CREATE_BATCH_ERROR:
     case types.GET_ALL_BATCHES_ERROR:
     case types.SET_BATCH_ERROR:
     case types.SIGN_BATCH_ERROR:

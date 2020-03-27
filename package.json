@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Client to create, issue, manage and share online Blockcerts certificates on Ethereum.",
   "repository": "https://github.com/openblockcerts/openblockcerts-client",
-  "homepage": "https://www.openblockcerts.com/openblockcerts-client",
   "author": "Guillaume Duveau <guillaume.duveau@gmail.com>",
   "license": "MIT",
   "private": false,
@@ -20,6 +19,7 @@
     "connected-react-router": "^6.6.1",
     "date-fns": "^2.9.0",
     "dexie": "^2.0.4",
+    "dexie-export-import": "^1.0.0-rc.1",
     "downloadjs": "^1.4.7",
     "js-cookie": "^2.2.1",
     "prop-types": "^15.7.2",
@@ -39,7 +39,6 @@
   "scripts": {
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "initfiles": "cp src/templates/index.templates.js.default src/templates/index.templates.js",
     "lint": "standard",
     "start": "react-scripts start",
     "test": "react-scripts test"
