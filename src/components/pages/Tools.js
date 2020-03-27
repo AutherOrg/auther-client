@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { exportDB, importInto } from 'dexie-export-import'
+import { exportDB, importDB } from 'dexie-export-import'
 import downloadjs from 'downloadjs'
 import {
   Button,
@@ -91,11 +91,20 @@ export default function Tools () {
   }
 
   const handleImportDb = async event => {
-    if (event.target.files[0]) {
+    if (event && event.target && event.target.files && event.target.files[0]) {
+      const file = event.target.files[0]
       dispatch(backdropActions.create())
-      await importInto(db, event.target.files[0])
+      await db.delete()
+      await importDB(file, {
+        progressCallback
+      })
+      await db.open()
       dispatch(backdropActions.close())
     }
+  }
+
+  const progressCallback = ({ totalRows, completedRows }) => {
+    console.log(`Progress: ${completedRows} of ${totalRows} rows completed`)
   }
 
   React.useEffect(() => {
