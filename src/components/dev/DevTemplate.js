@@ -20,7 +20,9 @@ export default function DevTemplate () {
     return null
   }
 
+  const html = template.build(certificate)
+
   return (
-    <div dangerouslySetInnerHTML={{ __html: template.build(certificate) }} />
+    <div dangerouslySetInnerHTML={{ __html: html }} />
   )
 }

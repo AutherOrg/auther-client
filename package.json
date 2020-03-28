@@ -20,6 +20,7 @@
     "date-fns": "^2.9.0",
     "dexie": "^2.0.4",
     "dexie-export-import": "^1.0.0-rc.1",
+    "dompurify": "^2.0.8",
     "downloadjs": "^1.4.7",
     "js-cookie": "^2.2.1",
     "prop-types": "^15.7.2",

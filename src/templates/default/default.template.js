@@ -1,3 +1,4 @@
+import dompurify from 'dompurify'
 import { format } from 'date-fns'
 
 import screenshot from './defaultTemplate.png'
@@ -18,7 +19,7 @@ const buildSignatures = signatures => {
 }
 
 const build = certificate => {
-  return `
+  const html = `
     <div style="display: flex; flex-direction: column; align-items: center; text-align: center; ">
       <div>
         <img src="${certificate.badge.image}" alt="${certificate.badge.name}" style="width: 100%; height: auto; margin-bottom: 20px" />
@@ -45,6 +46,7 @@ const build = certificate => {
       </div>
     </div>
   `
+  return dompurify.sanitize(html).replace(/(\r\n|\n|\r)/gm, '').replace(/\s+/g, ' ')
 }
 
 export default {
