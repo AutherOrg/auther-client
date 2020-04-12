@@ -12,7 +12,7 @@ import {
   Typography
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { Assignment, Check, CloudDownload, Close, Delete, Link, Print, Share } from '@material-ui/icons'
+import { Assignment, Check, CloudDownload, Close, Delete, Link, LinkedIn, Print, Share } from '@material-ui/icons'
 
 import certificateActions from '../../actions/certificate.actions'
 import confirmationActions from '../../actions/confirmation.actions'
@@ -157,13 +157,22 @@ export default function Certificate ({ match }) {
                         {copied ? 'Link copied' : 'Copy link'}
                       </Button>
                     </CopyToClipboard>
+                    <Button
+                      href='https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME'
+                      target='linkedin'
+                      rel='noopener noreferrer'
+                      startIcon={<LinkedIn />}
+                      color='primary'
+                    >
+                      Add on LinkedIn
+                    </Button>
                     <ReactToPrint
                       trigger={() => (
                         <Button
                           startIcon={<Print />}
                           color='primary'
                         >
-                          Print with QR code and link
+                          Print
                         </Button>
                       )}
                       content={() => componentRef.current}
