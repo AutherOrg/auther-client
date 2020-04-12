@@ -1,7 +1,9 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { exportDB, importDB } from 'dexie-export-import'
-import downloadjs from 'downloadjs'
+import slugify from 'slugify'
+import Jszip from 'jszip'
+import { saveAs } from 'file-saver'
 import {
   Button,
   Card, CardHeader, CardContent, CardActions,
@@ -33,8 +35,14 @@ export default function Tools () {
   const issuersReducer = useSelector(state => state.issuersReducer)
   const revokedReducer = useSelector(state => state.revokedReducer)
 
+  React.useEffect(() => {
+    dispatch(batchesActions.get())
+    dispatch(issuersActions.getMy())
+    dispatch(revokedActions.get())
+  }, [dispatch])
+
   const handleDownloadIssuerProfile = () => {
-    const json = {
+    const issuer = {
       '@context': [
         'https://w3id.org/openbadges/v2',
         'https://w3id.org/blockcerts/v2'
@@ -54,8 +62,10 @@ export default function Tools () {
       revocationList: issuersReducer.revocationListUrl,
       image: issuersReducer.image
     }
-    const stringified = JSON.stringify(json)
-    downloadjs(stringified, 'issuer.json', 'text/plain')
+    saveAs(
+      new window.Blob([JSON.stringify(issuer)], { type: 'application/json;charset=utf-8' }),
+      'issuer.json'
+    )
   }
 
   const handleDownloadRevocationList = () => {
@@ -65,29 +75,47 @@ export default function Tools () {
         revocationReason: revokedAssertion.revocationReason
       }
     })
-    const json = {
+    const revocation = {
       '@context': 'https://w3id.org/openbadges/v2',
       id: issuersReducer.revocationListUrl,
       type: 'RevocationList',
       issuer: issuersReducer.issuerProfileUrl,
       revokedAssertions
     }
-    const stringified = JSON.stringify(json)
-    downloadjs(stringified, 'revocation.json', 'text/plain')
+    saveAs(
+      new window.Blob([JSON.stringify(revocation)], { type: 'application/json;charset=utf-8' }),
+      'revocation.json'
+    )
   }
 
-  const handleBackupCertificates = () => {
-    const json = batchesReducer.batches.flatMap(batch => {
+  const handleBackupCertificates = async () => {
+    const zip = new Jszip()
+    const certificates = batchesReducer.batches.flatMap(batch => {
       const { certificates } = JSON.parse(batch.certificates)
       return certificates
     })
-    const stringified = JSON.stringify(json)
-    downloadjs(stringified, 'certificates.json', 'text/plain')
+    certificates.forEach((certificate, index) => {
+      zip.file(
+        slugify(`${certificate.badge.name} ${certificate.recipientProfile.name} ${index}.json`),
+        JSON.stringify(certificate)
+      )
+    })
+    const blob = await zip.generateAsync({
+      type: 'blob',
+      compression: 'DEFLATE',
+      compressionOptions: {
+        level: 9
+      }
+    })
+    saveAs(blob, 'Certificates.zip')
   }
 
   const handleExportDb = async () => {
     const file = await exportDB(db)
-    downloadjs(file, 'OpenBlockcerts.json', 'application/json')
+    saveAs(
+      new window.Blob([file], { type: 'application/json;charset=utf-8' }),
+      'OpenBlockcertsIndexedDB.json'
+    )
   }
 
   const handleImportDb = async event => {
@@ -106,12 +134,6 @@ export default function Tools () {
   const progressCallback = ({ totalRows, completedRows }) => {
     console.log(`Progress: ${completedRows} of ${totalRows} rows completed`)
   }
-
-  React.useEffect(() => {
-    dispatch(batchesActions.get())
-    dispatch(issuersActions.getMy())
-    dispatch(revokedActions.get())
-  }, [dispatch])
 
   return (
     <Grid container spacing={5} justify='center'>

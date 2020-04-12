@@ -1,7 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Resizer from 'react-image-file-resizer'
-import downloadjs from 'downloadjs'
 import {
   Button,
   Card, CardHeader, CardContent,
@@ -9,7 +8,7 @@ import {
   TextField,
   Typography
 } from '@material-ui/core'
-import { CloudDownload, Save } from '@material-ui/icons'
+import { Save } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
 
 import actions from '../../actions/issuers.actions'
@@ -28,30 +27,9 @@ export default function Issuer () {
   const dispatch = useDispatch()
   const issuersReducer = useSelector(state => state.issuersReducer)
 
-  const download = () => {
-    const json = {
-      '@context': [
-        'https://w3id.org/openbadges/v2',
-        'https://w3id.org/blockcerts/v2'
-      ],
-      type: 'Profile',
-      id: issuersReducer.issuerProfileUrl,
-      name: issuersReducer.name,
-      email: issuersReducer.email,
-      url: issuersReducer.url,
-      introductionURL: issuersReducer.introductionUrl,
-      publicKey: [
-        {
-          id: issuersReducer.publicKey,
-          created: '2019-10-25T10:51:53.490752+00:00'
-        }
-      ],
-      revocationList: issuersReducer.revocationListUrl,
-      image: issuersReducer.image
-    }
-    const stringified = JSON.stringify(json)
-    downloadjs(stringified, 'issuer.json', 'text/plain')
-  }
+  React.useEffect(() => {
+    dispatch(actions.getMy())
+  }, [dispatch])
 
   const handleImageChange = event => {
     if (event.target.files[0]) {
@@ -108,10 +86,6 @@ export default function Issuer () {
     }
   }
 
-  React.useEffect(() => {
-    dispatch(actions.getMy())
-  }, [dispatch])
-
   return (
     <Grid container spacing={5} justify='center'>
       <Grid item xs={12} align='center'>
@@ -121,8 +95,8 @@ export default function Issuer () {
         <Typography color='error' gutterBottom>
           {
             issuersReducer.hasIssuer
-              ? 'Warning: you should almost NEVER edit this.'
-              : 'Before issuing certificates you must setup your issuer and upload the profile and revocation list JSON on your server.'
+              ? 'Be sure to have uploaded the profile and revocation list JSON on your server. For this, go to Tools. Once uploaded, you should almost NEVER edit this Issuer data.'
+              : 'Before issuing certificates you must setup your issuer.'
           }
         </Typography>
       </Grid>
@@ -248,7 +222,7 @@ export default function Issuer () {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={6} align='right'>
+      <Grid item xs={12} align='center'>
         <Button
           onClick={() => submit()}
           disabled={!canSubmit()}
@@ -257,17 +231,6 @@ export default function Issuer () {
           startIcon={<Save />}
         >
           Save
-        </Button>
-      </Grid>
-      <Grid item xs={6} align='left'>
-        <Button
-          onClick={() => download()}
-          disabled={!isProfileComplete()}
-          variant='contained'
-          color='primary'
-          startIcon={<CloudDownload />}
-        >
-          Download
         </Button>
       </Grid>
     </Grid>

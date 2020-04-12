@@ -18,7 +18,7 @@ const destroy = async id => {
 
 const getAll = async () => {
   try {
-    return await db.batches.toArray()
+    return await db.batches.reverse().toArray()
   } catch (e) {
     return e
   }

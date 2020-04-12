@@ -1,6 +1,8 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { formatRelative, fromUnixTime } from 'date-fns'
+import slugify from 'slugify'
+import { saveAs } from 'file-saver'
 import {
   Button,
   Grid,
@@ -8,7 +10,7 @@ import {
   TableContainer, Table, TableBody, TableCell, TableHead, TableRow,
   Typography
 } from '@material-ui/core'
-import { AddCircle, Check, Close, RemoveCircle, School } from '@material-ui/icons'
+import { AddCircle, Check, Close, CloudDownload, RemoveCircle, School } from '@material-ui/icons'
 
 import actions from '../../actions/batch.actions'
 import revokedActions from '../../actions/revoked.actions'
@@ -32,29 +34,30 @@ export default function Batch ({ match }) {
     return null
   }
 
+  const { certificates } = JSON.parse(batchReducer.certificates)
+  const handleDownload = certificate => {
+    saveAs(
+      new window.Blob([JSON.stringify(certificate)], { type: 'application/json;charset=utf-8' }),
+      slugify(`${certificate.badge.name} ${certificate.recipientProfile.name}.json`)
+    )
+  }
   const isRevoked = certificate => {
     return revokedReducer.revoked.findIndex(e => e.certificateId === certificate.id) > -1
   }
-
-  const { certificates } = JSON.parse(batchReducer.certificates)
-
   const handleSet = certificate => {
     dispatch(revokedActions.set(certificate.id, 'Revoked by the Issuer'))
     dispatch(confirmationActions.create('Revoke certificate?'))
   }
-
   const handleRevoke = () => {
     dispatch(revokedActions.create({
       certificateId: revokedReducer.certificateId,
       revocationReason: revokedReducer.revocationReason
     }))
   }
-
   const handleCancel = () => {
     dispatch(confirmationActions.reset())
     dispatch(revokedActions.cancel())
   }
-
   const handleUnrevoke = certificate => {
     const revoked = revokedReducer.revoked.find(e => e.certificateId === certificate.id)
     dispatch(revokedActions.destroy(revoked.id))
@@ -95,6 +98,13 @@ export default function Batch ({ match }) {
                         color='primary'
                       >
                         View
+                      </Button>
+                      <Button
+                        onClick={() => handleDownload(certificate)}
+                        startIcon={<CloudDownload />}
+                        color='primary'
+                      >
+                        Download
                       </Button>
                       {
                         isRevoked(certificate)

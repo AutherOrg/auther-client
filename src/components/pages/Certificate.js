@@ -1,7 +1,8 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import downloadjs from 'downloadjs'
+import slugify from 'slugify'
+import { saveAs } from 'file-saver'
 import ReactToPrint from 'react-to-print'
 import { QRCode } from 'react-qr-svg'
 import {
@@ -32,15 +33,23 @@ export default function Certificate ({ match }) {
   const dispatch = useDispatch()
   const reducer = useSelector(state => state.certificateReducer)
   const [copied, setCopied] = React.useState(null)
+  const componentRef = React.useRef()
+
+  React.useEffect(() => {
+    dispatch(certificateActions.get(match.params.id))
+  }, [dispatch, match.params.id])
+
   const handleShare = () => {
     const newStatus = reducer.status === constants.STATUS.NOT_SHARED ? constants.STATUS.SHARED : constants.STATUS.NOT_SHARED
     dispatch(certificateActions.update(reducer.id, {
       status: newStatus
     }))
   }
-  const handleDownload = () => {
-    const stringified = JSON.stringify(reducer.json)
-    downloadjs(stringified, `${reducer.json.badge.name}.json`, 'text/plain')
+  const handleDownload = certificate => {
+    saveAs(
+      new window.Blob([JSON.stringify(certificate)], { type: 'application/json;charset=utf-8' }),
+      slugify(`${certificate.badge.name} ${certificate.recipientProfile.name}.json`)
+    )
   }
   const handleCopied = () => {
     setCopied(true)
@@ -50,11 +59,6 @@ export default function Certificate ({ match }) {
       }, 3000
     )
   }
-  const componentRef = React.useRef()
-
-  React.useEffect(() => {
-    dispatch(certificateActions.get(match.params.id))
-  }, [dispatch, match.params.id])
 
   if (reducer.id === 0) {
     return null
@@ -101,7 +105,7 @@ export default function Certificate ({ match }) {
                     {reducer.status === constants.STATUS.NOT_SHARED ? 'Share' : 'Unshare'}
                   </Button>
                   <Button
-                    onClick={() => handleDownload()}
+                    onClick={() => handleDownload(reducer.json)}
                     startIcon={<CloudDownload />}
                     color='primary'
                   >
