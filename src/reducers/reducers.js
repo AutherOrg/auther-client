@@ -15,6 +15,7 @@ import modelsReducer from './models.reducer'
 import revokedReducer from './revoked.reducer'
 import signaturesReducer from './signatures.reducer'
 import transactionsReducer from './transactions.reducer'
+import usersReducer from './users.reducer'
 
 const createRootReducer = history => combineReducers({
   router: connectRouter(history),
@@ -31,7 +32,8 @@ const createRootReducer = history => combineReducers({
   modelsReducer,
   revokedReducer,
   signaturesReducer,
-  transactionsReducer
+  transactionsReducer,
+  usersReducer
 })
 
 export default createRootReducer

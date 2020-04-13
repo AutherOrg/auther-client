@@ -17,9 +17,13 @@ const get = (email, password) => {
       Cookies.set('token', result.token, { expires: 1 })
       if (result.user.role === userConstants.role.RECIPIENT) {
         dispatch(push('/certificates'))
-      } else if ([userConstants.role.ADMIN, userConstants.role.ISSUER].includes(result.user.role)) {
+      } else if ([
+        userConstants.role.ADMIN,
+        userConstants.role.MANAGER,
+        userConstants.role.ISSUER
+      ].includes(result.user.role)) {
         dispatch(issuersActions.getMy())
-        dispatch(push('/batches'))
+        dispatch(push('/'))
       } else {
         dispatch(push('/'))
       }
@@ -56,7 +60,11 @@ const getFromPermanentToken = permanentToken => {
       if (result.user.status === userConstants.status.ACTIVE) {
         if (result.user.role === userConstants.role.RECIPIENT) {
           dispatch(push('/certificates'))
-        } else if ([userConstants.role.ADMIN, userConstants.role.ISSUER].includes(result.user.role)) {
+        } else if ([
+          userConstants.role.ADMIN,
+          userConstants.role.MANAGER,
+          userConstants.role.ISSUER
+        ].includes(result.user.role)) {
           dispatch(push('/batches'))
         }
       }

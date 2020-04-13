@@ -95,8 +95,8 @@ export default function Issuer () {
         <Typography color='error' gutterBottom>
           {
             issuersReducer.hasIssuer
-              ? 'Be sure to have uploaded the profile and revocation list JSON on your server. For this, go to Tools. Once uploaded, you should almost NEVER edit this Issuer data.'
-              : 'Before issuing certificates you must setup your issuer.'
+              ? 'You should almost NEVER edit this data.'
+              : 'Before issuing certificates you must fill in this information, save, download the issuer profile and the revocation list JSON files and upload them at their declared URLs.'
           }
         </Typography>
       </Grid>
@@ -185,7 +185,6 @@ export default function Issuer () {
                   required
                   fullWidth
                   helperText={issuersReducer.hasIssuer ? 'Warning: changing this will invalid ALL your issued certificates.' : ''}
-                  error
                 >
                   Issuer profile URL
                 </TextField>
@@ -213,7 +212,6 @@ export default function Issuer () {
                   required
                   fullWidth
                   helperText={issuersReducer.hasIssuer ? 'Warning: changing this will invalid ALL your issued certificates.' : ''}
-                  error
                 >
                   Ethereum public key
                 </TextField>

@@ -1,11 +1,9 @@
 import types from '../constants/actions.types.constants'
-import apiService from '../services/openblockcerts-api/certificates.openblockcerts-api.service'
-import dexieService from '../services/dexie/certificates.dexie.service'
+import service from '../services/openblockcerts-api/certificates.openblockcerts-api.service'
 
-const getAll = hasApi => {
+const getAll = () => {
   return async dispatch => {
     dispatch(getAllBegin())
-    const service = hasApi ? apiService : dexieService
     const result = await service.getAll()
     if (result instanceof TypeError) {
       dispatch(getAllError(result.message))
@@ -29,6 +27,12 @@ const getAllError = error => ({
   error
 })
 
+const setCertificate = certificate => ({
+  type: types.GET_CERTIFICATE_SUCCESS,
+  certificate
+})
+
 export default {
-  getAll
+  getAll,
+  setCertificate
 }

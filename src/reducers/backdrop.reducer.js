@@ -38,6 +38,11 @@ export default (state = initialState, action) => {
     case types.CREATE_JOB_BEGIN:
     case types.DESTROY_JOB_BEGIN:
     case types.GET_JOBS_BEGIN:
+    case types.CREATE_USER_BEGIN:
+    case types.GET_USERS_BEGIN:
+    case types.GET_USER_BEGIN:
+    case types.UPDATE_USER_BEGIN:
+    case types.DESTROY_USER_BEGIN:
       return {
         ...state,
         open: true
@@ -76,6 +81,11 @@ export default (state = initialState, action) => {
     case types.CREATE_JOB_SUCCESS:
     case types.DESTROY_JOB_SUCCESS:
     case types.GET_JOBS_SUCCESS:
+    case types.CREATE_USER_SUCCESS:
+    case types.GET_USERS_SUCCESS:
+    case types.GET_USER_SUCCESS:
+    case types.UPDATE_USER_SUCCESS:
+    case types.DESTROY_USER_SUCCESS:
       return initialState
 
     default:

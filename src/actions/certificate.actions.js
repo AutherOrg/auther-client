@@ -1,13 +1,12 @@
 import { push } from 'connected-react-router'
 
 import types from '../constants/actions.types.constants'
-import apiService from '../services/openblockcerts-api/certificates.openblockcerts-api.service'
-import dexieService from '../services/dexie/certificates.dexie.service'
+import service from '../services/openblockcerts-api/certificates.openblockcerts-api.service'
 
 const destroy = id => {
   return async dispatch => {
     dispatch(destroyBegin())
-    const result = await apiService.destroy(id)
+    const result = await service.destroy(id)
     if (result instanceof TypeError) {
       dispatch(destroyError(result.message))
     } else {
@@ -33,7 +32,7 @@ const destroyError = error => ({
 const get = id => {
   return async dispatch => {
     dispatch(getBegin())
-    const result = await apiService.getOne(id)
+    const result = await service.getOne(id)
     if (result instanceof TypeError) {
       dispatch(getError(result.message))
     } else {
@@ -56,22 +55,10 @@ const getError = error => ({
   error
 })
 
-const getFromDexie = id => {
-  return async dispatch => {
-    dispatch(getBegin())
-    const result = await dexieService.getOne(id)
-    if (result instanceof TypeError) {
-      dispatch(getError(result.message))
-    } else {
-      dispatch(getSuccess(result))
-    }
-  }
-}
-
 const getShared = uuid => {
   return async dispatch => {
     dispatch(getSharedBegin())
-    const result = await apiService.getShared(uuid)
+    const result = await service.getShared(uuid)
     if (result instanceof TypeError) {
       dispatch(getSharedError(result.message))
     } else if (result.error) {
@@ -100,7 +87,7 @@ const getSharedError = error => ({
 const update = (id, data) => {
   return async dispatch => {
     dispatch(updateBegin())
-    const result = await apiService.update(id, data)
+    const result = await service.update(id, data)
     if (result instanceof TypeError) {
       dispatch(updateError(result.message))
     } else {
@@ -130,7 +117,6 @@ const reset = () => ({
 export default {
   destroy,
   get,
-  getFromDexie,
   getShared,
   update,
   reset

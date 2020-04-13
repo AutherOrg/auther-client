@@ -22,14 +22,14 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function Certificates () {
+export default function CertificatesRecipient () {
   const classes = useStyles()
   const dispatch = useDispatch()
   const certificatesReducer = useSelector(state => state.certificatesReducer)
   const [raised, setRaised] = React.useState(null)
 
   React.useEffect(() => {
-    dispatch(actions.getAll(true))
+    dispatch(actions.getAll())
   }, [dispatch])
 
   return (

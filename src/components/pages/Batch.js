@@ -35,29 +35,35 @@ export default function Batch ({ match }) {
   }
 
   const { certificates } = JSON.parse(batchReducer.certificates)
+
   const handleDownload = certificate => {
     saveAs(
       new window.Blob([JSON.stringify(certificate)], { type: 'application/json;charset=utf-8' }),
       slugify(`${certificate.badge.name} ${certificate.recipientProfile.name}.json`)
     )
   }
+
   const isRevoked = certificate => {
     return revokedReducer.revoked.findIndex(e => e.certificateId === certificate.id) > -1
   }
+
   const handleSet = certificate => {
     dispatch(revokedActions.set(certificate.id, 'Revoked by the Issuer'))
     dispatch(confirmationActions.create('Revoke certificate?'))
   }
+
   const handleRevoke = () => {
     dispatch(revokedActions.create({
       certificateId: revokedReducer.certificateId,
       revocationReason: revokedReducer.revocationReason
     }))
   }
+
   const handleCancel = () => {
     dispatch(confirmationActions.reset())
     dispatch(revokedActions.cancel())
   }
+
   const handleUnrevoke = certificate => {
     const revoked = revokedReducer.revoked.find(e => e.certificateId === certificate.id)
     dispatch(revokedActions.destroy(revoked.id))

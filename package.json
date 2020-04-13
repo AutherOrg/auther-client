@@ -27,6 +27,7 @@
     "js-cookie": "^2.2.1",
     "jszip": "^3.3.0",
     "prop-types": "^15.7.2",
+    "qs": "^6.9.3",
     "react": "^16.12.0",
     "react-copy-to-clipboard": "^5.0.2",
     "react-csv-reader": "^2.0.2",

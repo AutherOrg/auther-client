@@ -15,14 +15,15 @@ import {
 } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import {
-  AccountBalance,
-  Build,
+  Description,
   Edit,
   ExitToApp,
   Home as HomeIcon,
   LocalShipping,
   LockOpen,
   Menu,
+  Person,
+  Settings as SettingsIcon,
   School
 } from '@material-ui/icons'
 
@@ -39,18 +40,22 @@ import ValidatePassword from './components/pages/ValidatePassword'
 import Unauthorized from './components/pages/Unauthorized'
 import Share from './components/pages/Share'
 // Recipient.
-import Certificates from './components/pages/Certificates'
+import CertificatesRecipient from './components/pages/CertificatesRecipient'
 import Certificate from './components/pages/Certificate'
 // Issuer.
-import Issuer from './components/pages/Issuer'
+import CertificatesIssuer from './components/pages/CertificatesIssuer'
+import Batches from './components/pages/Batches'
+import Batch from './components/pages/Batch'
+import CreateBatch from './components/pages/CreateBatch'
 import Models from './components/pages/Models'
 import Model from './components/pages/Model'
 import Signatures from './components/pages/Signatures'
 import Signature from './components/pages/Signature'
-import Batches from './components/pages/Batches'
-import Batch from './components/pages/Batch'
-import CreateBatch from './components/pages/CreateBatch'
-import Tools from './components/pages/Tools'
+import System from './components/pages/System'
+import Issuer from './components/pages/Issuer'
+// Admin.
+import Users from './components/pages/Users'
+import User from './components/pages/User'
 // Dev tools.
 import DevTemplate from './components/dev/DevTemplate'
 
@@ -118,7 +123,7 @@ export default function App () {
   React.useEffect(() => {
     document.title = process.env.REACT_APP_NAME
     if (process.env.REACT_APP_API === 'none') {
-      dispatch(actions.setRole(constants.role.ISSUER))
+      dispatch(actions.setRole(constants.role.MANAGER))
     } else {
       dispatch(actions.setHasApi())
     }
@@ -132,39 +137,45 @@ export default function App () {
           <ListItemText primary='Home' />
         </ListItem>
         {[constants.role.RECIPIENT].includes(authReducer.role) && (
-          <ListItem button onClick={() => handlePush('/certificates')}>
+          <ListItem button onClick={() => handlePush('/certificates/my')}>
             <ListItemIcon>{<School />}</ListItemIcon>
             <ListItemText primary='My certificates' />
           </ListItem>
         )}
-        {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
+        {[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER].includes(authReducer.role) && authReducer.hasApi && (
+          <ListItem button onClick={() => handlePush('/certificates')}>
+            <ListItemIcon>{<School />}</ListItemIcon>
+            <ListItemText primary='Certificates' />
+          </ListItem>
+        )}
+        {[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER].includes(authReducer.role) && (
           <ListItem button onClick={() => handlePush('/batches')}>
             <ListItemIcon>{<LocalShipping />}</ListItemIcon>
             <ListItemText primary='Batches' />
           </ListItem>
         )}
-        {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
+        {[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER].includes(authReducer.role) && (
           <ListItem button onClick={() => handlePush('/models')}>
-            <ListItemIcon>{<School />}</ListItemIcon>
+            <ListItemIcon>{<Description />}</ListItemIcon>
             <ListItemText primary='Models' />
           </ListItem>
         )}
-        {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
+        {[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER].includes(authReducer.role) && (
           <ListItem button onClick={() => handlePush('/signatures')}>
             <ListItemIcon>{<Edit />}</ListItemIcon>
             <ListItemText primary='Signatures' />
           </ListItem>
         )}
-        {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
-          <ListItem button onClick={() => handlePush('/issuers/my')}>
-            <ListItemIcon>{<AccountBalance />}</ListItemIcon>
-            <ListItemText primary='Issuer' />
+        {[constants.role.ADMIN].includes(authReducer.role) && authReducer.hasApi && (
+          <ListItem button onClick={() => handlePush('/users')}>
+            <ListItemIcon>{<Person />}</ListItemIcon>
+            <ListItemText primary='Users' />
           </ListItem>
         )}
-        {[constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
-          <ListItem button onClick={() => handlePush('/tools')}>
-            <ListItemIcon>{<Build />}</ListItemIcon>
-            <ListItemText primary='Tools' />
+        {[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER].includes(authReducer.role) && (
+          <ListItem button onClick={() => handlePush('/system')}>
+            <ListItemIcon>{<SettingsIcon />}</ListItemIcon>
+            <ListItemText primary='System' />
           </ListItem>
         )}
         {
@@ -254,18 +265,21 @@ export default function App () {
               <Route exact path='/auth/login' component={Login} />
               <Route exact path='/auth/login/permanent/:permanentToken' component={LoginFromPermanentToken} />
               <Route exact path='/auth/password/validate/:passwordToken' component={ValidatePassword} />
-              <PrivateRoute userRoles={[constants.role.RECIPIENT]} exact path='/certificates' component={Certificates} />
               <Route exact path='/certificates/shared/:uuid' component={Share} />
+              <PrivateRoute userRoles={[constants.role.RECIPIENT]} exact path='/certificates/my' component={CertificatesRecipient} />
               <PrivateRoute userRoles={[constants.role.RECIPIENT]} exact path='/certificates/:id' component={Certificate} />
-              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/issuers/my' component={Issuer} />
-              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/models' component={Models} />
-              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/models/:id' component={Model} />
-              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/signatures' component={Signatures} />
-              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/signatures/:id' component={Signature} />
-              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches' component={Batches} />
-              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches/create' component={CreateBatch} />
-              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/batches/:id' component={Batch} />
-              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.ISSUER]} exact path='/tools' component={Tools} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER]} exact path='/certificates' component={CertificatesIssuer} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER]} exact path='/batches' component={Batches} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER]} exact path='/batches/create' component={CreateBatch} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER]} exact path='/batches/:id' component={Batch} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER]} exact path='/models' component={Models} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER]} exact path='/models/:id' component={Model} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER]} exact path='/signatures' component={Signatures} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER]} exact path='/signatures/:id' component={Signature} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER]} exact path='/system' component={System} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER]} exact path='/system/issuer' component={Issuer} />
+              <PrivateRoute userRoles={[constants.role.ADMIN]} exact path='/users' component={Users} />
+              <PrivateRoute userRoles={[constants.role.ADMIN]} exact path='/users/create' component={User} />
               <Route exact path='/dev/template' component={DevTemplate} />
             </Switch>
           </Grid>
@@ -278,7 +292,7 @@ export default function App () {
       </main>
       <ServicesBackdrop />
       <ServicesError />
-      {authReducer.hasApi && [constants.role.ADMIN, constants.role.ISSUER].includes(authReducer.role) && (
+      {authReducer.hasApi && [constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER].includes(authReducer.role) && (
         <JobsDialog />
       )}
     </div>
