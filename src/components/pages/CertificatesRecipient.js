@@ -29,7 +29,7 @@ export default function CertificatesRecipient () {
   const [raised, setRaised] = React.useState(null)
 
   React.useEffect(() => {
-    dispatch(actions.getAll())
+    dispatch(actions.getAll({ onlyMine: true }))
   }, [dispatch])
 
   return (

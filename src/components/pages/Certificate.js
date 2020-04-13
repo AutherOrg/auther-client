@@ -131,6 +131,9 @@ export default function Certificate ({ match }) {
                     <Typography paragraph>
                       You can now send the sharing link to any of your contacts.
                     </Typography>
+                    <Typography paragraph>
+                      To add in on LinkedIn, click "Copy link" and then "Add to LinkedIn". In the last line (with URL) you must paste this link. Then you just need to add the certificate name and select the issuer organization (first 2 fields.)
+                    </Typography>
                     <Typography>
                       You can also print your certificate with a verification link and QR code.
                     </Typography>

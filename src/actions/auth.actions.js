@@ -12,6 +12,8 @@ const get = (email, password) => {
     const result = await service.login(email, password)
     if (result instanceof TypeError) {
       dispatch(getError(result.message))
+    } else if (result.error) {
+      dispatch(getError(result.error))
     } else {
       dispatch(getSuccess(result.user))
       Cookies.set('token', result.token, { expires: 1 })

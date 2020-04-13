@@ -1,11 +1,13 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { push } from 'connected-react-router'
 import { formatRelative, parseISO } from 'date-fns'
 import slugify from 'slugify'
 import { saveAs } from 'file-saver'
 import {
   Button,
-  Card, CardContent,
+  Card, CardContent, CardHeader,
+  Fab,
   Grid,
   Table, TableBody, TableCell, TableHead, TableRow,
   Typography
@@ -40,6 +42,17 @@ export default function CertificatesIssuer () {
         </Grid>
         <Grid item xs={12}>
           <Card>
+            <CardHeader
+              title='My certificates'
+              avatar={
+                <Fab
+                  onClick={() => dispatch(push('/certificates/my'))}
+                  color='primary'
+                >
+                  <Link />
+                </Fab>
+              }
+            />
             <CardContent>
               <Table>
                 <TableHead>

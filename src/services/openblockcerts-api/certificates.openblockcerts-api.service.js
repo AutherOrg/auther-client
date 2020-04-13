@@ -1,3 +1,5 @@
+import qs from 'qs'
+
 import helper from './helpers/headers.openblockcerts-api.helper'
 
 const route = process.env.REACT_APP_API + 'certificates'
@@ -33,10 +35,14 @@ const destroy = async id => {
   }
 }
 
-const getAll = async () => {
+const getAll = async params => {
   try {
+    let uri = route
+    if (params) {
+      uri = `${route}?${qs.stringify(params)}`
+    }
     const response = await window.fetch(
-      route, {
+      uri, {
         method: 'GET',
         headers: helper.setHeadersWithToken()
       }

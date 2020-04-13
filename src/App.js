@@ -266,8 +266,8 @@ export default function App () {
               <Route exact path='/auth/login/permanent/:permanentToken' component={LoginFromPermanentToken} />
               <Route exact path='/auth/password/validate/:passwordToken' component={ValidatePassword} />
               <Route exact path='/certificates/shared/:uuid' component={Share} />
-              <PrivateRoute userRoles={[constants.role.RECIPIENT]} exact path='/certificates/my' component={CertificatesRecipient} />
-              <PrivateRoute userRoles={[constants.role.RECIPIENT]} exact path='/certificates/:id' component={Certificate} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER, constants.role.RECIPIENT]} exact path='/certificates/my' component={CertificatesRecipient} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER, constants.role.RECIPIENT]} exact path='/certificates/:id' component={Certificate} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER]} exact path='/certificates' component={CertificatesIssuer} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER]} exact path='/batches' component={Batches} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER]} exact path='/batches/create' component={CreateBatch} />

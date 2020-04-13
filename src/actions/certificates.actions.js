@@ -1,10 +1,10 @@
 import types from '../constants/actions.types.constants'
 import service from '../services/openblockcerts-api/certificates.openblockcerts-api.service'
 
-const getAll = () => {
+const getAll = params => {
   return async dispatch => {
     dispatch(getAllBegin())
-    const result = await service.getAll()
+    const result = await service.getAll(params)
     if (result instanceof TypeError) {
       dispatch(getAllError(result.message))
     } else {
