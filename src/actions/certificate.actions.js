@@ -11,7 +11,7 @@ const destroy = id => {
       dispatch(destroyError(result.message))
     } else {
       dispatch(destroySuccess())
-      dispatch(push('/certificates'))
+      dispatch(push('/certificates/my'))
     }
   }
 }

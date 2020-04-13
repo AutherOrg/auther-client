@@ -18,7 +18,7 @@ const get = (email, password) => {
       dispatch(getSuccess(result.user))
       Cookies.set('token', result.token, { expires: 1 })
       if (result.user.role === userConstants.role.RECIPIENT) {
-        dispatch(push('/certificates'))
+        dispatch(push('/certificates/my'))
       } else if ([
         userConstants.role.ADMIN,
         userConstants.role.MANAGER,
@@ -61,7 +61,7 @@ const getFromPermanentToken = permanentToken => {
       Cookies.set('token', result.token, { expires: 1 })
       if (result.user.status === userConstants.status.ACTIVE) {
         if (result.user.role === userConstants.role.RECIPIENT) {
-          dispatch(push('/certificates'))
+          dispatch(push('/certificates/my'))
         } else if ([
           userConstants.role.ADMIN,
           userConstants.role.MANAGER,
@@ -130,7 +130,7 @@ const validatePassword = passwordToken => {
       dispatch(validatePasswordSuccess())
       dispatch(getSuccess(result.user))
       Cookies.set('token', result.token, { expires: 1 })
-      dispatch(push('/certificates'))
+      dispatch(push('/certificates/my'))
     } catch (e) {
       dispatch(validatePasswordError(e.message))
     }
