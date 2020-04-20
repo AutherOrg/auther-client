@@ -16,6 +16,7 @@
     "@testing-library/user-event": "^7.1.2",
     "@web3-react/core": "^6.0.2",
     "@web3-react/injected-connector": "^6.0.3",
+    "blockcerts-issuer-helper": "^1.0.0",
     "connected-react-router": "^6.6.1",
     "date-fns": "^2.9.0",
     "dexie": "^2.0.4",
