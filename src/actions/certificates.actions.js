@@ -1,5 +1,5 @@
 import types from '../constants/actions.types.constants'
-import service from '../services/openblockcerts-api/certificates.openblockcerts-api.service'
+import service from '../services/auther-api/certificates.auther-api.service'
 
 const getAll = params => {
   return async dispatch => {

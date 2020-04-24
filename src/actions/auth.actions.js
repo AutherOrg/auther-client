@@ -2,7 +2,7 @@ import Cookies from 'js-cookie'
 import { push } from 'connected-react-router'
 
 import types from '../constants/actions.types.constants'
-import service from '../services/openblockcerts-api/auth.openblockcerts-api.service'
+import service from '../services/auther-api/auth.auther-api.service'
 import userConstants from '../constants/users.constants'
 import issuersActions from './issuers.actions'
 

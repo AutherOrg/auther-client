@@ -157,7 +157,7 @@ export default function System () {
     const file = await exportDB(db)
     saveAs(
       new window.Blob([file], { type: 'application/json;charset=utf-8' }),
-      'OpenBlockcertsIndexedDB.json'
+      'AutherIndexedDB.json'
     )
   }
 

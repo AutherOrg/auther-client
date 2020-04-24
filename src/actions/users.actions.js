@@ -1,7 +1,7 @@
 import { push } from 'connected-react-router'
 
 import types from '../constants/actions.types.constants'
-import service from '../services/openblockcerts-api/users.openblockcerts-api.service'
+import service from '../services/auther-api/users.auther-api.service'
 
 const create = user => {
   return async dispatch => {

@@ -1,6 +1,6 @@
 import types from '../constants/actions.types.constants'
 import jobsDexieService from '../services/dexie/jobs.dexie.service'
-import certificatesApiService from '../services/openblockcerts-api/certificates.openblockcerts-api.service'
+import certificatesApiService from '../services/auther-api/certificates.auther-api.service'
 
 const create = data => {
   return async dispatch => {

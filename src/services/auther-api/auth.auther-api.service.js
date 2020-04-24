@@ -1,4 +1,4 @@
-import helper from './helpers/headers.openblockcerts-api.helper'
+import helper from './helpers/headers.auther-api.helper'
 
 const route = process.env.REACT_APP_API + 'auth/local'
 
