@@ -23,32 +23,35 @@ const login = async (email, password) => {
   }
 }
 
-const loginFromPermanentToken = async permanentToken => {
+const loginFromToken = async () => {
   try {
     const response = await window.fetch(
-      `${route}/permanent`, {
-        method: 'POST',
-        headers: helper.setHeaders(),
-        body: JSON.stringify({
-          permanentToken
-        })
+      `${route}`, {
+        method: 'GET',
+        headers: helper.setHeadersWithToken()
       }
     )
-    const result = await response.json()
+    let result
+    if (response.ok) {
+      result = await response.json()
+    } else {
+      result = {
+        expiredToken: true
+      }
+    }
     return result
   } catch (e) {
     return e
   }
 }
 
-const setPassword = async (email, password) => {
+const setPassword = async password => {
   try {
     const response = await window.fetch(
       `${route}/password/set`, {
         method: 'POST',
-        headers: helper.setHeaders(),
+        headers: helper.setHeadersWithToken(),
         body: JSON.stringify({
-          email,
           password
         })
       }
@@ -60,15 +63,30 @@ const setPassword = async (email, password) => {
   }
 }
 
-const validatePassword = async passwordToken => {
+const resetPassword = async email => {
   try {
     const response = await window.fetch(
-      `${route}/password/validate`, {
+      `${route}/password/reset`, {
         method: 'POST',
         headers: helper.setHeaders(),
         body: JSON.stringify({
-          passwordToken
+          email
         })
+      }
+    )
+    const result = await response.json()
+    return result
+  } catch (e) {
+    return e
+  }
+}
+
+const resetPasswordProcess = async () => {
+  try {
+    const response = await window.fetch(
+      `${route}/password/reset`, {
+        method: 'GET',
+        headers: helper.setHeadersWithToken()
       }
     )
     const result = await response.json()
@@ -80,7 +98,8 @@ const validatePassword = async passwordToken => {
 
 export default {
   login,
-  loginFromPermanentToken,
+  loginFromToken,
   setPassword,
-  validatePassword
+  resetPassword,
+  resetPasswordProcess
 }

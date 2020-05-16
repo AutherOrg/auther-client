@@ -52,29 +52,40 @@ const getError = error => ({
   error
 })
 
-const getFromPermanentToken = permanentToken => {
+const getFromToken = token => {
   return async dispatch => {
     dispatch(getBegin())
-    try {
-      const result = await service.loginFromPermanentToken(permanentToken)
-      dispatch(getSuccess(result.user))
-      Cookies.set('token', result.token, { expires: 1 })
-      if (result.user.status === userConstants.status.ACTIVE) {
-        if (result.user.role === userConstants.role.RECIPIENT) {
-          dispatch(push('/certificates/my'))
-        } else if ([
-          userConstants.role.ADMIN,
-          userConstants.role.MANAGER,
-          userConstants.role.ISSUER
-        ].includes(result.user.role)) {
-          dispatch(push('/batches'))
+    Cookies.set('token', token, { expires: 30 })
+    const result = await service.loginFromToken()
+    if (result instanceof TypeError) {
+      dispatch(getError(result.message))
+    } else if (result.error) {
+      dispatch(getError(result.error))
+    } else {
+      if (result.expiredToken) {
+        dispatch(getFromTokenExpired())
+        dispatch(push('/auth/login'))
+      } else {
+        dispatch(getSuccess(result.user))
+        if (result.user.status === userConstants.status.ACTIVE) {
+          if (result.user.role === userConstants.role.RECIPIENT) {
+            dispatch(push('/certificates/my'))
+          } else if ([
+            userConstants.role.ADMIN,
+            userConstants.role.MANAGER,
+            userConstants.role.ISSUER
+          ].includes(result.user.role)) {
+            dispatch(push('/batches'))
+          }
         }
       }
-    } catch (e) {
-      dispatch(getError(e.message))
     }
   }
 }
+
+const getFromTokenExpired = () => ({
+  type: types.GET_AUTH_ERROR_EXPIRED_TOKEN
+})
 
 const logout = () => {
   return dispatch => {
@@ -92,14 +103,17 @@ const setHasApi = () => ({
   type: types.SET_HAS_API
 })
 
-const setPassword = (email, password) => {
+const setPassword = password => {
   return async dispatch => {
     dispatch(setPasswordBegin())
-    try {
-      const result = await service.setPassword(email, password)
+    const result = await service.setPassword(password)
+    if (result instanceof TypeError) {
+      dispatch(setPasswordError(result.message))
+    } else if (result.error) {
+      dispatch(setPasswordError(result.error))
+    } else {
       dispatch(setPasswordSuccess(result.user))
-    } catch (e) {
-      dispatch(setPasswordError(e.message))
+      dispatch(push('/certificates/my'))
     }
   }
 }
@@ -117,45 +131,74 @@ const setPasswordError = error => ({
   error
 })
 
+const resetPassword = email => {
+  return async dispatch => {
+    dispatch(resetPasswordBegin())
+    const result = await service.resetPassword(email)
+    if (result instanceof TypeError) {
+      dispatch(resetPasswordError(result.message))
+    } else if (result.error) {
+      dispatch(resetPasswordError(result.error))
+    } else {
+      dispatch(resetPasswordSuccess())
+    }
+  }
+}
+
+const resetPasswordBegin = () => ({
+  type: types.RESET_PASSWORD_BEGIN
+})
+
+const resetPasswordSuccess = () => ({
+  type: types.RESET_PASSWORD_SUCCESS
+})
+
+const resetPasswordError = error => ({
+  type: types.RESET_PASSWORD_ERROR,
+  error
+})
+
+const resetPasswordProcess = token => {
+  return async dispatch => {
+    dispatch(resetPasswordProcessBegin())
+    Cookies.set('token', token, { expires: 30 })
+    const result = await service.resetPasswordProcess()
+    if (result instanceof TypeError) {
+      dispatch(resetPasswordProcessError(result.message))
+    } else if (result.error) {
+      dispatch(resetPasswordProcessError(result.error))
+    } else {
+      dispatch(resetPasswordProcessSuccess())
+      dispatch(push(`/auth/login/token/${token}`))
+    }
+  }
+}
+
+const resetPasswordProcessBegin = () => ({
+  type: types.RESET_PASSWORD_PROCESS_BEGIN
+})
+
+const resetPasswordProcessSuccess = () => ({
+  type: types.RESET_PASSWORD_PROCESS_SUCCESS
+})
+
+const resetPasswordProcessError = error => ({
+  type: types.RESET_PASSWORD_PROCESS_ERROR,
+  error
+})
+
 const setRole = role => ({
   type: types.SET_ROLE,
   role
 })
 
-const validatePassword = passwordToken => {
-  return async dispatch => {
-    dispatch(validatePasswordBegin())
-    try {
-      const result = await service.validatePassword(passwordToken)
-      dispatch(validatePasswordSuccess())
-      dispatch(getSuccess(result.user))
-      Cookies.set('token', result.token, { expires: 1 })
-      dispatch(push('/certificates/my'))
-    } catch (e) {
-      dispatch(validatePasswordError(e.message))
-    }
-  }
-}
-
-const validatePasswordBegin = () => ({
-  type: types.VALIDATE_PASSWORD_BEGIN
-})
-
-const validatePasswordSuccess = () => ({
-  type: types.VALIDATE_PASSWORD_SUCCESS
-})
-
-const validatePasswordError = error => ({
-  type: types.VALIDATE_PASSWORD_ERROR,
-  error
-})
-
 export default {
   get,
-  getFromPermanentToken,
+  getFromToken,
   logout,
   setHasApi,
   setPassword,
-  setRole,
-  validatePassword
+  resetPassword,
+  resetPasswordProcess,
+  setRole
 }

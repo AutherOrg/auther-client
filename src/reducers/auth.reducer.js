@@ -3,8 +3,8 @@ import constants from '../constants/users.constants'
 
 const initialState = {
   isLogged: false,
-  passwordEmailSent: false,
-  passwordValidated: false,
+  resetPasswordEmailSent: false,
+  expiredToken: false,
   id: 0,
   email: '',
   status: constants.status.INACTIVE,
@@ -25,7 +25,8 @@ export default (state = initialState, action) => {
         status: action.status,
         role: action.role,
         createdAt: action.createdAt,
-        updatedAt: action.updatedAt
+        updatedAt: action.updatedAt,
+        expiredToken: false
       }
 
     case types.SET_HAS_API:
@@ -37,13 +38,19 @@ export default (state = initialState, action) => {
     case types.SET_PASSWORD_SUCCESS:
       return {
         ...state,
-        passwordEmailSent: true
+        status: action.status
       }
 
-    case types.VALIDATE_PASSWORD_SUCCESS:
+    case types.RESET_PASSWORD_SUCCESS:
       return {
         ...state,
-        passwordValidated: true
+        resetPasswordEmailSent: true
+      }
+
+    case types.GET_AUTH_ERROR_EXPIRED_TOKEN:
+      return {
+        ...state,
+        expiredToken: true
       }
 
     case types.SET_ROLE:

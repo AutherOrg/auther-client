@@ -9,7 +9,8 @@ export default (state = initialState, action) => {
     case types.CREATE_BACKDROP:
     case types.GET_AUTH_BEGIN:
     case types.SET_PASSWORD_BEGIN:
-    case types.VALIDATE_PASSWORD_BEGIN:
+    case types.RESET_PASSWORD_BEGIN:
+    case types.RESET_PASSWORD_PROCESS_BEGIN:
     case types.GET_CERTIFICATES_BEGIN:
     case types.CREATE_ISSUER_BEGIN:
     case types.GET_ISSUER_BEGIN:
@@ -51,7 +52,9 @@ export default (state = initialState, action) => {
     case types.CLOSE_BACKDROP:
     case types.GET_AUTH_SUCCESS:
     case types.SET_PASSWORD_SUCCESS:
-    case types.VALIDATE_PASSWORD_SUCCESS:
+    case types.RESET_PASSWORD_SUCCESS:
+    case types.RESET_PASSWORD_PROCESS_SUCCESS:
+    case types.GET_AUTH_ERROR_EXPIRED_TOKEN:
     case types.GET_CERTIFICATES_SUCCESS:
     case types.CREATE_ISSUER_SUCCESS:
     case types.GET_ISSUER_NO_RESULT:

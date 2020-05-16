@@ -35,8 +35,9 @@ import ServicesError from './components/organisms/ServicesError'
 // Public & auth.
 import Home from './components/pages/Home'
 import Login from './components/pages/Login'
-import LoginFromPermanentToken from './components/pages/LoginFromPermanentToken'
-import ValidatePassword from './components/pages/ValidatePassword'
+import LoginFromToken from './components/pages/LoginFromToken'
+import ResetPassword from './components/pages/ResetPassword'
+import ResetPasswordProcess from './components/pages/ResetPasswordProcess'
 import Unauthorized from './components/pages/Unauthorized'
 import Share from './components/pages/Share'
 // Recipient.
@@ -263,8 +264,9 @@ export default function App () {
             <Switch>
               <Route exact path='/' component={Home} />
               <Route exact path='/auth/login' component={Login} />
-              <Route exact path='/auth/login/permanent/:permanentToken' component={LoginFromPermanentToken} />
-              <Route exact path='/auth/password/validate/:passwordToken' component={ValidatePassword} />
+              <Route exact path='/auth/login/token/:token' component={LoginFromToken} />
+              <Route exact path='/auth/password/reset' component={ResetPassword} />
+              <Route exact path='/auth/password/reset/process/:token' component={ResetPasswordProcess} />
               <Route exact path='/certificates/shared/:uuid' component={Share} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER, constants.role.RECIPIENT]} exact path='/certificates/my' component={CertificatesRecipient} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER, constants.role.RECIPIENT]} exact path='/certificates/:id' component={Certificate} />

@@ -9,7 +9,8 @@ export default (state = initialState, action) => {
     case types.CREATE_ERROR:
     case types.GET_AUTH_ERROR:
     case types.SET_PASSWORD_ERROR:
-    case types.VALIDATE_PASSWORD_ERROR:
+    case types.RESET_PASSWORD_ERROR:
+    case types.RESET_PASSWORD_PROCESS_ERROR:
     case types.CREATE_ISSUER_ERROR:
     case types.GET_ISSUER_ERROR:
     case types.UPDATE_ISSUER_ERROR:

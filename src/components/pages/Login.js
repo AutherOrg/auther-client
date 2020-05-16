@@ -1,5 +1,6 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { push } from 'connected-react-router'
 import {
   Button,
   Grid,
@@ -12,12 +13,11 @@ import actions from '../../actions/auth.actions'
 
 export default function Login () {
   const dispatch = useDispatch()
-
+  const authReducer = useSelector(state => state.authReducer)
   const [values, setValues] = React.useState({
     email: '',
     password: ''
   })
-
   const handleChange = name => event => {
     setValues({
       ...values,
@@ -30,6 +30,13 @@ export default function Login () {
       <Grid item xs={12} align='center'>
         <Typography variant='h1' gutterBottom>Login</Typography>
       </Grid>
+      {
+        authReducer.expiredToken && (
+          <Grid item xs={12} align='center'>
+            <Typography gutterBottom>The link has expired, please login again or request a new password if you never set one or forgot it.</Typography>
+          </Grid>
+        )
+      }
       <Grid item xs={12} align='center'>
         <TextField
           id='email'
@@ -63,6 +70,14 @@ export default function Login () {
           startIcon={<LockOpen />}
         >
           Login
+        </Button>
+      </Grid>
+      <Grid item xs={12} align='center'>
+        <Button
+          onClick={() => dispatch(push('/auth/password/reset'))}
+          size='small'
+        >
+          Request new password
         </Button>
       </Grid>
     </Grid>
