@@ -77,14 +77,14 @@ export default function Certificate ({ match }) {
                     To verify this certificate, scan this QR code or go to:
                   </Typography>
                   <Typography variant='caption' paragraph>
-                    {`${window.location.origin}/certificates/shared/${reducer.uuid}`}
+                    {`${window.location.origin}/certificates/shared/${reducer.sharingUuid}`}
                   </Typography>
                   <QRCode
                     bgColor='#FFFFFF'
                     fgColor='#000000'
                     level='Q'
                     style={{ width: 100 }}
-                    value={`${window.location.origin}/certificates/shared/${reducer.uuid}`}
+                    value={`${window.location.origin}/certificates/shared/${reducer.sharingUuid}`}
                   />
                 </div>
               )}
@@ -140,7 +140,7 @@ export default function Certificate ({ match }) {
                   </CardContent>
                   <CardActions>
                     <Button
-                      href={`/certificates/shared/${reducer.uuid}`}
+                      href={`/certificates/shared/${reducer.sharingUuid}`}
                       target='shared'
                       rel='noopener noreferrer'
                       startIcon={<Link />}
@@ -149,7 +149,7 @@ export default function Certificate ({ match }) {
                       Open link
                     </Button>
                     <CopyToClipboard
-                      text={`${window.location.origin}/certificates/shared/${reducer.uuid}`}
+                      text={`${window.location.origin}/certificates/shared/${reducer.sharingUuid}`}
                       onCopy={() => handleCopied()}
                     >
                       <Button

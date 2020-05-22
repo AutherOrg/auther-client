@@ -16,7 +16,7 @@ const destroy = async id => {
   }
 }
 
-const getAll = async () => {
+const getMany = async () => {
   try {
     return await db.batches.reverse().toArray()
   } catch (e) {
@@ -35,6 +35,6 @@ const getOne = async id => {
 export default {
   create,
   destroy,
-  getAll,
+  getMany,
   getOne
 }

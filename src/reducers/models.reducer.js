@@ -10,8 +10,9 @@ const initialState = {
   name: '',
   description: '',
   image: '',
+  template: '',
   signatures: [],
-  template: ''
+  Signatures: []
 }
 
 export default (state = initialState, action) => {
@@ -25,13 +26,17 @@ export default (state = initialState, action) => {
     case types.SET_MODEL:
       return {
         ...state,
+        hasChanged: false,
         id: action.model.id,
         status: action.model.status,
         name: action.model.name,
         description: action.model.description,
         image: action.model.image,
-        signatures: action.model.signatures,
-        template: action.model.template
+        template: action.model.template,
+        signatures: action.model.Signatures.map(Signature => {
+          return Signature.id
+        }),
+        Signatures: action.model.Signatures,
       }
 
     case types.SET_MODEL_VALUE:
@@ -44,13 +49,17 @@ export default (state = initialState, action) => {
     case types.ADD_SIGNATURE_TO_MODEL:
       return {
         ...state,
-        signatures: [...state.signatures, action.id]
+        hasChanged: true,
+        signatures: [...state.signatures, action.signature.id],
+        Signatures: [...state.Signatures, action.signature]
       }
 
     case types.REMOVE_SIGNATURE_FROM_MODEL:
       return {
         ...state,
-        signatures: state.signatures.filter(id => id !== action.id)
+        hasChanged: true,
+        signatures: state.signatures.filter(id => id !== action.signature.id),
+        Signatures: state.Signatures.filter(signature => signature.id !== action.signature.id)
       }
 
     case types.RESET_MODEL:

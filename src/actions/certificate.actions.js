@@ -1,7 +1,7 @@
 import { push } from 'connected-react-router'
 
 import types from '../constants/actions.types.constants'
-import service from '../services/auther-api/certificates.auther-api.service'
+import service from '../services/api/certificates.api.service'
 
 const destroy = id => {
   return async dispatch => {
@@ -45,9 +45,9 @@ const getBegin = () => ({
   type: types.GET_CERTIFICATE_BEGIN
 })
 
-const getSuccess = certificate => ({
+const getSuccess = data => ({
   type: types.GET_CERTIFICATE_SUCCESS,
-  certificate
+  data
 })
 
 const getError = error => ({
@@ -55,10 +55,10 @@ const getError = error => ({
   error
 })
 
-const getShared = uuid => {
+const getShared = sharingUuid => {
   return async dispatch => {
     dispatch(getSharedBegin())
-    const result = await service.getShared(uuid)
+    const result = await service.getShared(sharingUuid)
     if (result instanceof TypeError) {
       dispatch(getSharedError(result.message))
     } else if (result.error) {
@@ -73,10 +73,9 @@ const getSharedBegin = () => ({
   type: types.GET_SHARED_CERTIFICATE_BEGIN
 })
 
-const getSharedSuccess = certificate => ({
+const getSharedSuccess = data => ({
   type: types.GET_SHARED_CERTIFICATE_SUCCESS,
-  uuid: certificate.uuid,
-  json: certificate.json
+  data
 })
 
 const getSharedError = error => ({
@@ -100,9 +99,9 @@ const updateBegin = () => ({
   type: types.UPDATE_CERTIFICATE_BEGIN
 })
 
-const updateSuccess = certificate => ({
+const updateSuccess = data => ({
   type: types.UPDATE_CERTIFICATE_SUCCESS,
-  certificate
+  data
 })
 
 const updateError = error => ({

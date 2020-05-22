@@ -17,9 +17,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Save } from '@material-ui/icons'
 
 import actions from '../../actions/models.actions'
-import signaturesActions from '../../actions/signatures.actions'
-import constants from '../../constants/models.constants'
 import templates from '../../templates/index.templates'
+import signaturesActions from '../../actions/signatures.actions'
 
 const useStyles = makeStyles(theme => ({
   modelImage: {
@@ -54,15 +53,15 @@ export default function Model ({ match }) {
     }
   }
 
-  const hasSignature = signatureId => {
-    return modelsReducer.signatures.findIndex(e => e === signatureId) > -1
+  const hasSignature = signature => {
+    return modelsReducer.Signatures.findIndex(e => e.id === signature.id) > -1
   }
 
-  const toggleSignature = signatureId => {
-    if (hasSignature(signatureId)) {
-      dispatch(actions.removeSignature(signatureId))
+  const toggleSignature = signature => {
+    if (hasSignature(signature)) {
+      dispatch(actions.removeSignature(signature))
     } else {
-      dispatch(actions.addSignature(signatureId))
+      dispatch(actions.addSignature(signature))
     }
   }
 
@@ -101,7 +100,6 @@ export default function Model ({ match }) {
 
   const submit = () => {
     const model = {
-      status: constants.STATUS.ACTIVE,
       name: modelsReducer.name,
       description: modelsReducer.description,
       image: modelsReducer.image,
@@ -116,7 +114,7 @@ export default function Model ({ match }) {
   }
 
   React.useEffect(() => {
-    dispatch(signaturesActions.getAll())
+    dispatch(signaturesActions.getMany())
     const { id } = match.params
     if (id > 0) {
       dispatch(actions.getOne(id))
@@ -185,8 +183,8 @@ export default function Model ({ match }) {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={hasSignature(signature.id)}
-                        onChange={event => toggleSignature(Number(event.target.value))}
+                        checked={hasSignature(signature)}
+                        onChange={event => toggleSignature(signature)}
                         value={signature.id}
                         color='primary'
                       />

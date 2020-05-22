@@ -12,7 +12,6 @@ export default (state = initialState, action) => {
     case types.RESET_PASSWORD_BEGIN:
     case types.RESET_PASSWORD_PROCESS_BEGIN:
     case types.GET_CERTIFICATES_BEGIN:
-    case types.CREATE_ISSUER_BEGIN:
     case types.GET_ISSUER_BEGIN:
     case types.UPDATE_ISSUER_BEGIN:
     case types.CREATE_MODEL_BEGIN:
@@ -29,9 +28,9 @@ export default (state = initialState, action) => {
     case types.GET_ALL_BATCHES_BEGIN:
     case types.SET_BATCH_BEGIN:
     case types.SIGN_BATCH_BEGIN:
-    case types.CREATE_REVOKED_BEGIN:
-    case types.DESTROY_REVOKED_BEGIN:
-    case types.GET_REVOKED_BEGIN:
+    case types.CREATE_REVOCATION_BEGIN:
+    case types.DESTROY_REVOCATION_BEGIN:
+    case types.GET_MANY_REVOCATION_BEGIN:
     case types.DESTROY_CERTIFICATE_BEGIN:
     case types.GET_CERTIFICATE_BEGIN:
     case types.GET_SHARED_CERTIFICATE_BEGIN:
@@ -44,6 +43,8 @@ export default (state = initialState, action) => {
     case types.GET_USER_BEGIN:
     case types.UPDATE_USER_BEGIN:
     case types.DESTROY_USER_BEGIN:
+    case types.GET_BLOCKCERTS_ISSUER_BEGIN:
+    case types.GET_BLOCKCERTS_REVOCATIONS_BEGIN:
       return {
         ...state,
         open: true
@@ -56,8 +57,6 @@ export default (state = initialState, action) => {
     case types.RESET_PASSWORD_PROCESS_SUCCESS:
     case types.GET_AUTH_ERROR_EXPIRED_TOKEN:
     case types.GET_CERTIFICATES_SUCCESS:
-    case types.CREATE_ISSUER_SUCCESS:
-    case types.GET_ISSUER_NO_RESULT:
     case types.GET_ISSUER_SUCCESS:
     case types.UPDATE_ISSUER_SUCCESS:
     case types.CREATE_MODEL_SUCCESS:
@@ -74,9 +73,9 @@ export default (state = initialState, action) => {
     case types.SET_BATCH_SUCCESS:
     case types.SIGN_BATCH_SUCCESS:
     case types.GET_ALL_BATCHES_SUCCESS:
-    case types.CREATE_REVOKED_SUCCESS:
-    case types.DESTROY_REVOKED_SUCCESS:
-    case types.GET_REVOKED_SUCCESS:
+    case types.CREATE_REVOCATION_SUCCESS:
+    case types.DESTROY_REVOCATION_SUCCESS:
+    case types.GET_MANY_REVOCATION_SUCCESS:
     case types.DESTROY_CERTIFICATE_SUCCESS:
     case types.GET_CERTIFICATE_SUCCESS:
     case types.GET_SHARED_CERTIFICATE_SUCCESS:
@@ -89,6 +88,8 @@ export default (state = initialState, action) => {
     case types.GET_USER_SUCCESS:
     case types.UPDATE_USER_SUCCESS:
     case types.DESTROY_USER_SUCCESS:
+    case types.GET_BLOCKCERTS_ISSUER_SUCCESS:
+    case types.GET_BLOCKCERTS_REVOCATIONS_SUCCESS:
       return initialState
 
     default:

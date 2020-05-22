@@ -10,24 +10,22 @@ import {
   TableContainer, Table, TableBody, TableCell, TableHead, TableRow,
   Typography
 } from '@material-ui/core'
-import { AddCircle, Check, Close, CloudDownload, RemoveCircle, School } from '@material-ui/icons'
+import { AddCircle, CloudDownload, RemoveCircle, School } from '@material-ui/icons'
 
 import actions from '../../actions/batch.actions'
-import revokedActions from '../../actions/revoked.actions'
-import confirmationActions from '../../actions/confirmation.actions'
+import revocationsActions from '../../actions/revocations.actions'
 import constants from '../../constants/batches.constants'
 import CertificateDialog from '../organisms/CertificateDialog'
-import ConfirmationDialog from '../organisms/ConfirmationDialog'
 
 export default function Batch ({ match }) {
   const dispatch = useDispatch()
   const batchReducer = useSelector(state => state.batchReducer)
   const certificateReducer = useSelector(state => state.certificateReducer)
-  const revokedReducer = useSelector(state => state.revokedReducer)
+  const revocationsReducer = useSelector(state => state.revocationsReducer)
 
   React.useEffect(() => {
     dispatch(actions.get(match.params.id))
-    dispatch(revokedActions.get())
+    dispatch(revocationsActions.getMany())
   }, [dispatch, match.params.id])
 
   if (batchReducer.status === constants.STATUS.EMPTY) {
@@ -44,29 +42,19 @@ export default function Batch ({ match }) {
   }
 
   const isRevoked = certificate => {
-    return revokedReducer.revoked.findIndex(e => e.certificateId === certificate.id) > -1
+    return revocationsReducer.revocations.findIndex(e => e.blockcertsUuid === certificate.id) > -1
   }
 
-  const handleSet = certificate => {
-    dispatch(revokedActions.set(certificate.id, 'Revoked by the Issuer'))
-    dispatch(confirmationActions.create('Revoke certificate?'))
-  }
-
-  const handleRevoke = () => {
-    dispatch(revokedActions.create({
-      certificateId: revokedReducer.certificateId,
-      revocationReason: revokedReducer.revocationReason
+  const handleRevoke = certificate => {
+    dispatch(revocationsActions.create({
+      blockcertsUuid: certificate.id,
+      revocationReason: 'Revoked by the issuer.'
     }))
   }
 
-  const handleCancel = () => {
-    dispatch(confirmationActions.reset())
-    dispatch(revokedActions.cancel())
-  }
-
   const handleUnrevoke = certificate => {
-    const revoked = revokedReducer.revoked.find(e => e.certificateId === certificate.id)
-    dispatch(revokedActions.destroy(revoked.id))
+    const revocation = revocationsReducer.revocations.find(e => e.blockcertsUuid === certificate.id)
+    dispatch(revocationsActions.destroy(revocation.id))
   }
 
   return (
@@ -124,7 +112,7 @@ export default function Batch ({ match }) {
                           )
                           : (
                             <Button
-                              onClick={() => handleSet(certificate)}
+                              onClick={() => handleRevoke(certificate)}
                               startIcon={<RemoveCircle />}
                             >
                               Revoke
@@ -139,25 +127,6 @@ export default function Batch ({ match }) {
           </TableContainer>
         </Grid>
       </Grid>
-      <ConfirmationDialog
-        actions={
-          <>
-            <Button
-              onClick={() => handleCancel()}
-              startIcon={<Close />}
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={() => handleRevoke()}
-              startIcon={<Check />}
-              color='primary'
-            >
-              Revoke
-            </Button>
-          </>
-        }
-      />
       {certificateReducer.id > 0 && <CertificateDialog />}
     </>
   )

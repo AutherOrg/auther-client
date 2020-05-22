@@ -19,7 +19,7 @@ export default function Users () {
   const usersReducer = useSelector(state => state.usersReducer)
 
   React.useEffect(() => {
-    dispatch(actions.getAll({ withoutRecipients: true }))
+    dispatch(actions.getMany({ withoutRecipients: true }))
   }, [dispatch])
 
   return (

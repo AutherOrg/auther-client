@@ -1,8 +1,8 @@
 import qs from 'qs'
 
-import helper from './helpers/headers.auther-api.helper'
+import helper from './helper.api'
 
-const route = process.env.REACT_APP_API + 'certificates'
+const route = `${process.env.REACT_APP_API}/certificates`
 
 const create = async certificate => {
   try {
@@ -35,7 +35,7 @@ const destroy = async id => {
   }
 }
 
-const getAll = async params => {
+const getMany = async params => {
   try {
     let uri = route
     if (params) {
@@ -67,10 +67,10 @@ const getOne = async id => {
   }
 }
 
-const getShared = async uuid => {
+const getShared = async sharingUuid => {
   try {
     const response = await window.fetch(
-      `${route}/shared/${uuid}`, {
+      `${route}/shared/${sharingUuid}`, {
         method: 'GET',
         headers: helper.setHeadersWithToken()
       }
@@ -99,7 +99,7 @@ const update = async (id, data) => {
 export default {
   create,
   destroy,
-  getAll,
+  getMany,
   getOne,
   getShared,
   update

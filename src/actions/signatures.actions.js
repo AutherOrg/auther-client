@@ -1,18 +1,16 @@
 import { push } from 'connected-react-router'
-import { getUnixTime } from 'date-fns'
 
 import types from '../constants/actions.types.constants'
-import service from '../services/dexie/signatures.dexie.service'
+import service from '../services/api/signatures.api.service'
 
-const create = signature => {
+const create = data => {
   return async dispatch => {
     dispatch(createBegin())
-    signature.updatedAt = signature.createdAt = getUnixTime(new Date())
-    const result = await service.create(signature)
+    const result = await service.create(data)
     if (result instanceof TypeError) {
       dispatch(createError(result.message))
     } else {
-      dispatch(createSuccess(signature))
+      dispatch(createSuccess(result))
       dispatch(push('/signatures'))
     }
   }
@@ -59,28 +57,28 @@ const destroyError = error => ({
   error
 })
 
-const getAll = () => {
+const getMany = () => {
   return async dispatch => {
-    dispatch(getAllBegin())
-    const result = await service.getAll()
+    dispatch(getManyBegin())
+    const result = await service.getMany()
     if (result instanceof TypeError) {
-      dispatch(getAllError(result.message))
+      dispatch(getManyError(result.message))
     } else {
-      dispatch(getAllSuccess(result))
+      dispatch(getManySuccess(result))
     }
   }
 }
 
-const getAllBegin = () => ({
+const getManyBegin = () => ({
   type: types.GET_ALL_SIGNATURES_BEGIN
 })
 
-const getAllSuccess = signatures => ({
+const getManySuccess = signatures => ({
   type: types.GET_ALL_SIGNATURES_SUCCESS,
   signatures
 })
 
-const getAllError = error => ({
+const getManyError = error => ({
   type: types.GET_ALL_SIGNATURES_ERROR,
   error
 })
@@ -122,15 +120,14 @@ const reset = () => ({
   type: types.RESET_SIGNATURE
 })
 
-const update = (id, signature) => {
+const update = (id, data) => {
   return async dispatch => {
     dispatch(updateBegin())
-    signature.updatedAt = getUnixTime(new Date())
-    const result = await service.update(id, signature)
+    const result = await service.update(id, data)
     if (result instanceof TypeError) {
       dispatch(updateError(result.message))
     } else {
-      dispatch(updateSuccess(id, signature))
+      dispatch(updateSuccess(id, result))
       dispatch(push('/signatures'))
     }
   }
@@ -154,7 +151,7 @@ const updateError = error => ({
 export default {
   create,
   destroy,
-  getAll,
+  getMany,
   getOne,
   reset,
   setValue,

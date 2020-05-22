@@ -1,22 +1,23 @@
 import types from '../constants/actions.types.constants'
 
 const initialState = {
-  open: false,
-  title: ''
+  issuer: {},
+  revocations: {}
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case types.CREATE_CONFIRMATION:
+    case types.GET_BLOCKCERTS_ISSUER_SUCCESS:
       return {
         ...state,
-        open: true,
-        title: action.title
+        issuer: action.data
       }
 
-    case types.RESET_CONFIRMATION:
-    case types.DESTROY_CERTIFICATE_SUCCESS:
-      return initialState
+    case types.GET_BLOCKCERTS_REVOCATIONS_SUCCESS:
+      return {
+        ...state,
+        revocations: action.data
+      }
 
     default:
       return state

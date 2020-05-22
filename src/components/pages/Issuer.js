@@ -12,7 +12,6 @@ import { Save } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
 
 import actions from '../../actions/issuers.actions'
-import constants from '../../constants/issuers.constants'
 
 const useStyles = makeStyles(theme => ({
   imgResponsive: {
@@ -28,7 +27,7 @@ export default function Issuer () {
   const issuersReducer = useSelector(state => state.issuersReducer)
 
   React.useEffect(() => {
-    dispatch(actions.getMy())
+    dispatch(actions.get())
   }, [dispatch])
 
   const handleImageChange = event => {
@@ -68,8 +67,7 @@ export default function Issuer () {
   }
 
   const submit = () => {
-    const issuer = {
-      status: constants.status.ACTIVE,
+    const data = {
       issuerProfileUrl: issuersReducer.issuerProfileUrl,
       name: issuersReducer.name,
       email: issuersReducer.email,
@@ -79,11 +77,7 @@ export default function Issuer () {
       revocationListUrl: issuersReducer.revocationListUrl,
       image: issuersReducer.image
     }
-    if (issuersReducer.hasIssuer) {
-      dispatch(actions.update(issuersReducer.id, issuer))
-    } else {
-      dispatch(actions.create(issuer))
-    }
+    dispatch(actions.update(data))
   }
 
   return (
@@ -93,11 +87,7 @@ export default function Issuer () {
       </Grid>
       <Grid item xs={12} align='center'>
         <Typography color='error' gutterBottom>
-          {
-            issuersReducer.hasIssuer
-              ? 'You should almost NEVER edit this data.'
-              : 'Before issuing certificates you must fill in this information, save, download the issuer profile and the revocation list JSON files and upload them at their declared URLs.'
-          }
+          You should almost NEVER edit this data.
         </Typography>
       </Grid>
       <Grid item xs={12} lg={6}>

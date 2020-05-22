@@ -10,8 +10,7 @@ const initialState = {
   status: constants.status.INACTIVE,
   role: constants.role.ANONYMOUS,
   createdAt: '',
-  updatedAt: '',
-  hasApi: process.env.REACT_APP_API !== 'none'
+  updatedAt: ''
 }
 
 export default (state = initialState, action) => {
@@ -27,12 +26,6 @@ export default (state = initialState, action) => {
         createdAt: action.createdAt,
         updatedAt: action.updatedAt,
         expiredToken: false
-      }
-
-    case types.SET_HAS_API:
-      return {
-        ...state,
-        hasApi: true
       }
 
     case types.SET_PASSWORD_SUCCESS:

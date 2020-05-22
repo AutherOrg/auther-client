@@ -17,7 +17,7 @@ export default (state = initialState, action) => {
     case types.CREATE_USER_SUCCESS:
       return {
         ...state,
-        users: [...state.users, action.user]
+        users: [...state.users, action.data]
       }
 
     case types.DESTROY_USER_SUCCESS:
@@ -29,16 +29,16 @@ export default (state = initialState, action) => {
     case types.GET_USERS_SUCCESS:
       return {
         ...state,
-        users: action.users
+        users: action.data
       }
 
     case types.GET_USER_SUCCESS:
       return {
         ...state,
-        id: action.user.id,
-        email: action.user.email,
-        status: action.user.status,
-        role: action.user.role
+        id: action.data.id,
+        email: action.data.email,
+        status: action.data.status,
+        role: action.data.role
       }
 
     case types.SET_USER_VALUE:
@@ -52,8 +52,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         users: state.users.map(user => {
-          if (user.id === action.user.id) {
-            return action.user
+          if (user.id === action.data.id) {
+            return action.data
           }
           return user
         })

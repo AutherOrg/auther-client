@@ -1,6 +1,6 @@
-import helper from './helpers/headers.auther-api.helper'
+import helper from './helper.api'
 
-const route = process.env.REACT_APP_API + 'auth/local'
+const route = `${process.env.REACT_APP_API}/auth/local`
 
 const login = async (email, password) => {
   try {
@@ -9,10 +9,8 @@ const login = async (email, password) => {
         method: 'POST',
         headers: helper.setHeaders(),
         body: JSON.stringify({
-          user: {
-            email,
-            password
-          }
+          email,
+          password
         })
       }
     )

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { push } from 'connected-react-router'
-import { format, fromUnixTime } from 'date-fns'
+import { format } from 'date-fns'
 import {
   Card, CardHeader, CardContent,
   Fab,
@@ -20,7 +20,7 @@ export default function Models () {
   const modelsReducer = useSelector(state => state.modelsReducer)
 
   React.useEffect(() => {
-    dispatch(actions.getAll())
+    dispatch(actions.getMany())
   }, [dispatch])
 
   return (
@@ -58,8 +58,8 @@ export default function Models () {
                     <TableRow key={index}>
                       <TableCell>{model.name}</TableCell>
                       <TableCell>{model.template}</TableCell>
-                      <TableCell>{format(fromUnixTime(model.createdAt), 'MM/dd/yyyy')}</TableCell>
-                      <TableCell>{format(fromUnixTime(model.updatedAt), 'MM/dd/yyyy')}</TableCell>
+                      <TableCell>{format(new Date(model.createdAt), 'MM/dd/yyyy')}</TableCell>
+                      <TableCell>{format(new Date(model.updatedAt), 'MM/dd/yyyy')}</TableCell>
                       <TableCell>
                         <IconButton
                           onClick={() => dispatch(push(`/models/${model.id}`))}

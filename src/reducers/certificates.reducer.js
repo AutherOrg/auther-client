@@ -9,7 +9,7 @@ export default (state = initialState, action) => {
     case types.GET_CERTIFICATES_SUCCESS:
       return {
         ...state,
-        certificates: action.certificates
+        certificates: action.data
       }
 
     default:

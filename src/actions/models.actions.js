@@ -1,18 +1,16 @@
 import { push } from 'connected-react-router'
-import { getUnixTime } from 'date-fns'
 
 import types from '../constants/actions.types.constants'
-import service from '../services/dexie/models.dexie.service'
+import service from '../services/api/models.api.service'
 
 const create = model => {
   return async dispatch => {
     dispatch(createBegin())
     try {
-      model.updatedAt = model.createdAt = getUnixTime(new Date())
       const result = await service.create(model)
       if (result) {
         dispatch(createSuccess())
-        dispatch(getAll())
+        dispatch(getMany())
         dispatch(push('/models'))
       }
     } catch (e) {
@@ -40,7 +38,7 @@ const destroy = id => {
     try {
       await service.destroy(id)
       dispatch(destroySuccess())
-      dispatch(getAll())
+      dispatch(getMany())
     } catch (e) {
       dispatch(destroyError(e.message))
     }
@@ -60,28 +58,28 @@ const destroyError = error => ({
   error
 })
 
-const getAll = () => {
+const getMany = params => {
   return async dispatch => {
-    dispatch(getAllBegin())
-    const result = await service.getAll()
+    dispatch(getManyBegin())
+    const result = await service.getMany(params)
     if (result instanceof TypeError) {
-      dispatch(getAllError(result.message))
+      dispatch(getManyError(result.message))
     } else {
-      dispatch(getAllSuccess(result))
+      dispatch(getManySuccess(result))
     }
   }
 }
 
-const getAllBegin = () => ({
+const getManyBegin = () => ({
   type: types.GET_ALL_MODELS_BEGIN
 })
 
-const getAllSuccess = models => ({
+const getManySuccess = models => ({
   type: types.GET_ALL_MODELS_SUCCESS,
   models
 })
 
-const getAllError = error => ({
+const getManyError = error => ({
   type: types.GET_ALL_MODELS_ERROR,
   error
 })
@@ -123,14 +121,14 @@ const setValue = (name, value) => ({
   value
 })
 
-const addSignature = id => ({
+const addSignature = signature => ({
   type: types.ADD_SIGNATURE_TO_MODEL,
-  id
+  signature
 })
 
-const removeSignature = id => ({
+const removeSignature = signature => ({
   type: types.REMOVE_SIGNATURE_FROM_MODEL,
-  id
+  signature
 })
 
 const reset = () => ({
@@ -141,10 +139,9 @@ const update = (id, model) => {
   return async dispatch => {
     dispatch(updateBegin())
     try {
-      model.updatedAt = getUnixTime(new Date())
       await service.update(id, model)
       dispatch(updateSuccess())
-      dispatch(getAll())
+      dispatch(getMany())
       dispatch(push('/models'))
     } catch (e) {
       dispatch(updateError(e.message))
@@ -168,7 +165,7 @@ const updateError = error => ({
 export default {
   create,
   destroy,
-  getAll,
+  getMany,
   getOne,
   reset,
   setModel,

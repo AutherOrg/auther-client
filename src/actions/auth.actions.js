@@ -2,9 +2,8 @@ import Cookies from 'js-cookie'
 import { push } from 'connected-react-router'
 
 import types from '../constants/actions.types.constants'
-import service from '../services/auther-api/auth.auther-api.service'
+import service from '../services/api/local.auth.api.service'
 import userConstants from '../constants/users.constants'
-import issuersActions from './issuers.actions'
 
 const get = (email, password) => {
   return async dispatch => {
@@ -24,7 +23,6 @@ const get = (email, password) => {
         userConstants.role.MANAGER,
         userConstants.role.ISSUER
       ].includes(result.user.role)) {
-        dispatch(issuersActions.getMy())
         dispatch(push('/'))
       } else {
         dispatch(push('/'))
@@ -66,15 +64,15 @@ const getFromToken = token => {
         dispatch(getFromTokenExpired())
         dispatch(push('/auth/login'))
       } else {
-        dispatch(getSuccess(result.user))
-        if (result.user.status === userConstants.status.ACTIVE) {
-          if (result.user.role === userConstants.role.RECIPIENT) {
+        dispatch(getSuccess(result))
+        if (result.status === userConstants.status.ACTIVE) {
+          if (result.role === userConstants.role.RECIPIENT) {
             dispatch(push('/certificates/my'))
           } else if ([
             userConstants.role.ADMIN,
             userConstants.role.MANAGER,
             userConstants.role.ISSUER
-          ].includes(result.user.role)) {
+          ].includes(result.role)) {
             dispatch(push('/batches'))
           }
         }
@@ -97,10 +95,6 @@ const logout = () => {
 
 const logoutSuccess = () => ({
   type: types.RESET_AUTH
-})
-
-const setHasApi = () => ({
-  type: types.SET_HAS_API
 })
 
 const setPassword = password => {
@@ -196,7 +190,6 @@ export default {
   get,
   getFromToken,
   logout,
-  setHasApi,
   setPassword,
   resetPassword,
   resetPasswordProcess,

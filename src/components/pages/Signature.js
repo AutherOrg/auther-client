@@ -11,7 +11,6 @@ import {
 import { Save } from '@material-ui/icons'
 
 import actions from '../../actions/signatures.actions'
-import constants from '../../constants/signatures.constants'
 
 export default function Signature ({ match }) {
   const dispatch = useDispatch()
@@ -51,7 +50,6 @@ export default function Signature ({ match }) {
 
   const submit = () => {
     const signature = {
-      status: constants.STATUS.ACTIVE,
       name: signaturesReducer.name,
       jobTitle: signaturesReducer.jobTitle,
       image: signaturesReducer.image

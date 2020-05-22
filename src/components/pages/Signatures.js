@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { push } from 'connected-react-router'
-import { format, fromUnixTime } from 'date-fns'
+import { format } from 'date-fns'
 import {
   Card, CardHeader, CardContent,
   Fab,
@@ -20,7 +20,7 @@ export default function Signatures () {
   const signaturesReducer = useSelector(state => state.signaturesReducer)
 
   React.useEffect(() => {
-    dispatch(actions.getAll())
+    dispatch(actions.getMany())
   }, [dispatch])
 
   return (
@@ -58,8 +58,8 @@ export default function Signatures () {
                     <TableRow key={index}>
                       <TableCell>{signature.name}</TableCell>
                       <TableCell>{signature.jobTitle}</TableCell>
-                      <TableCell>{format(fromUnixTime(signature.createdAt), 'MM/dd/yyyy')}</TableCell>
-                      <TableCell>{format(fromUnixTime(signature.updatedAt), 'MM/dd/yyyy')}</TableCell>
+                      <TableCell>{format(new Date(signature.createdAt), 'MM/dd/yyyy')}</TableCell>
+                      <TableCell>{format(new Date(signature.updatedAt), 'MM/dd/yyyy')}</TableCell>
                       <TableCell>
                         <IconButton
                           onClick={() => dispatch(push(`/signatures/${signature.id}`))}

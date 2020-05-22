@@ -1,8 +1,8 @@
 import types from '../constants/actions.types.constants'
-import service from '../services/dexie/revoked.dexie.service'
+import service from '../services/api/revocations.api.service'
 
 const cancel = () => ({
-  type: types.CANCEL_REVOKED
+  type: types.CANCEL_REVOCATION
 })
 
 const create = data => {
@@ -12,22 +12,22 @@ const create = data => {
     if (result instanceof TypeError) {
       dispatch(createError(result.message))
     } else {
-      dispatch(createSuccess(data))
+      dispatch(createSuccess(result))
     }
   }
 }
 
 const createBegin = () => ({
-  type: types.CREATE_REVOKED_BEGIN
+  type: types.CREATE_REVOCATION_BEGIN
 })
 
-const createSuccess = revoked => ({
-  type: types.CREATE_REVOKED_SUCCESS,
-  revoked
+const createSuccess = data => ({
+  type: types.CREATE_REVOCATION_SUCCESS,
+  data
 })
 
 const createError = error => ({
-  type: types.CREATE_REVOKED_ERROR,
+  type: types.CREATE_REVOCATION_ERROR,
   error
 })
 
@@ -44,51 +44,51 @@ const destroy = id => {
 }
 
 const destroyBegin = () => ({
-  type: types.DESTROY_REVOKED_BEGIN
+  type: types.DESTROY_REVOCATION_BEGIN
 })
 
 const destroySuccess = id => ({
-  type: types.DESTROY_REVOKED_SUCCESS,
+  type: types.DESTROY_REVOCATION_SUCCESS,
   id
 })
 
 const destroyError = error => ({
-  type: types.DESTROY_REVOKED_ERROR,
+  type: types.DESTROY_REVOCATION_ERROR,
   error
 })
 
-const get = () => {
+const getMany = () => {
   return async dispatch => {
-    dispatch(getBegin())
-    const result = await service.get()
+    dispatch(getManyBegin())
+    const result = await service.getMany()
     if (result instanceof TypeError) {
-      dispatch(getError(result.message))
+      dispatch(getManyError(result.message))
     } else {
-      dispatch(getSuccess(result))
+      dispatch(getManySuccess(result))
     }
   }
 }
 
-const getBegin = () => ({
-  type: types.GET_REVOKED_BEGIN
+const getManyBegin = () => ({
+  type: types.GET_MANY_REVOCATION_BEGIN
 })
 
-const getSuccess = revoked => ({
-  type: types.GET_REVOKED_SUCCESS,
-  revoked
+const getManySuccess = data => ({
+  type: types.GET_MANY_REVOCATION_SUCCESS,
+  data
 })
 
-const getError = error => ({
-  type: types.GET_REVOKED_ERROR,
+const getManyError = error => ({
+  type: types.GET_MANY_REVOCATION_ERROR,
   error
 })
 
 const reset = () => ({
-  type: types.RESET_REVOKED
+  type: types.RESET_REVOCATIONS
 })
 
 const set = (certificateId, revocationReason) => ({
-  type: types.SET_REVOKED,
+  type: types.SET_REVOCATION,
   certificateId,
   revocationReason
 })
@@ -97,7 +97,7 @@ export default {
   cancel,
   create,
   destroy,
-  get,
+  getMany,
   reset,
   set
 }

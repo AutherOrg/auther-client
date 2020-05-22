@@ -14,13 +14,14 @@ import {
   Typography
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { Check, CloudDownload, Create, Error } from '@material-ui/icons'
+import { Check, CloudDownload, CloudUpload, Create, Error, Storage } from '@material-ui/icons'
 
 import db from '../../providers/dexie/db.dexie'
 import backdropActions from '../../actions/backdrop.actions'
 import batchesActions from '../../actions/batches.actions'
 import issuersActions from '../../actions/issuers.actions'
-import revokedActions from '../../actions/revoked.actions'
+import blockcertsActions from '../../actions/blockcerts.actions'
+import usersConstants from '../../constants/users.constants'
 import Web3Wrapper from '../web3/Web3Wrapper'
 
 const useStyles = makeStyles(theme => ({
@@ -38,33 +39,45 @@ export default function System () {
   const authReducer = useSelector(state => state.authReducer)
   const batchesReducer = useSelector(state => state.batchesReducer)
   const issuersReducer = useSelector(state => state.issuersReducer)
-  const revokedReducer = useSelector(state => state.revokedReducer)
+  const blockcertsReducer = useSelector(state => state.blockcertsReducer)
   const [apiStatus, setApiStatus] = React.useState(false)
   const [issuerStatus, setIssuerStatus] = React.useState(false)
+  const [revocationsStatus, setRevocationsStatus] = React.useState(false)
   const [web3Status, setWeb3Status] = React.useState(false)
   const context = useWeb3React()
   const { account } = context
 
   const handleCheckApi = async () => {
-    if (authReducer.hasApi) {
-      const response = await window.fetch(process.env.REACT_APP_API)
-      if (response.status === 200) {
-        setApiStatus(true)
-      }
+    const response = await window.fetch(process.env.REACT_APP_API)
+    if (response.status === 200) {
+      setApiStatus(true)
     }
   }
 
   const handleCheckIssuer = async () => {
-    if (issuersReducer.hasIssuer) {
+    try {
       const response = await window.fetch(issuersReducer.issuerProfileUrl)
       if (response.status === 200) {
         setIssuerStatus(true)
       }
+    } catch (e) {
+      setIssuerStatus(false)
+    }
+  }
+
+  const handleCheckRevocations = async () => {
+    try {
+      const response = await window.fetch(issuersReducer.revocationListUrl)
+      if (response.status === 200) {
+        setRevocationsStatus(true)
+      }
+    } catch (e) {
+      setRevocationsStatus(false)
     }
   }
 
   const handleCheckWeb3 = () => {
-    if (issuersReducer.hasIssuer && context.active) {
+    if (context.active) {
       if (issuersReducer.publicKey.toLowerCase() === account.toLowerCase()) {
         setWeb3Status(true)
       }
@@ -75,36 +88,19 @@ export default function System () {
     () => {
       handleCheckApi()
       handleCheckIssuer()
+      handleCheckRevocations()
       handleCheckWeb3()
       dispatch(batchesActions.get())
-      dispatch(issuersActions.getMy())
-      dispatch(revokedActions.get())
+      dispatch(issuersActions.get())
+      dispatch(blockcertsActions.getIssuer())
+      dispatch(blockcertsActions.getRevocations())
     },
     // eslint-disable-next-line
     [dispatch, context]
   )
 
   const handleDownloadIssuerProfile = () => {
-    const issuer = {
-      '@context': [
-        'https://w3id.org/openbadges/v2',
-        'https://w3id.org/blockcerts/v2'
-      ],
-      type: 'Profile',
-      id: issuersReducer.issuerProfileUrl,
-      name: issuersReducer.name,
-      email: issuersReducer.email,
-      url: issuersReducer.url,
-      introductionURL: issuersReducer.introductionUrl,
-      publicKey: [
-        {
-          id: issuersReducer.publicKey,
-          created: '2019-10-25T10:51:53.490752+00:00'
-        }
-      ],
-      revocationList: issuersReducer.revocationListUrl,
-      image: issuersReducer.image
-    }
+    const issuer = blockcertsReducer.issuer
     saveAs(
       new window.Blob([JSON.stringify(issuer)], { type: 'application/json;charset=utf-8' }),
       'issuer.json'
@@ -112,21 +108,9 @@ export default function System () {
   }
 
   const handleDownloadRevocationList = () => {
-    const revokedAssertions = revokedReducer.revoked.map(revokedAssertion => {
-      return {
-        id: revokedAssertion.certificateId,
-        revocationReason: revokedAssertion.revocationReason
-      }
-    })
-    const revocation = {
-      '@context': 'https://w3id.org/openbadges/v2',
-      id: issuersReducer.revocationListUrl,
-      type: 'RevocationList',
-      issuer: issuersReducer.issuerProfileUrl,
-      revokedAssertions
-    }
+    const revocationList = blockcertsReducer.revocations
     saveAs(
-      new window.Blob([JSON.stringify(revocation)], { type: 'application/json;charset=utf-8' }),
+      new window.Blob([JSON.stringify(revocationList)], { type: 'application/json;charset=utf-8' }),
       'revocation.json'
     )
   }
@@ -200,24 +184,13 @@ export default function System () {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {authReducer.hasApi && (
-                    <TableRow>
-                      <TableCell>API</TableCell>
-                      <TableCell>
-                        {apiStatus ? <Check /> : <Error />}
-                      </TableCell>
-                      <TableCell>
-                        {apiStatus ? 'The API server is available.' : 'The API server is NOT available'}
-                      </TableCell>
-                    </TableRow>
-                  )}
                   <TableRow>
-                    <TableCell>Local issuer profile</TableCell>
+                    <TableCell>API</TableCell>
                     <TableCell>
-                      {issuersReducer.hasIssuer ? <Check /> : <Error />}
+                      {apiStatus ? <Check /> : <Error />}
                     </TableCell>
                     <TableCell>
-                      {issuersReducer.hasIssuer ? 'Your local issuer profile is available.' : 'You have no local issuer profile.'}
+                      {apiStatus ? 'The API server is available.' : 'The API server is NOT available'}
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -227,6 +200,15 @@ export default function System () {
                     </TableCell>
                     <TableCell>
                       {issuerStatus ? 'The online issuer profile is available.' : 'The online issuer profile is not available.'}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Online revocation list</TableCell>
+                    <TableCell>
+                      {revocationsStatus ? <Check /> : <Error />}
+                    </TableCell>
+                    <TableCell>
+                      {revocationsStatus ? 'The online revocation list is available.' : 'The online revocation list is not available.'}
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -245,64 +227,23 @@ export default function System () {
         </Grid>
         <Grid item xs={12}>
           <Card>
-            <CardHeader title='Current operations' classes={{ root: classes.cardHeaderRoot }} />
-            <CardContent>
-              <Grid container spacing={5}>
-                <Grid item xs={12} lg={6}>
-                  <Card>
-                    <CardHeader title='Certificates' />
-                    <CardActions>
-                      <Button
-                        onClick={() => handleBackupCertificates()}
-                        startIcon={<CloudDownload />}
-                        color='primary'
-                      >
-                        Download local certificates
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-                <Grid item xs={12} lg={6}>
-                  <Card>
-                    <CardHeader
-                      title='Revocation list'
-                      classes={{ root: classes.cardHeaderRoot }}
-                    />
-                    <CardActions>
-                      <Button
-                        onClick={() => handleDownloadRevocationList()}
-                        startIcon={<CloudDownload />}
-                        color='primary'
-                      >
-                        Download local revocation list
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={12}>
-          <Card>
-            <CardHeader title='Initial setup' classes={{ root: classes.cardHeaderRoot }} />
-            <CardContent>
-              <Grid container spacing={5}>
-                <Grid item xs={12} lg={6}>
-                  <Card>
-                    <CardHeader title='Import preconfigured local database' />
-                    <CardContent>
-                      <Typography color='error'>
-                        WARNING: This will replace your local database. If you already have some data for this application, it will be lost.
-                      </Typography>
-                    </CardContent>
-                    <CardActions>
-                      <input type='file' onChange={handleImportDb} />
-                    </CardActions>
-                  </Card>
-                </Grid>
-              </Grid>
-            </CardContent>
+            <CardHeader title='Local batches and certificates' classes={{ root: classes.cardHeaderRoot }} />
+            <CardActions>
+              <Button
+                onClick={() => dispatch(push('/batches'))}
+                startIcon={<Storage />}
+                color='primary'
+              >
+                Explore local certificates batches
+              </Button>
+              <Button
+                onClick={() => handleBackupCertificates()}
+                startIcon={<CloudDownload />}
+                color='primary'
+              >
+                Download local certificates
+              </Button>
+            </CardActions>
           </Card>
         </Grid>
         <Grid item xs={12}>
@@ -310,29 +251,64 @@ export default function System () {
             <CardHeader title='Advanced' classes={{ root: classes.cardHeaderRoot }} />
             <CardActions>
               <Button
-                onClick={() => dispatch(push('/system/issuer'))}
-                startIcon={<Create />}
-                color='primary'
-              >
-                Edit issuer profile
-              </Button>
-              <Button
-                onClick={() => handleDownloadIssuerProfile()}
-                startIcon={<CloudDownload />}
-                color='primary'
-              >
-                Download issuer profile
-              </Button>
-              <Button
                 onClick={() => handleExportDb()}
                 startIcon={<CloudDownload />}
                 color='primary'
               >
                 Export local database
               </Button>
+              <>
+                <input
+                  type='file'
+                  accept='application/json'
+                  id='import'
+                  onChange={handleImportDb}
+                  style={{ display: 'none' }}
+                />
+                <Button
+                  htmlFor='import'
+                  component='label'
+                  startIcon={<CloudUpload />}
+                  color='primary'
+                >
+                  Import local database
+                </Button>
+              </>
             </CardActions>
           </Card>
         </Grid>
+        {
+          authReducer.role === usersConstants.role.ADMIN && (
+            <Grid item xs={12}>
+              <Card>
+                <CardHeader title='Administration' classes={{ root: classes.cardHeaderRoot }} />
+                <CardActions>
+                  <Button
+                    onClick={() => dispatch(push('/system/issuer'))}
+                    startIcon={<Create />}
+                    color='primary'
+                  >
+                    Edit issuer profile
+                  </Button>
+                  <Button
+                    onClick={() => handleDownloadIssuerProfile()}
+                    startIcon={<CloudDownload />}
+                    color='primary'
+                  >
+                    Download issuer profile
+                  </Button>
+                  <Button
+                    onClick={() => handleDownloadRevocationList()}
+                    startIcon={<CloudDownload />}
+                    color='primary'
+                  >
+                    Download revocation list
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          )
+        }
       </Grid>
     </Web3Wrapper>
   )

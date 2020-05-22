@@ -10,10 +10,10 @@ export default function Share ({ match }) {
   const reducer = useSelector(state => state.certificateReducer)
 
   React.useEffect(() => {
-    dispatch(actions.getShared(match.params.uuid))
-  }, [dispatch, match.params.uuid])
+    dispatch(actions.getShared(match.params.sharingUuid))
+  }, [dispatch, match.params.sharingUuid])
 
-  if (reducer.uuid === '') {
+  if (reducer.sharingUuid === '') {
     return null
   }
 

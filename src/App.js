@@ -19,7 +19,6 @@ import {
   Edit,
   ExitToApp,
   Home as HomeIcon,
-  LocalShipping,
   LockOpen,
   Menu,
   Person,
@@ -123,12 +122,7 @@ export default function App () {
 
   React.useEffect(() => {
     document.title = process.env.REACT_APP_NAME
-    if (process.env.REACT_APP_API === 'none') {
-      dispatch(actions.setRole(constants.role.MANAGER))
-    } else {
-      dispatch(actions.setHasApi())
-    }
-  }, [dispatch])
+  }, [])
 
   const drawer = (
     <div>
@@ -143,16 +137,10 @@ export default function App () {
             <ListItemText primary='My certificates' />
           </ListItem>
         )}
-        {[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER].includes(authReducer.role) && authReducer.hasApi && (
+        {[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER].includes(authReducer.role) && (
           <ListItem button onClick={() => handlePush('/certificates')}>
             <ListItemIcon>{<School />}</ListItemIcon>
             <ListItemText primary='Certificates' />
-          </ListItem>
-        )}
-        {[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER].includes(authReducer.role) && (
-          <ListItem button onClick={() => handlePush('/batches')}>
-            <ListItemIcon>{<LocalShipping />}</ListItemIcon>
-            <ListItemText primary='Batches' />
           </ListItem>
         )}
         {[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER].includes(authReducer.role) && (
@@ -167,7 +155,7 @@ export default function App () {
             <ListItemText primary='Signatures' />
           </ListItem>
         )}
-        {[constants.role.ADMIN].includes(authReducer.role) && authReducer.hasApi && (
+        {[constants.role.ADMIN].includes(authReducer.role) && (
           <ListItem button onClick={() => handlePush('/users')}>
             <ListItemIcon>{<Person />}</ListItemIcon>
             <ListItemText primary='Users' />
@@ -180,21 +168,19 @@ export default function App () {
           </ListItem>
         )}
         {
-          (authReducer.role === constants.role.ANONYMOUS && authReducer.hasApi)
+          (authReducer.role === constants.role.ANONYMOUS)
             ? (
               <ListItem button onClick={() => handlePush('/auth/login')}>
                 <ListItemIcon>{<LockOpen />}</ListItemIcon>
                 <ListItemText primary='Login' />
               </ListItem>
             )
-            : authReducer.hasApi
-              ? (
-                <ListItem button onClick={() => handleLogout()}>
-                  <ListItemIcon>{<ExitToApp />}</ListItemIcon>
-                  <ListItemText primary='Logout' />
-                </ListItem>
-              )
-              : null
+            : (
+              <ListItem button onClick={() => handleLogout()}>
+                <ListItemIcon>{<ExitToApp />}</ListItemIcon>
+                <ListItemText primary='Logout' />
+              </ListItem>
+            )
         }
       </List>
     </div>
@@ -267,7 +253,7 @@ export default function App () {
               <Route exact path='/auth/login/token/:token' component={LoginFromToken} />
               <Route exact path='/auth/password/reset' component={ResetPassword} />
               <Route exact path='/auth/password/reset/process/:token' component={ResetPasswordProcess} />
-              <Route exact path='/certificates/shared/:uuid' component={Share} />
+              <Route exact path='/certificates/shared/:sharingUuid' component={Share} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER, constants.role.RECIPIENT]} exact path='/certificates/my' component={CertificatesRecipient} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER, constants.role.RECIPIENT]} exact path='/certificates/:id' component={Certificate} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER]} exact path='/certificates' component={CertificatesIssuer} />
@@ -294,7 +280,7 @@ export default function App () {
       </main>
       <ServicesBackdrop />
       <ServicesError />
-      {authReducer.hasApi && [constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER].includes(authReducer.role) && (
+      {[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER].includes(authReducer.role) && (
         <JobsDialog />
       )}
     </div>

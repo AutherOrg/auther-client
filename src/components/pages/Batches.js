@@ -7,13 +7,12 @@ import slugify from 'slugify'
 import { saveAs } from 'file-saver'
 import {
   Button,
-  Card, CardHeader, CardContent,
-  Fab,
+  Card, CardContent,
   Grid,
   Table, TableBody, TableCell, TableHead, TableRow,
   Typography
 } from '@material-ui/core'
-import { Add, CloudDownload, School } from '@material-ui/icons'
+import { CloudDownload, Storage } from '@material-ui/icons'
 
 import actions from '../../actions/batches.actions'
 
@@ -51,17 +50,6 @@ export default function Batches () {
       </Grid>
       <Grid item xs={12}>
         <Card>
-          <CardHeader
-            title='Add new certificates batch'
-            avatar={
-              <Fab
-                onClick={() => dispatch(push('/batches/create'))}
-                color='primary'
-              >
-                <Add />
-              </Fab>
-            }
-          />
           {batchesReducer.batches.length > 0 && (
             <CardContent>
               <Table>
@@ -80,17 +68,17 @@ export default function Batches () {
                       <TableCell>
                         <Button
                           onClick={() => dispatch(push(`/batches/${batch.id}`))}
-                          startIcon={<School />}
+                          startIcon={<Storage />}
                           color='primary'
                         >
-                          View
+                          Explore batch
                         </Button>
                         <Button
                           onClick={() => handleDownloadCertificates(batch)}
                           startIcon={<CloudDownload />}
                           color='primary'
                         >
-                          Download
+                          Download certificates
                         </Button>
                       </TableCell>
                     </TableRow>

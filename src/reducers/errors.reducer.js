@@ -33,9 +33,9 @@ export default (state = initialState, action) => {
     case types.DESTROY_JOB_ERROR:
     case types.GET_JOBS_ERROR:
     case types.RUN_JOB_ERROR:
-    case types.CREATE_REVOKED_ERROR:
-    case types.DESTROY_REVOKED_ERROR:
-    case types.GET_REVOKED_ERROR:
+    case types.CREATE_REVOCATION_ERROR:
+    case types.DESTROY_REVOCATION_ERROR:
+    case types.GET_MANY_REVOCATION_ERROR:
     case types.GET_CERTIFICATES_ERROR:
     case types.DESTROY_CERTIFICATE_ERROR:
     case types.GET_CERTIFICATE_ERROR:
@@ -46,6 +46,8 @@ export default (state = initialState, action) => {
     case types.GET_USER_ERROR:
     case types.UPDATE_USER_ERROR:
     case types.DESTROY_USER_ERROR:
+    case types.GET_BLOCKCERTS_ISSUER_ERROR:
+    case types.GET_BLOCKCERTS_REVOCATIONS_ERROR:
       return {
         ...state,
         errors: [...state.errors, action.error]

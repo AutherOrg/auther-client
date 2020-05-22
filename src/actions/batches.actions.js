@@ -61,26 +61,26 @@ const destroyError = error => ({
 
 const get = () => {
   return async dispatch => {
-    dispatch(getAllBegin())
+    dispatch(getManyBegin())
     try {
-      const batches = await service.getAll()
-      dispatch(getAllSuccess(batches))
+      const batches = await service.getMany()
+      dispatch(getManySuccess(batches))
     } catch (e) {
-      dispatch(getAllError(e.message))
+      dispatch(getManyError(e.message))
     }
   }
 }
 
-const getAllBegin = () => ({
+const getManyBegin = () => ({
   type: types.GET_ALL_BATCHES_BEGIN
 })
 
-const getAllSuccess = batches => ({
+const getManySuccess = batches => ({
   type: types.GET_ALL_BATCHES_SUCCESS,
   batches
 })
 
-const getAllError = error => ({
+const getManyError = error => ({
   type: types.GET_ALL_BATCHES_ERROR,
   error
 })
