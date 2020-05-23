@@ -31,10 +31,10 @@ const getError = error => ({
 // This one is a little bit awful.
 const getCertificate = certificateFromBatch => ({
   type: types.GET_CERTIFICATE_SUCCESS,
-  certificate: {
+  data: {
     id: 1,
     status: certificatesConstants.STATUS.NOT_SHARED,
-    uuid: '',
+    sharingUuid: '',
     json: certificateFromBatch,
     createdAt: '',
     updatedAt: '',

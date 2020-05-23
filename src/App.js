@@ -41,9 +41,10 @@ import Unauthorized from './components/pages/Unauthorized'
 import Share from './components/pages/Share'
 // Recipient.
 import CertificatesRecipient from './components/pages/CertificatesRecipient'
-import Certificate from './components/pages/Certificate'
+import CertificateRecipient from './components/pages/CertificateRecipient'
 // Issuer.
 import CertificatesIssuer from './components/pages/CertificatesIssuer'
+import CertificateIssuer from './components/pages/CertificateIssuer'
 import Batches from './components/pages/Batches'
 import Batch from './components/pages/Batch'
 import CreateBatch from './components/pages/CreateBatch'
@@ -255,8 +256,9 @@ export default function App () {
               <Route exact path='/auth/password/reset/process/:token' component={ResetPasswordProcess} />
               <Route exact path='/certificates/shared/:sharingUuid' component={Share} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER, constants.role.RECIPIENT]} exact path='/certificates/my' component={CertificatesRecipient} />
-              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER, constants.role.RECIPIENT]} exact path='/certificates/:id' component={Certificate} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER, constants.role.RECIPIENT]} exact path='/certificates/my/:id' component={CertificateRecipient} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER]} exact path='/certificates' component={CertificatesIssuer} />
+              <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER]} exact path='/certificates/:id' component={CertificateIssuer} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER]} exact path='/batches' component={Batches} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER]} exact path='/batches/create' component={CreateBatch} />
               <PrivateRoute userRoles={[constants.role.ADMIN, constants.role.MANAGER, constants.role.ISSUER]} exact path='/batches/:id' component={Batch} />

@@ -2,8 +2,6 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { push } from 'connected-react-router'
 import { formatRelative, parseISO } from 'date-fns'
-import slugify from 'slugify'
-import { saveAs } from 'file-saver'
 import {
   Button,
   Card, CardContent, CardHeader, CardActions,
@@ -12,47 +10,19 @@ import {
   Table, TableBody, TableCell, TableHead, TableRow,
   Typography
 } from '@material-ui/core'
-import { Add, AddCircle, CloudDownload, Link, RemoveCircle, School } from '@material-ui/icons'
+import { Add, Create, Link } from '@material-ui/icons'
 
 import actions from '../../actions/certificates.actions'
-import constants from '../../constants/certificates.constants'
-import revocationsActions from '../../actions/revocations.actions'
-import CertificateDialog from '../organisms/CertificateDialog'
 
 export default function CertificatesIssuer () {
   const dispatch = useDispatch()
   const certificatesReducer = useSelector(state => state.certificatesReducer)
-  const certificateReducer = useSelector(state => state.certificateReducer)
   const revocationsReducer = useSelector(state => state.revocationsReducer)
-
-  const handleDownload = certificate => {
-    saveAs(
-      new window.Blob([JSON.stringify(certificate)], { type: 'application/json;charset=utf-8' }),
-      slugify(`${certificate.badge.name} ${certificate.recipientProfile.name}.json`)
-    )
+  const isRevoked = id => {
+    return revocationsReducer.revocations.findIndex(e => e.certificateId === id) > -1
   }
-
-  const isRevoked = certificate => {
-    return revocationsReducer.revocations.findIndex(e => e.certificateId === certificate.id) > -1
-  }
-
-  const handleRevoke = certificateId => {
-    dispatch(revocationsActions.create({
-      certificateId,
-      revocationReason: 'Revoked by the issuer.'
-    }))
-  }
-
-  const handleUnrevoke = certificateId => {
-    const revocation = revocationsReducer.revocations.find(e => e.certificateId === certificateId)
-    if (revocation) {
-      dispatch(revocationsActions.destroy(revocation.id))
-    }
-  }
-
   React.useEffect(() => {
     dispatch(actions.getMany())
-    dispatch(revocationsActions.getMany())
   }, [dispatch])
 
   return (
@@ -82,7 +52,7 @@ export default function CertificatesIssuer () {
                     <TableCell>Creator</TableCell>
                     <TableCell>Recipient</TableCell>
                     <TableCell>Certificate</TableCell>
-                    <TableCell>Status</TableCell>
+                    <TableCell>Revoked</TableCell>
                     <TableCell>Actions</TableCell>
                   </TableRow>
                 </TableHead>
@@ -92,57 +62,18 @@ export default function CertificatesIssuer () {
                       <TableCell>{formatRelative(parseISO(certificate.createdAt), new Date())}</TableCell>
                       <TableCell>{certificate.Creator.email}</TableCell>
                       <TableCell>{certificate.Recipient.email}</TableCell>
-                      <TableCell>{certificate.json.badge.name}</TableCell>
+                      <TableCell>{certificate.name}</TableCell>
                       <TableCell>
-                        {certificate.status === constants.STATUS.SHARED ? 'Shared' : 'Not shared'}
+                        {isRevoked(certificate.id) ? 'Yes' : 'No'}
                       </TableCell>
                       <TableCell>
                         <Button
-                          onClick={() => handleDownload(certificate.json)}
-                          startIcon={<CloudDownload />}
+                          onClick={() => dispatch(push(`/certificates/${certificate.id}`))}
+                          startIcon={<Create />}
                           color='primary'
                         >
-                          Download
-                        </Button>
-                        <Button
-                          onClick={() => dispatch(actions.setCertificate(certificate))}
-                          startIcon={<School />}
-                          color='primary'
-                        >
-                          View
-                        </Button>
-                        {certificate.status === constants.STATUS.SHARED && (
-                          <Button
-                            href={`/certificates/shared/${certificate.sharingUuid}`}
-                            target='shared'
-                            rel='noopener noreferrer'
-                            startIcon={<Link />}
-                            color='primary'
-                          >
-                            Link
+                          Manage
                           </Button>
-                        )}
-                        {
-                          isRevoked(certificate)
-                            ? (
-                              <Button
-                                onClick={() => handleUnrevoke(certificate.id)}
-                                startIcon={<AddCircle />}
-                                color='primary'
-                              >
-                                Unrevoke
-                              </Button>
-                            )
-                            : (
-                              <Button
-                                onClick={() => handleRevoke(certificate.id)}
-                                startIcon={<RemoveCircle />}
-                                color='primary'
-                              >
-                                Revoke
-                              </Button>
-                            )
-                        }
                       </TableCell>
                     </TableRow>
                   ))}
@@ -161,7 +92,6 @@ export default function CertificatesIssuer () {
           </Card>
         </Grid>
       </Grid>
-      {certificateReducer.id > 0 && <CertificateDialog />}
     </>
   )
 }

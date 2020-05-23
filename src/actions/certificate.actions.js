@@ -32,7 +32,7 @@ const destroyError = error => ({
 const get = id => {
   return async dispatch => {
     dispatch(getBegin())
-    const result = await service.getOne(id)
+    const result = await service.getOne(id, { full: true })
     if (result instanceof TypeError) {
       dispatch(getError(result.message))
     } else {
@@ -58,7 +58,7 @@ const getError = error => ({
 const getShared = sharingUuid => {
   return async dispatch => {
     dispatch(getSharedBegin())
-    const result = await service.getShared(sharingUuid)
+    const result = await service.getShared(sharingUuid, { withJson: true })
     if (result instanceof TypeError) {
       dispatch(getSharedError(result.message))
     } else if (result.error) {

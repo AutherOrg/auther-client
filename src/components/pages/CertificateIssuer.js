@@ -7,17 +7,16 @@ import ReactToPrint from 'react-to-print'
 import { QRCode } from 'react-qr-svg'
 import {
   Button,
-  Card, CardHeader, CardContent, CardActions,
+  Card, CardHeader, CardActions,
   Grid,
   Typography
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { Assignment, Check, CloudDownload, Close, Delete, Link, LinkedIn, Print, Share } from '@material-ui/icons'
+import { AddCircle, Assignment, CloudDownload, Link, Print, RemoveCircle } from '@material-ui/icons'
 
 import certificateActions from '../../actions/certificate.actions'
-import confirmationActions from '../../actions/confirmation.actions'
+import revocationsActions from '../../actions/revocations.actions'
 import constants from '../../constants/certificates.constants'
-import ConfirmationDialog from '../organisms/ConfirmationDialog'
 
 const useStyles = makeStyles(theme => ({
   certificateView: {
@@ -28,23 +27,19 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function Certificate ({ match }) {
+export default function CertificateRecipient ({ match }) {
   const classes = useStyles()
   const dispatch = useDispatch()
   const reducer = useSelector(state => state.certificateReducer)
+  const revocationsReducer = useSelector(state => state.revocationsReducer)
   const [copied, setCopied] = React.useState(null)
   const componentRef = React.useRef()
 
   React.useEffect(() => {
     dispatch(certificateActions.get(match.params.id))
+    dispatch(revocationsActions.getMany())
   }, [dispatch, match.params.id])
 
-  const handleShare = () => {
-    const newStatus = reducer.status === constants.STATUS.NOT_SHARED ? constants.STATUS.SHARED : constants.STATUS.NOT_SHARED
-    dispatch(certificateActions.update(reducer.id, {
-      status: newStatus
-    }))
-  }
   const handleDownload = certificate => {
     saveAs(
       new window.Blob([JSON.stringify(certificate)], { type: 'application/json;charset=utf-8' }),
@@ -58,6 +53,21 @@ export default function Certificate ({ match }) {
         setCopied(false)
       }, 3000
     )
+  }
+  const isRevoked = id => {
+    return revocationsReducer.revocations.findIndex(e => e.certificateId === id) > -1
+  }
+  const handleRevoke = id => {
+    dispatch(revocationsActions.create({
+      certificateId: id,
+      revocationReason: 'Revoked by the issuer.'
+    }))
+  }
+  const handleUnrevoke = id => {
+    const revocation = revocationsReducer.revocations.find(e => e.certificateId === id)
+    if (revocation) {
+      dispatch(revocationsActions.destroy(revocation.id))
+    }
   }
 
   if (reducer.id === 0) {
@@ -97,25 +107,40 @@ export default function Certificate ({ match }) {
               <Card>
                 <CardHeader title='Actions' />
                 <CardActions>
-                  <Button
-                    startIcon={<Share />}
-                    color='primary'
-                    onClick={() => handleShare()}
-                  >
-                    {reducer.status === constants.STATUS.NOT_SHARED ? 'Share' : 'Unshare'}
-                  </Button>
+                  {
+                    isRevoked(reducer.id)
+                      ? (
+                        <Button
+                          onClick={() => handleUnrevoke(reducer.id)}
+                          startIcon={<AddCircle />}
+                          color='primary'
+                        >
+                          Unrevoke
+                        </Button>
+                      )
+                      : (
+                        <Button
+                          onClick={() => handleRevoke(reducer.id)}
+                          startIcon={<RemoveCircle />}
+                          color='primary'
+                        >
+                          Revoke
+                        </Button>
+                      )
+                  }
+                </CardActions>
+              </Card>
+            </Grid>
+            <Grid item xs={12}>
+              <Card>
+                <CardHeader title='Certificate' />
+                <CardActions>
                   <Button
                     onClick={() => handleDownload(reducer.json)}
                     startIcon={<CloudDownload />}
                     color='primary'
                   >
                     Download
-                  </Button>
-                  <Button
-                    onClick={() => dispatch(confirmationActions.create('Delete certificate and all its data? Recovery will be impossible.'))}
-                    startIcon={<Delete />}
-                  >
-                    Delete
                   </Button>
                 </CardActions>
               </Card>
@@ -124,20 +149,6 @@ export default function Certificate ({ match }) {
               <Grid item xs={12}>
                 <Card>
                   <CardHeader title='Sharing' />
-                  <CardContent>
-                    <Typography paragraph>
-                      The sharing of this certificate is enabled!
-                    </Typography>
-                    <Typography paragraph>
-                      You can now send the sharing link to any of your contacts.
-                    </Typography>
-                    <Typography paragraph>
-                      To add in on LinkedIn, click "Copy link" and then "Add to LinkedIn". In the last line (with URL) you must paste this link. Then you just need to add the certificate name and select the issuer organization (first 2 fields.)
-                    </Typography>
-                    <Typography>
-                      You can also print your certificate with a verification link and QR code.
-                    </Typography>
-                  </CardContent>
                   <CardActions>
                     <Button
                       href={`/certificates/shared/${reducer.sharingUuid}`}
@@ -160,15 +171,6 @@ export default function Certificate ({ match }) {
                         {copied ? 'Link copied' : 'Copy link'}
                       </Button>
                     </CopyToClipboard>
-                    <Button
-                      href='https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME'
-                      target='linkedin'
-                      rel='noopener noreferrer'
-                      startIcon={<LinkedIn />}
-                      color='primary'
-                    >
-                      Add on LinkedIn
-                    </Button>
                     <ReactToPrint
                       trigger={() => (
                         <Button
@@ -187,27 +189,6 @@ export default function Certificate ({ match }) {
           </Grid>
         </Grid>
       </Grid>
-      <ConfirmationDialog
-        actions={
-          <>
-            <Button
-              onClick={() => dispatch(confirmationActions.reset())}
-              startIcon={<Close />}
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={() => {
-                dispatch(certificateActions.destroy(reducer.id))
-              }}
-              startIcon={<Check />}
-              color='primary'
-            >
-              Delete
-            </Button>
-          </>
-        }
-      />
     </>
   )
 }

@@ -10,6 +10,7 @@ const initialState = {
   createdAt: '',
   updatedAt: '',
   sharingUuid: '',
+  blockcertsUuid: '',
   json: {},
   Revocation: null
 }
