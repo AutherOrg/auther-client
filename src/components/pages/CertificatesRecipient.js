@@ -29,7 +29,10 @@ export default function CertificatesRecipient () {
   const [raised, setRaised] = React.useState(null)
 
   React.useEffect(() => {
-    dispatch(actions.getMany({ onlyMine: true }))
+    dispatch(actions.getMany({
+      onlyMine: true,
+      withJson: true
+    }))
   }, [dispatch])
 
   return (
@@ -40,7 +43,7 @@ export default function CertificatesRecipient () {
       {certificatesReducer.certificates.map((certificate, index) => (
         <Grid item xs={12} lg={3} key={index}>
           <Card
-            onClick={() => dispatch(push(`/certificates/${certificate.id}`))}
+            onClick={() => dispatch(push(`/certificates/my/${certificate.id}`))}
             onMouseOver={() => setRaised(index)}
             onMouseOut={() => setRaised(null)}
             raised={raised === index}

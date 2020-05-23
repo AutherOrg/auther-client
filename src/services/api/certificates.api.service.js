@@ -53,10 +53,14 @@ const getMany = async params => {
   }
 }
 
-const getOne = async id => {
+const getOne = async (id, params) => {
   try {
+    let uri = `${route}/${Number(id)}`
+    if (params) {
+      uri = `${uri}?${qs.stringify(params)}`
+    }
     const response = await window.fetch(
-      `${route}/${Number(id)}`, {
+      uri, {
         method: 'GET',
         headers: helper.setHeadersWithToken()
       }

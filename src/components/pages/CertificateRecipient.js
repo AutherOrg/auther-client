@@ -1,18 +1,18 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
+// import { CopyToClipboard } from 'react-copy-to-clipboard'
 import slugify from 'slugify'
 import { saveAs } from 'file-saver'
-import ReactToPrint from 'react-to-print'
+// import ReactToPrint from 'react-to-print'
 import { QRCode } from 'react-qr-svg'
 import {
   Button,
-  Card, CardHeader, CardContent, CardActions,
+  Card, CardHeader, CardActions,
   Grid,
   Typography
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { Assignment, Check, CloudDownload, Close, Delete, Link, LinkedIn, Print, Share } from '@material-ui/icons'
+import { Check, CloudDownload, Close, Delete, Link, LinkedIn, PictureAsPdf, Share } from '@material-ui/icons'
 
 import certificateActions from '../../actions/certificate.actions'
 import confirmationActions from '../../actions/confirmation.actions'
@@ -32,7 +32,7 @@ export default function CertificateRecipient ({ match }) {
   const classes = useStyles()
   const dispatch = useDispatch()
   const reducer = useSelector(state => state.certificateReducer)
-  const [copied, setCopied] = React.useState(null)
+  // const [copied, setCopied] = React.useState(null)
   const componentRef = React.useRef()
 
   React.useEffect(() => {
@@ -45,20 +45,20 @@ export default function CertificateRecipient ({ match }) {
       status: newStatus
     }))
   }
-  const handleDownload = certificate => {
+  const handleDownloadJson = json => {
     saveAs(
-      new window.Blob([JSON.stringify(certificate)], { type: 'application/json;charset=utf-8' }),
-      slugify(`${certificate.badge.name} ${certificate.recipientProfile.name}.json`)
+      new window.Blob([JSON.stringify(json)], { type: 'application/json;charset=utf-8' }),
+      slugify(`${json.badge.name} ${json.recipientProfile.name}.json`)
     )
   }
-  const handleCopied = () => {
-    setCopied(true)
-    setTimeout(
-      () => {
-        setCopied(false)
-      }, 3000
-    )
-  }
+  // const handleCopied = () => {
+  //   setCopied(true)
+  //   setTimeout(
+  //     () => {
+  //       setCopied(false)
+  //     }, 3000
+  //   )
+  // }
 
   if (reducer.id === 0) {
     return null
@@ -105,7 +105,7 @@ export default function CertificateRecipient ({ match }) {
                     {reducer.status === constants.STATUS.NOT_SHARED ? 'Share' : 'Unshare'}
                   </Button>
                   <Button
-                    onClick={() => handleDownload(reducer.json)}
+                    onClick={() => handleDownloadJson(reducer.json)}
                     startIcon={<CloudDownload />}
                     color='primary'
                   >
@@ -124,20 +124,6 @@ export default function CertificateRecipient ({ match }) {
               <Grid item xs={12}>
                 <Card>
                   <CardHeader title='Sharing' />
-                  <CardContent>
-                    <Typography paragraph>
-                      The sharing of this certificate is enabled!
-                    </Typography>
-                    <Typography paragraph>
-                      You can now send the sharing link to any of your contacts.
-                    </Typography>
-                    <Typography paragraph>
-                      To add in on LinkedIn, click "Copy link" and then "Add to LinkedIn". In the last line (with URL) you must paste this link. Then you just need to add the certificate name and select the issuer organization (first 2 fields.)
-                    </Typography>
-                    <Typography>
-                      You can also print your certificate with a verification link and QR code.
-                    </Typography>
-                  </CardContent>
                   <CardActions>
                     <Button
                       href={`/certificates/shared/${reducer.sharingUuid}`}
@@ -146,9 +132,9 @@ export default function CertificateRecipient ({ match }) {
                       startIcon={<Link />}
                       color='primary'
                     >
-                      Open link
+                      Sharing link
                     </Button>
-                    <CopyToClipboard
+                    {/* <CopyToClipboard
                       text={`${window.location.origin}/certificates/shared/${reducer.sharingUuid}`}
                       onCopy={() => handleCopied()}
                     >
@@ -157,19 +143,19 @@ export default function CertificateRecipient ({ match }) {
                         startIcon={<Assignment />}
                         color='primary'
                       >
-                        {copied ? 'Link copied' : 'Copy link'}
+                        {copied ? 'Sharing link copied' : 'Copy sharing link'}
                       </Button>
-                    </CopyToClipboard>
+                    </CopyToClipboard> */}
                     <Button
-                      href='https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME'
-                      target='linkedin'
+                      href={reducer.pdf}
+                      target='pdf'
                       rel='noopener noreferrer'
-                      startIcon={<LinkedIn />}
+                      startIcon={<PictureAsPdf />}
                       color='primary'
                     >
-                      Add on LinkedIn
+                      PDF version
                     </Button>
-                    <ReactToPrint
+                    {/* <ReactToPrint
                       trigger={() => (
                         <Button
                           startIcon={<Print />}
@@ -179,7 +165,16 @@ export default function CertificateRecipient ({ match }) {
                         </Button>
                       )}
                       content={() => componentRef.current}
-                    />
+                    /> */}
+                    <Button
+                      href='https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME'
+                      target='linkedin'
+                      rel='noopener noreferrer'
+                      startIcon={<LinkedIn />}
+                      color='primary'
+                    >
+                      Add on LinkedIn
+                    </Button>
                   </CardActions>
                 </Card>
               </Grid>
