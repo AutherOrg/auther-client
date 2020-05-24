@@ -1,18 +1,27 @@
 import React from 'react'
 import { Certificate } from '@blockcerts/cert-verifier-js'
 import {
-  Button,
   Card, CardContent,
   CircularProgress,
-  Dialog, DialogContent, DialogActions,
-  ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails,
   IconButton,
   List, ListItem, ListItemText, ListItemSecondaryAction,
   Grid,
   Typography
 } from '@material-ui/core'
+// import {
+//   Button,
+//   Card, CardContent,
+//   CircularProgress,
+//   Dialog, DialogContent, DialogActions,
+//   ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails,
+//   IconButton,
+//   List, ListItem, ListItemText, ListItemSecondaryAction,
+//   Grid,
+//   Typography
+// } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { Check, Error, ExpandMore, Link, Warning } from '@material-ui/icons'
+import { Check, Error, Warning } from '@material-ui/icons'
+// import { Check, Error, ExpandMore, Link, Warning } from '@material-ui/icons'
 
 import blockcertsLogo from '../../assets/images/blockcertsLogo'
 
@@ -103,10 +112,10 @@ export default function Blockcerts ({ src }) {
     verificationSteps: []
   }
   const [values, setValues] = React.useState(initialState)
-  const handleDialog = () => {
-    const dialogOpen = !values.dialogOpen
-    setValues({ ...values, dialogOpen })
-  }
+  // const handleDialog = () => {
+  //   const dialogOpen = !values.dialogOpen
+  //   setValues({ ...values, dialogOpen })
+  // }
   const handleVerifyCertificate = async () => {
     setValues({ ...values, verificationLaunched: true })
     const certificate = await new Certificate(src)
@@ -201,7 +210,7 @@ export default function Blockcerts ({ src }) {
                   </ListItem>
                 ))}
               </List>
-              <div className={classes.buttons}>
+              {/* <div className={classes.buttons}>
                 <Button
                   onClick={() => handleDialog()}
                   color='inherit'
@@ -214,12 +223,12 @@ export default function Blockcerts ({ src }) {
                 >
                   Explanation
                 </Button>
-              </div>
+              </div> */}
             </CardContent>
           </Card>
         </Grid>
       </Grid>
-      {
+      {/* {
         values.verificationResult && (
           <Dialog
             open={values.dialogOpen}
@@ -291,7 +300,7 @@ export default function Blockcerts ({ src }) {
             </DialogActions>
           </Dialog>
         )
-      }
+      } */}
     </>
   )
 }

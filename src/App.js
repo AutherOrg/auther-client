@@ -93,11 +93,13 @@ const useStyles = makeStyles(theme => ({
     marginTop: '64px'
   },
   poweredBy: {
-    fontSize: '0.7rem',
-    color: theme.palette.grey[500]
+    fontSize: '0.7rem'
   },
   poweredByLink: {
-    color: theme.palette.grey[500]
+    color: theme.palette.text.primary,
+    '&:hover': {
+      textDecoration: 'none'
+    }
   }
 }))
 
