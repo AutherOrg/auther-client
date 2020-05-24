@@ -4,31 +4,36 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import slugify from 'slugify'
 import { saveAs } from 'file-saver'
 import ReactToPrint from 'react-to-print'
-import { QRCode } from 'react-qr-svg'
+// import { QRCode } from 'react-qr-svg'
 import {
   Button,
   Card, CardHeader, CardActions,
-  Grid,
-  Typography
+  Grid
 } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+// import {
+//   Button,
+//   Card, CardHeader, CardActions,
+//   Grid,
+//   Typography
+// } from '@material-ui/core'
+// import { makeStyles } from '@material-ui/core/styles'
 import { AddCircle, Assignment, CloudDownload, Link, Print, RemoveCircle } from '@material-ui/icons'
 
 import certificateActions from '../../actions/certificate.actions'
 import revocationsActions from '../../actions/revocations.actions'
 import constants from '../../constants/certificates.constants'
 
-const useStyles = makeStyles(theme => ({
-  certificateView: {
-    marginTop: '50px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  }
-}))
+// const useStyles = makeStyles(theme => ({
+//   certificateView: {
+//     marginTop: '50px',
+//     display: 'flex',
+//     flexDirection: 'column',
+//     alignItems: 'center'
+//   }
+// }))
 
 export default function CertificateRecipient ({ match }) {
-  const classes = useStyles()
+  // const classes = useStyles()
   const dispatch = useDispatch()
   const reducer = useSelector(state => state.certificateReducer)
   const revocationsReducer = useSelector(state => state.revocationsReducer)
@@ -80,7 +85,7 @@ export default function CertificateRecipient ({ match }) {
           <div ref={componentRef}>
             <div style={JSON.parse(process.env.REACT_APP_PRINT_WRAPPER_STYLE)}>
               <div dangerouslySetInnerHTML={{ __html: reducer.json.displayHtml.replace(/(<? *script)/gi, 'illegalscript') }} />
-              {reducer.status === constants.STATUS.SHARED && (
+              {/* {reducer.status === constants.STATUS.SHARED && (
                 <div className={classes.certificateView}>
                   <Typography variant='caption'>
                     To verify this certificate, scan this QR code or go to:
@@ -96,7 +101,7 @@ export default function CertificateRecipient ({ match }) {
                     value={`${window.location.origin}/certificates/shared/${reducer.sharingUuid}`}
                   />
                 </div>
-              )}
+              )} */}
             </div>
           </div>
         </Grid>
