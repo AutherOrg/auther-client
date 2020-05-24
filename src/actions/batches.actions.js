@@ -171,7 +171,7 @@ const sign = (certificates, hash, chainId) => {
           data: certificate
         }
       })))
-      dispatch(push('/certificates'))
+      dispatch(push('/'))
     }
   }
 }
