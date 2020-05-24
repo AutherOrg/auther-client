@@ -24,10 +24,6 @@ const useStyles = makeStyles(theme => ({
   modelImage: {
     maxWidth: '200px',
     height: 'auto'
-  },
-  templateScreenshot: {
-    width: '100%',
-    height: 'auto'
   }
 }))
 
@@ -63,22 +59,6 @@ export default function Model ({ match }) {
     } else {
       dispatch(actions.addSignature(signature))
     }
-  }
-
-  const getPreview = () => {
-    if (modelsReducer.template !== '') {
-      const template = templates.find(e => e.name === modelsReducer.template)
-      if (template) {
-        if (template.screenshot !== '') {
-          return (
-            <Grid item xs={12}>
-              <img src={template.screenshot} alt={template.name} className={classes.templateScreenshot} />
-            </Grid>
-          )
-        }
-      }
-    }
-    return null
   }
 
   const isComplete = () => {
@@ -221,7 +201,6 @@ export default function Model ({ match }) {
                   </Select>
                 </FormControl>
               </Grid>
-              {getPreview()}
             </Grid>
           </CardContent>
         </Card>
