@@ -47,8 +47,7 @@ export default function Batch ({ match }) {
 
   const handleRevoke = certificate => {
     dispatch(revocationsActions.create({
-      blockcertsUuid: certificate.id,
-      revocationReason: 'Revoked by the issuer.'
+      blockcertsUuid: certificate.id
     }))
   }
 

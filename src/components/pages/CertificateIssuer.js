@@ -59,8 +59,7 @@ export default function CertificateRecipient ({ match }) {
   }
   const handleRevoke = id => {
     dispatch(revocationsActions.create({
-      certificateId: id,
-      revocationReason: 'Revoked by the issuer.'
+      certificateId: id
     }))
   }
   const handleUnrevoke = id => {
