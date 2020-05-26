@@ -277,11 +277,9 @@ export default function App () {
               <Route exact path='/dev/image' component={DevImage} />
             </Switch>
           </Grid>
-          {process.env.REACT_APP_FOOTER !== 'false' && (
-            <Grid item xs={12} align='center'>
-              <Typography classes={{ root: classes.poweredBy }}>Powered by <a href='https://auther.org' target='auther' rel='noopener noreferrer' className={classes.poweredByLink}>Auther</a>, an opensource implementation of Blockcerts</Typography>
-            </Grid>
-          )}
+          <Grid item xs={12} align='center'>
+            <Typography classes={{ root: classes.poweredBy }}>Powered by <a href='https://auther.org' target='auther' rel='noopener noreferrer' className={classes.poweredByLink}>Auther</a>, an opensource implementation of Blockcerts</Typography>
+          </Grid>
         </Grid>
       </main>
       <ServicesBackdrop />
