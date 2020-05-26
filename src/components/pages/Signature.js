@@ -21,7 +21,7 @@ export default function Signature ({ match }) {
     if (event.target.files[0]) {
       Resizer.imageFileResizer(
         event.target.files[0],
-        200,
+        400,
         100,
         'PNG',
         100,

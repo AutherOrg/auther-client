@@ -59,6 +59,7 @@ import Users from './components/pages/Users'
 import User from './components/pages/User'
 // Dev tools.
 import DevTemplate from './components/dev/DevTemplate'
+import DevImage from './components/dev/DevImage'
 
 const drawerWidth = 240
 
@@ -273,6 +274,7 @@ export default function App () {
               <PrivateRoute userRoles={[constants.role.ADMIN]} exact path='/users' component={Users} />
               <PrivateRoute userRoles={[constants.role.ADMIN]} exact path='/users/create' component={User} />
               <Route exact path='/dev/template' component={DevTemplate} />
+              <Route exact path='/dev/image' component={DevImage} />
             </Switch>
           </Grid>
           {process.env.REACT_APP_FOOTER !== 'false' && (

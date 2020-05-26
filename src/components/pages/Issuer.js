@@ -15,9 +15,8 @@ import actions from '../../actions/issuers.actions'
 
 const useStyles = makeStyles(theme => ({
   imgResponsive: {
-    maxWidth: '200px',
-    width: '100%',
-    height: 'auto'
+    height: '100px',
+    width: 'auto'
   }
 }))
 
@@ -34,8 +33,8 @@ export default function Issuer () {
     if (event.target.files[0]) {
       Resizer.imageFileResizer(
         event.target.files[0],
-        1024,
-        768,
+        400,
+        100,
         'PNG',
         100,
         0,

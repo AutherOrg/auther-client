@@ -22,7 +22,8 @@ import signaturesActions from '../../actions/signatures.actions'
 
 const useStyles = makeStyles(theme => ({
   modelImage: {
-    maxWidth: '200px',
+    width: '100%',
+    maxWidth: '400px',
     height: 'auto'
   }
 }))
@@ -147,7 +148,7 @@ export default function Model ({ match }) {
                     <img src={modelsReducer.image} alt={modelsReducer.name} className={classes.modelImage} />
                   </div>
                 )}
-                <input type='file' onChange={event => handleImageChange('image', 1366, 1366, 'JPEG', 70, event)} />
+                <input type='file' onChange={event => handleImageChange('image', 1000, 400, 'JPEG', 70, event)} />
               </Grid>
             </Grid>
           </CardContent>
