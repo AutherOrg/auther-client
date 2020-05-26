@@ -28,7 +28,7 @@ const build = certificate => {
         <h2 style="font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif; font-size:3rem; text-transform: uppercase; margin:0;">
           ${certificate.recipientProfile.name}
         </h2>
-        <p style="font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif; font-size: 1.25rem; text-align: justify; margin: 0;">
+        <p style="font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif; font-size: 1.25rem; text-align: justify; margin: 0; margin-top: 20px;">
           ${certificate.badge.description}
         </p>
         <p style="font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif; font-size: 1rem; font-style: italic; margin: 0; margin-top: 20px;">
