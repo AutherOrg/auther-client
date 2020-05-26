@@ -34,7 +34,7 @@ const build = certificate => {
         Issued on ${format(new Date(certificate.issuedOn), 'yyyy/MM/dd')}
       </p>
       <div style="text-align:center;">
-        <img src="${certificate.badge.issuer.image}" alt="${certificate.badge.issuer.name}" style="height:50px; width:auto; margin:0; margin-top:10px;" />
+        <img src="${certificate.badge.issuer.image}" alt="${certificate.badge.issuer.name}" style="max-height:100px; width:auto; margin:0; margin-top:10px;" />
       </div>
       <div style="display:flex; display:-webkit-flex; flex-direction:row; justify-content:center; -webkit-justify-content:center;">
         ${buildSignatures(certificate.badge.signatureLines)}
