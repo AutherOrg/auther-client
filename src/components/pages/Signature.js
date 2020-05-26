@@ -22,7 +22,7 @@ export default function Signature ({ match }) {
       Resizer.imageFileResizer(
         event.target.files[0],
         200,
-        200,
+        100,
         'PNG',
         100,
         0,
