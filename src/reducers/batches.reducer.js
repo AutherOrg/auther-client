@@ -4,6 +4,7 @@ const initialState = {
   hasChanged: false,
   isSet: false,
   isSigned: false,
+  preview: 'first',
   recipients: [],
   modelId: '',
   certificates: [],
@@ -25,6 +26,12 @@ export default (state = initialState, action) => {
         isSet: true,
         certificates: action.certificates,
         merkleTreeRoot: action.merkleTreeRoot
+      }
+
+    case types.SET_BATCH_PREVIEW:
+      return {
+        ...state,
+        preview: action.data
       }
 
     case types.SET_BATCH_VALUE:

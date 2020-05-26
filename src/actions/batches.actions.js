@@ -142,6 +142,11 @@ const setError = error => ({
   error
 })
 
+const setPreview = data => ({
+  type: types.SET_BATCH_PREVIEW,
+  data
+})
+
 const setValue = (name, value) => ({
   type: types.SET_BATCH_VALUE,
   name,
@@ -197,6 +202,7 @@ export default {
   getOne,
   reset,
   set,
+  setPreview,
   setValue,
   sign
 }

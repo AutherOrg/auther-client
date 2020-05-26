@@ -41,7 +41,6 @@ const useStyles = makeStyles(theme => ({
 export default function CreateBatch () {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const [preview, setPreview] = React.useState('first')
   const issuersReducer = useSelector(state => state.issuersReducer)
   const batchesReducer = useSelector(state => state.batchesReducer)
   const modelsReducer = useSelector(state => state.modelsReducer)
@@ -57,7 +56,7 @@ export default function CreateBatch () {
   }
 
   const getPreview = () => {
-    if (preview === 'all') {
+    if (batchesReducer.preview === 'all') {
       return batchesReducer.recipients.map((recipient, index) => (
         <div key={index}>
           {getCertificatePreview(index)}
@@ -297,7 +296,7 @@ export default function CreateBatch () {
                     <Grid item xs={12}>
                       <FormControl component='fieldset' className={classes.formControl}>
                         <FormLabel component='legend'>Preview</FormLabel>
-                        <RadioGroup name='gender1' value={preview} onChange={event => setPreview(event.target.value)}>
+                        <RadioGroup name='gender1' value={batchesReducer.preview} onChange={event => dispatch(batchesActions.setPreview(event.target.value))}>
                           <FormControlLabel value='first' control={<Radio />} label='First recipient only' />
                           <FormControlLabel value='all' control={<Radio />} label='All recipients' />
                         </RadioGroup>
