@@ -153,6 +153,7 @@ export default function CertificateRecipient ({ match }) {
                     </CopyToClipboard> */}
                     <Button
                       href={reducer.pdf}
+                      download={slugify(`${reducer.json.badge.name} ${reducer.json.recipientProfile.name}.pdf`)}
                       target='pdf'
                       rel='noopener noreferrer'
                       startIcon={<PictureAsPdf />}

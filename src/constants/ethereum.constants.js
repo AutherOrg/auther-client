@@ -13,6 +13,10 @@ export default {
     CHAIN: {
       1: 'ethereumMainnet',
       3: 'ethereumRopsten'
+    },
+    ETHERSCAN: {
+      MainNet: 'https://etherscan.io/tx/',
+      Ropsten: 'https://ropsten.etherscan.io/tx/'
     }
   }
 }

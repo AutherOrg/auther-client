@@ -8,6 +8,8 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import { Link } from '@material-ui/icons'
 
+import constants from '../../constants/ethereum.constants'
+
 const useStyles = makeStyles(theme => ({
   dialogContentRoot: {
     marginTop: theme.spacing(1),
@@ -32,7 +34,7 @@ export default function Transaction () {
       <DialogActions>
         {transactionsReducer.hash.substring(0, 2) === '0x' && (
           <Button
-            href={'https://' + process.env.REACT_APP_ETHEREUM_NETWORK.toLowerCase() + '.etherscan.io/tx/' + transactionsReducer.hash}
+            href={`${constants.NETWORK.ETHERSCAN[process.env.REACT_APP_ETHEREUM_NETWORK]}${transactionsReducer.hash}`}
             target='etherscan'
             rel='noopener noreferrer'
             startIcon={<Link />}

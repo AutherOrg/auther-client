@@ -1,9 +1,9 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
+// import { CopyToClipboard } from 'react-copy-to-clipboard'
 import slugify from 'slugify'
 import { saveAs } from 'file-saver'
-import ReactToPrint from 'react-to-print'
+// import ReactToPrint from 'react-to-print'
 // import { QRCode } from 'react-qr-svg'
 import {
   Button,
@@ -17,7 +17,8 @@ import {
 //   Typography
 // } from '@material-ui/core'
 // import { makeStyles } from '@material-ui/core/styles'
-import { AddCircle, Assignment, CloudDownload, Link, Print, RemoveCircle } from '@material-ui/icons'
+// import { AddCircle, Assignment, CloudDownload, Link, Print, RemoveCircle } from '@material-ui/icons'
+import { AddCircle, CloudDownload, Link, PictureAsPdf, RemoveCircle } from '@material-ui/icons'
 
 import certificateActions from '../../actions/certificate.actions'
 import revocationsActions from '../../actions/revocations.actions'
@@ -37,7 +38,7 @@ export default function CertificateRecipient ({ match }) {
   const dispatch = useDispatch()
   const reducer = useSelector(state => state.certificateReducer)
   const revocationsReducer = useSelector(state => state.revocationsReducer)
-  const [copied, setCopied] = React.useState(null)
+  // const [copied, setCopied] = React.useState(null)
   const componentRef = React.useRef()
 
   React.useEffect(() => {
@@ -51,14 +52,14 @@ export default function CertificateRecipient ({ match }) {
       slugify(`${certificate.badge.name} ${certificate.recipientProfile.name}.json`)
     )
   }
-  const handleCopied = () => {
-    setCopied(true)
-    setTimeout(
-      () => {
-        setCopied(false)
-      }, 3000
-    )
-  }
+  // const handleCopied = () => {
+  //   setCopied(true)
+  //   setTimeout(
+  //     () => {
+  //       setCopied(false)
+  //     }, 3000
+  //   )
+  // }
   const isRevoked = id => {
     return revocationsReducer.revocations.findIndex(e => e.certificateId === id) > -1
   }
@@ -163,7 +164,17 @@ export default function CertificateRecipient ({ match }) {
                     >
                       Open link
                     </Button>
-                    <CopyToClipboard
+                    <Button
+                      href={reducer.pdf}
+                      download={slugify(`${reducer.json.badge.name} ${reducer.json.recipientProfile.name}.pdf`)}
+                      target='pdf'
+                      rel='noopener noreferrer'
+                      startIcon={<PictureAsPdf />}
+                      color='primary'
+                    >
+                      PDF version
+                    </Button>
+                    {/* <CopyToClipboard
                       text={`${window.location.origin}/certificates/shared/${reducer.sharingUuid}`}
                       onCopy={() => handleCopied()}
                     >
@@ -185,7 +196,7 @@ export default function CertificateRecipient ({ match }) {
                         </Button>
                       )}
                       content={() => componentRef.current}
-                    />
+                    /> */}
                   </CardActions>
                 </Card>
               </Grid>
