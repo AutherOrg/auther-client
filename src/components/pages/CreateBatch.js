@@ -92,7 +92,7 @@ export default function CreateBatch () {
         issuer
       },
       recipientProfile: {
-        name: `${recipient.firstname} ${recipient.lastname}`
+        name: recipient.name
       },
       verification: {
         publicKey: issuersReducer.publicKey
@@ -115,8 +115,7 @@ export default function CreateBatch () {
       batchesReducer.recipients.length > 0 &&
       (batchesReducer.recipients.map(recipient => {
         return (
-          recipient.firstname && recipient.firstname !== '' &&
-          recipient.lastname && recipient.lastname !== '' &&
+          recipient.name && recipient.name !== '' &&
           recipient.email && recipient.email !== ''
         )
       }))
@@ -226,8 +225,7 @@ export default function CreateBatch () {
                       <TableHead>
                         <TableRow>
                           <TableCell>#</TableCell>
-                          <TableCell>First name</TableCell>
-                          <TableCell>Last name</TableCell>
+                          <TableCell>Name</TableCell>
                           <TableCell>Email</TableCell>
                         </TableRow>
                       </TableHead>
@@ -235,8 +233,7 @@ export default function CreateBatch () {
                         {batchesReducer.recipients.slice(0, 5).map((recipient, index) => (
                           <TableRow key={index}>
                             <TableCell>{index + 1}</TableCell>
-                            <TableCell>{recipient.firstname}</TableCell>
-                            <TableCell>{recipient.lastname}</TableCell>
+                            <TableCell>{recipient.name}</TableCell>
                             <TableCell>{recipient.email}</TableCell>
                           </TableRow>
                         ))}
@@ -246,12 +243,10 @@ export default function CreateBatch () {
                               <TableCell>...</TableCell>
                               <TableCell>...</TableCell>
                               <TableCell>...</TableCell>
-                              <TableCell>...</TableCell>
                             </TableRow>
                             <TableRow>
                               <TableCell>{batchesReducer.recipients.length}</TableCell>
-                              <TableCell>{batchesReducer.recipients[batchesReducer.recipients.length - 1].firstname}</TableCell>
-                              <TableCell>{batchesReducer.recipients[batchesReducer.recipients.length - 1].lastname}</TableCell>
+                              <TableCell>{batchesReducer.recipients[batchesReducer.recipients.length - 1].name}</TableCell>
                               <TableCell>{batchesReducer.recipients[batchesReducer.recipients.length - 1].email}</TableCell>
                             </TableRow>
                           </>
