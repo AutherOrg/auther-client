@@ -148,7 +148,7 @@ export default function Model ({ match }) {
                     <img src={modelsReducer.image} alt={modelsReducer.name} className={classes.modelImage} />
                   </div>
                 )}
-                <input type='file' onChange={event => handleImageChange('image', 1000, 400, 'JPEG', 70, event)} />
+                <input type='file' onChange={event => handleImageChange('image', 1000, 400, 'PNG', 100, event)} />
               </Grid>
             </Grid>
           </CardContent>
