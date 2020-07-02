@@ -19,6 +19,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import { Add, Edit, Save } from '@material-ui/icons'
 
+import validateService from '../../services/validate/validate.service'
 import batchesActions from '../../actions/batches.actions'
 import issuersActions from '../../actions/issuers.actions'
 import modelActions from '../../actions/models.actions'
@@ -116,7 +117,7 @@ export default function CreateBatch () {
       (batchesReducer.recipients.map(recipient => {
         return (
           recipient.name && recipient.name !== '' &&
-          recipient.email && recipient.email !== ''
+          recipient.email && validateService.isEmail(recipient.email)
         )
       }))
     )
