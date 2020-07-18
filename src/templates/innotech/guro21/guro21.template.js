@@ -2,7 +2,7 @@ import dompurify from 'dompurify'
 import { format } from 'date-fns'
 import bgInnotech from './bgInnotech'
 
-const name = 'Guro21'
+const name = '[Innotech] Guro21'
 
 const buildSignatures = signatures => {
   return signatures.map(signature => {

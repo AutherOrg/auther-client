@@ -3,7 +3,7 @@ import { format } from 'date-fns'
 
 import laurel from './laurel'
 
-const name = 'Partner'
+const name = '[Auther] Partner'
 
 const buildSignatures = signatures => {
   return signatures.map(signature => {
