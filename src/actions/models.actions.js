@@ -121,6 +121,10 @@ const setValue = (name, value) => ({
   value
 })
 
+const toggleSignatureDialog = () => ({
+  type: types.TOGGLE_SIGNATURE_DIALOG
+})
+
 const addSignature = signature => ({
   type: types.ADD_SIGNATURE_TO_MODEL,
   signature
@@ -172,5 +176,6 @@ export default {
   setValue,
   addSignature,
   removeSignature,
+  toggleSignatureDialog,
   update
 }

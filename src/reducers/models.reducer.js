@@ -5,6 +5,7 @@ const initialState = {
   models: [],
   m: [],
   hasChanged: false,
+  signatureDialog: false,
   id: 0,
   status: constants.STATUS.ACTIVE,
   name: '',
@@ -36,7 +37,7 @@ export default (state = initialState, action) => {
         signatures: action.model.Signatures.map(Signature => {
           return Signature.id
         }),
-        Signatures: action.model.Signatures,
+        Signatures: action.model.Signatures
       }
 
     case types.SET_MODEL_VALUE:
@@ -46,10 +47,17 @@ export default (state = initialState, action) => {
         hasChanged: true
       }
 
+    case types.TOGGLE_SIGNATURE_DIALOG:
+      return {
+        ...state,
+        signatureDialog: !state.signatureDialog
+      }
+
     case types.ADD_SIGNATURE_TO_MODEL:
       return {
         ...state,
         hasChanged: true,
+        signatureDialog: false,
         signatures: [...state.signatures, action.signature.id],
         Signatures: [...state.Signatures, action.signature]
       }
