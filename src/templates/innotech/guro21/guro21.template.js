@@ -42,7 +42,7 @@ const build = certificate => {
         Certificate of Competence
       </h1>
       <p style="margin:0;">to</p>
-      <h2 style="font-family:'Comic Sans MS', cursive, sans-serif; font-size:2.6em; margin-bottom: 1em;">
+      <h2 style="font-family:'Comic Sans MS', cursive, sans-serif; font-size:2.6em; margin: 0.8em 0;">
         ${certificate.recipientProfile.name}
       </h2>
       <p style="margin:0; margin-top: 5px;">
