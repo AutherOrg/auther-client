@@ -49,6 +49,7 @@ export default (state = initialState, action) => {
     case types.DESTROY_USER_ERROR:
     case types.GET_BLOCKCERTS_ISSUER_ERROR:
     case types.GET_BLOCKCERTS_REVOCATIONS_ERROR:
+    case types.GET_SOURCE_BATCHES_ERROR:
       return {
         ...state,
         errors: [...state.errors, action.error]

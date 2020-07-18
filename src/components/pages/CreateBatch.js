@@ -25,6 +25,7 @@ import modelActions from '../../actions/models.actions'
 import transactionsActions from '../../actions/transactions.actions'
 import ethereumConstants from '../../constants/ethereum.constants'
 import templates from '../../templates/templates'
+import RecipientsFromSource from '../organisms/RecipientsFromSource'
 import Web3Wrapper from '../web3/Web3Wrapper'
 import Transaction from '../organisms/Transaction'
 
@@ -211,6 +212,7 @@ export default function CreateBatch () {
                     />
                   </Grid>
                 )}
+                <RecipientsFromSource />
                 {batchesReducer.recipients.length > 0 && (
                   <Grid item xs={12}>
                     <Table>

@@ -15,6 +15,7 @@ import jobsReducer from './jobs.reducer'
 import modelsReducer from './models.reducer'
 import revocationsReducer from './revocations.reducer'
 import signaturesReducer from './signatures.reducer'
+import sourceReducer from './source.reducer'
 import transactionsReducer from './transactions.reducer'
 import usersReducer from './users.reducer'
 
@@ -34,6 +35,7 @@ const createRootReducer = history => combineReducers({
   modelsReducer,
   revocationsReducer,
   signaturesReducer,
+  sourceReducer,
   transactionsReducer,
   usersReducer
 })
