@@ -35,6 +35,7 @@ export default (state = initialState, action) => {
     case types.GET_CERTIFICATE_BEGIN:
     case types.GET_SHARED_CERTIFICATE_BEGIN:
     case types.UPDATE_CERTIFICATE_BEGIN:
+    case types.RESEND_CERTIFICATE_EMAIL_BEGIN:
     case types.CREATE_JOB_BEGIN:
     case types.DESTROY_JOB_BEGIN:
     case types.GET_JOBS_BEGIN:
@@ -80,6 +81,7 @@ export default (state = initialState, action) => {
     case types.GET_CERTIFICATE_SUCCESS:
     case types.GET_SHARED_CERTIFICATE_SUCCESS:
     case types.UPDATE_CERTIFICATE_SUCCESS:
+    case types.RESEND_CERTIFICATE_EMAIL_SUCCESS:
     case types.CREATE_JOB_SUCCESS:
     case types.DESTROY_JOB_SUCCESS:
     case types.GET_JOBS_SUCCESS:

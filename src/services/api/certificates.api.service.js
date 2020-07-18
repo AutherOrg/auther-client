@@ -85,6 +85,20 @@ const getShared = async sharingUuid => {
   }
 }
 
+const reSendEmail = async id => {
+  try {
+    const response = await window.fetch(
+      `${route}/${Number(id)}/resendemail`, {
+        method: 'GET',
+        headers: helper.setHeadersWithToken()
+      }
+    )
+    return await response.json()
+  } catch (e) {
+    return e
+  }
+}
+
 const update = async (id, data) => {
   try {
     const response = await window.fetch(
@@ -106,5 +120,6 @@ export default {
   getMany,
   getOne,
   getShared,
+  reSendEmail,
   update
 }

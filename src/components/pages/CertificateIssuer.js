@@ -10,6 +10,7 @@ import {
   Card, CardHeader, CardActions,
   Grid
 } from '@material-ui/core'
+import { Email } from '@material-ui/icons'
 // import {
 //   Button,
 //   Card, CardHeader, CardActions,
@@ -74,6 +75,9 @@ export default function CertificateRecipient ({ match }) {
       dispatch(revocationsActions.destroy(revocation.id))
     }
   }
+  const handleResendEmail = id => {
+    dispatch(certificateActions.reSendEmail(id))
+  }
 
   if (reducer.id === 0) {
     return null
@@ -133,6 +137,13 @@ export default function CertificateRecipient ({ match }) {
                         </Button>
                       )
                   }
+                  <Button
+                    onClick={() => handleResendEmail(reducer.id)}
+                    startIcon={<Email />}
+                    color='primary'
+                  >
+                    Resend email
+                  </Button>
                 </CardActions>
               </Card>
             </Grid>

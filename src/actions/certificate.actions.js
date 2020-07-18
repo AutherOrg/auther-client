@@ -83,6 +83,31 @@ const getSharedError = error => ({
   error
 })
 
+const reSendEmail = id => {
+  return async dispatch => {
+    dispatch(reSendEmailBegin())
+    const result = await service.reSendEmail(id)
+    if (result instanceof TypeError) {
+      dispatch(reSendEmailError(result.message))
+    } else {
+      dispatch(reSendEmailSuccess())
+    }
+  }
+}
+
+const reSendEmailBegin = () => ({
+  type: types.RESEND_CERTIFICATE_EMAIL_BEGIN
+})
+
+const reSendEmailSuccess = () => ({
+  type: types.RESEND_CERTIFICATE_EMAIL_SUCCESS
+})
+
+const reSendEmailError = error => ({
+  type: types.RESEND_CERTIFICATE_EMAIL_ERROR,
+  error
+})
+
 const update = (id, data) => {
   return async dispatch => {
     dispatch(updateBegin())
@@ -118,5 +143,6 @@ export default {
   get,
   getShared,
   update,
-  reset
+  reset,
+  reSendEmail
 }

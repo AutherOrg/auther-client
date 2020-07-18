@@ -41,6 +41,7 @@ export default (state = initialState, action) => {
     case types.GET_CERTIFICATE_ERROR:
     case types.GET_SHARED_CERTIFICATE_ERROR:
     case types.UPDATE_CERTIFICATE_ERROR:
+    case types.RESEND_CERTIFICATE_EMAIL_ERROR:
     case types.CREATE_USER_ERROR:
     case types.GET_USERS_ERROR:
     case types.GET_USER_ERROR:
