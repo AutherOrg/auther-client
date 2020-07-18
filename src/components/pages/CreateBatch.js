@@ -19,7 +19,6 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import { Add, Edit, Save } from '@material-ui/icons'
 
-import validateService from '../../services/validate/validate.service'
 import batchesActions from '../../actions/batches.actions'
 import issuersActions from '../../actions/issuers.actions'
 import modelActions from '../../actions/models.actions'
@@ -111,16 +110,8 @@ export default function CreateBatch () {
     })
   }
 
-  const isValidCsv = () => {
-    return (
-      batchesReducer.recipients.length > 0 &&
-      (batchesReducer.recipients.map(recipient => {
-        return (
-          recipient.name && recipient.name !== '' &&
-          recipient.email && validateService.isEmail(recipient.email)
-        )
-      }))
-    )
+  const hasRecipients = () => {
+    return batchesReducer.recipients.length > 0
   }
 
   const canEdit = () => {
@@ -131,7 +122,7 @@ export default function CreateBatch () {
 
   const isComplete = () => {
     return (
-      isValidCsv() &&
+      hasRecipients() &&
       batchesReducer.modelId > 0
     )
   }
@@ -206,7 +197,7 @@ export default function CreateBatch () {
                   <Grid item xs={12}>
                     <Typography>Select a CSV file</Typography>
                     <CSVReader
-                      onFileLoaded={(data, fileName) => dispatch(batchesActions.setValue('recipients', data))}
+                      onFileLoaded={(data, fileName) => dispatch(batchesActions.loadRecipients(data))}
                       parserOptions={{
                         header: true,
                         dynamicTyping: true,

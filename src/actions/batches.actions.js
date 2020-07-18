@@ -5,14 +5,15 @@ import { push } from 'connected-react-router'
 import types from '../constants/actions.types.constants'
 import batchesConstants from '../constants/batches.constants'
 import jobsConstants from '../constants/jobs.constants'
-import service from '../services/dexie/batches.dexie.service'
+import batchesService from '../services/dexie/batches.dexie.service'
+import validateService from '../services/validate/validate.service'
 import jobsActions from '../actions/jobs.actions'
 
 const create = batch => {
   return async dispatch => {
     dispatch(createBegin())
     try {
-      await service.create(batch)
+      await batchesService.create(batch)
       dispatch(createSuccess())
       dispatch(get())
     } catch (e) {
@@ -37,7 +38,7 @@ const createError = error => ({
 const destroy = id => {
   return async dispatch => {
     dispatch(destroyBegin())
-    const result = await service.destroy(id)
+    const result = await batchesService.destroy(id)
     if (result instanceof TypeError) {
       dispatch(destroyError(result.message))
     }
@@ -63,7 +64,7 @@ const get = () => {
   return async dispatch => {
     dispatch(getManyBegin())
     try {
-      const batches = await service.getMany()
+      const batches = await batchesService.getMany()
       dispatch(getManySuccess(batches))
     } catch (e) {
       dispatch(getManyError(e.message))
@@ -88,7 +89,7 @@ const getManyError = error => ({
 const getOne = id => {
   return async dispatch => {
     dispatch(getOneBegin())
-    const result = await service.getOne(id)
+    const result = await batchesService.getOne(id)
     if (result instanceof TypeError) {
       dispatch(getOneError(result.message))
     } else {
@@ -110,6 +111,28 @@ const getOneError = error => ({
   type: types.GET_BATCH_ERROR,
   error
 })
+
+const loadRecipients = data => {
+  return async dispatch => {
+    if (!data.length > 0) {
+      dispatch(createError('No recipients found in data source.'))
+    }
+    const invalidRecipients = data.filter((recipient, index) => {
+      const isValidName = recipient.name && recipient.name !== ''
+      const isValidEmail = recipient.email && validateService.isEmail(recipient.email)
+      return !isValidName || !isValidEmail
+    })
+    if (invalidRecipients.length) {
+      const errors = invalidRecipients.map(recipient => {
+        return `Invalid item: name="${recipient.name}", email="${recipient.email}" `
+      })
+      const error = errors.join('\r\n')
+      dispatch(createError(error))
+    } else {
+      dispatch(setValue('recipients', data))
+    }
+  }
+}
 
 const reset = () => ({
   type: types.RESET_BATCHES
@@ -200,6 +223,7 @@ export default {
   destroy,
   get,
   getOne,
+  loadRecipients,
   reset,
   set,
   setPreview,

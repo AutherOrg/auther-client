@@ -1,8 +1,10 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import {
-  Dialog, DialogTitle, DialogContent, DialogContentText
+  Button,
+  Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions
 } from '@material-ui/core'
+import { Replay } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
@@ -35,6 +37,14 @@ export default function ServicesDialog () {
           </DialogContentText>
         ))}
       </DialogContent>
+      <DialogActions>
+        <Button
+          onClick={() => window.location.reload(false)}
+          startIcon={<Replay />}
+        >
+          Reload app
+        </Button>
+      </DialogActions>
     </Dialog>
   )
 }
