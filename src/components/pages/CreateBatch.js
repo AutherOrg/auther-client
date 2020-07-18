@@ -24,7 +24,7 @@ import issuersActions from '../../actions/issuers.actions'
 import modelActions from '../../actions/models.actions'
 import transactionsActions from '../../actions/transactions.actions'
 import ethereumConstants from '../../constants/ethereum.constants'
-import templates from '../../templates/index.templates'
+import templates from '../../templates/templates'
 import Web3Wrapper from '../web3/Web3Wrapper'
 import Transaction from '../organisms/Transaction'
 

@@ -18,7 +18,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import { Add, Close, Delete, Save } from '@material-ui/icons'
 
-import templates from '../../templates/index.templates'
+import templates from '../../templates/templates'
 import signaturesActions from '../../actions/signatures.actions'
 import modelsActions from '../../actions/models.actions'
 

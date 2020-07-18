@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
-import laurel from '../../templates/default/laurel'
+import laurel from '../../templates/auther/default/laurel'
 
 const useStyles = makeStyles(theme => ({
   root: {
