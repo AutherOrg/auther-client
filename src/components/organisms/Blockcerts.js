@@ -158,7 +158,9 @@ export default function Blockcerts ({ src }) {
         <Grid item xs={12} md={9}>
           <Card>
             <CardContent classes={{ root: classes.certificateCardContentRoot }}>
-              {src.displayHtml && <div dangerouslySetInnerHTML={{ __html: src.displayHtml.replace(/(<? *script)/gi, 'illegalscript') }} />}
+              <div style={JSON.parse(process.env.REACT_APP_CERTIFICATE_WRAPPER_STYLE)}>
+                {src.displayHtml && <div dangerouslySetInnerHTML={{ __html: src.displayHtml.replace(/(<? *script)/gi, 'illegalscript') }} />}
+              </div>
             </CardContent>
           </Card>
         </Grid>

@@ -57,7 +57,7 @@ const build = certificate => {
       <div style="display:flex;display:-webkit-flex; flex-direction:row; justify-content:space-around; -webkit-justify-content:space-around;">
         ${buildSignatures(certificate.badge.signatureLines)}
       </div>
-      <p style="text-align: right;">ISO 9001 & 29990 certified</p>
+      <p style="margin: 0 10px; text-align: right;">ISO 9001 & 29990 certified</p>
     </div>
   </div>
 `

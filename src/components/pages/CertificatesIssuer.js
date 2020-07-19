@@ -73,7 +73,7 @@ export default function CertificatesIssuer () {
                           color='primary'
                         >
                           Manage
-                          </Button>
+                        </Button>
                       </TableCell>
                     </TableRow>
                   ))}
