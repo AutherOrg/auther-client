@@ -2,25 +2,16 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   Button,
-  Card, CardHeader, CardContent,
-  Divider,
-  FormControl, FormControlLabel, FormLabel,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Radio, RadioGroup,
-  Select,
-  Table, TableHead, TableBody, TableRow, TableCell,
-  Typography
+  Grid
 } from '@material-ui/core'
-import { Add, Edit, Save, Sync } from '@material-ui/icons'
+import { Sync } from '@material-ui/icons'
 
-import batchesActions from '../../actions/batches.actions'
+// import batchesActions from '../../actions/batches.actions'
 import sourceActions from '../../actions/source.actions'
 
-export default function RecipientsFromSource() {
+export default function RecipientsFromSource () {
   const dispatch = useDispatch()
-  const batchesReducer = useSelector(state => state.batchesReducer)
+  // const batchesReducer = useSelector(state => state.batchesReducer)
   const sourceReducer = useSelector(state => state.sourceReducer)
   const source = process.env.REACT_APP_SOURCE
 
