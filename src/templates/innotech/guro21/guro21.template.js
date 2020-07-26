@@ -51,7 +51,7 @@ const build = certificate => {
       <p style="margin:0; margin-top:8px">
       ${certificate.badge.description}
       </p>
-      <p style="margin:10px 0 0 0;">
+      <p style="margin:10px 0;">
         Issued on ${format(new Date(certificate.issuedOn), 'MMMM dd, yyyy')}.
       </p>
       <div style="display:flex;display:-webkit-flex; flex-direction:row; justify-content:space-around; -webkit-justify-content:space-around;">
