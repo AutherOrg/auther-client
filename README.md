@@ -1,10 +1,7 @@
 # Auther client
 
-![lint](https://github.com/AutherOrg/auther-client/workflows/Lint%20code/badge.svg)
-![code style](https://img.shields.io/badge/code_style-standard-brightgreen.svg)
-
-
-<a href="https://standardjs.com"><img src="https://img.shields.io/badge/code_style-standard-brightgreen.svg" alt="Standard - JavaScript Style Guide"></a>
+![Lint code](https://github.com/AutherOrg/auther-client/workflows/Lint%20code/badge.svg)
+![Code style](https://img.shields.io/badge/code_style-standard-brightgreen.svg)
 
 Client to create, issue, manage and share Blockcerts certificates.
 
