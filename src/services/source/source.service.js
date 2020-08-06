@@ -6,9 +6,9 @@ const getBatches = async () => {
   try {
     const response = await window.fetch(
       `${route}`, {
-      method: 'GET',
-      headers: helper.setHeaders()
-    }
+        method: 'GET',
+        headers: helper.setHeaders()
+      }
     )
     console.log(response)
     const result = await response.json()

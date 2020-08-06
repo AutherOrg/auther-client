@@ -1,5 +1,7 @@
 # Auther client
 
+![Lint code](https://github.com/AutherOrg/auther-client/workflows/Lint%20code/badge.svg)
+
 Client to create, issue, manage and share Blockcerts certificates.
 
 Demonstration: https://auther.org/demo
