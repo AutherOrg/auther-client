@@ -12,8 +12,7 @@ const setHeadersWithToken = () => {
 
 const setHeaders = () => {
   const headers = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json'
+    Accept: 'application/json'
   }
   return headers
 }

@@ -47,6 +47,7 @@ export default (state = initialState, action) => {
     case types.GET_BLOCKCERTS_ISSUER_BEGIN:
     case types.GET_BLOCKCERTS_REVOCATIONS_BEGIN:
     case types.GET_SOURCE_BATCHES_BEGIN:
+    case types.GET_SOURCE_BATCH_BEGIN:
       return {
         ...state,
         open: true
@@ -94,6 +95,7 @@ export default (state = initialState, action) => {
     case types.GET_BLOCKCERTS_ISSUER_SUCCESS:
     case types.GET_BLOCKCERTS_REVOCATIONS_SUCCESS:
     case types.GET_SOURCE_BATCHES_SUCCESS:
+    case types.GET_SOURCE_BATCH_SUCCESS:
       return initialState
 
     default:
