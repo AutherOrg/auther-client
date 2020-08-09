@@ -1,8 +1,11 @@
 # Auther client
 
+[![Lint](https://github.com/AutherOrg/auther-client/workflows/Lint/badge.svg)](https://github.com/AutherOrg/auther-client/actions?query=workflow%3A%22Lint%22)
+[![Code style](https://img.shields.io/badge/Code_style-standard-brightgreen.svg)](https://github.com/standard/standard)
+
 Client to create, issue, manage and share Blockcerts certificates.
 
-Demonstration: https://auther.org/demo
+Demo: https://auther.org/demo
 
 ## Introduction
 
