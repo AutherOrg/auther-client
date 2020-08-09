@@ -17,7 +17,7 @@ import {
   Typography
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { Add, Edit, Save } from '@material-ui/icons'
+import { Add, Attachment, Edit, Save } from '@material-ui/icons'
 
 import batchesActions from '../../actions/batches.actions'
 import issuersActions from '../../actions/issuers.actions'
@@ -196,23 +196,28 @@ export default function CreateBatch () {
               <Grid container spacing={5}>
                 {canEdit() && (
                   <Grid item xs={12}>
-                    <Typography>Select a CSV file</Typography>
-                    <CSVReader
-                      onFileLoaded={(data, fileName) => dispatch(batchesActions.loadRecipients(data))}
-                      parserOptions={{
-                        header: true,
-                        dynamicTyping: true,
-                        skipEmptyLines: true,
-                        transformHeader: header =>
-                          header
-                            .toLowerCase()
-                            .replace(/\W/g, '')
-                      }}
-                      inputId='csv'
-                    />
+                    <Card>
+                      <CardHeader title='CSV file method' avatar={<Attachment />} />
+                      <CardContent>
+                        <Typography>Select a CSV file</Typography>
+                        <CSVReader
+                          onFileLoaded={(data, fileName) => dispatch(batchesActions.loadRecipients(data))}
+                          parserOptions={{
+                            header: true,
+                            dynamicTyping: true,
+                            skipEmptyLines: true,
+                            transformHeader: header =>
+                              header
+                                .toLowerCase()
+                                .replace(/\W/g, '')
+                          }}
+                          inputId='csv'
+                        />
+                      </CardContent>
+                    </Card>
                   </Grid>
                 )}
-                <RecipientsFromSource />
+                {canEdit() && <RecipientsFromSource />}
                 {batchesReducer.recipients.length > 0 && (
                   <Grid item xs={12}>
                     <Table>
