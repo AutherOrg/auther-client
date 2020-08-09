@@ -1,5 +1,6 @@
 import types from '../constants/actions.types.constants'
 import service from '../services/source/source.service'
+import batchesActions from './batches.actions'
 
 const getBatches = params => {
   return async dispatch => {
@@ -27,6 +28,40 @@ const getBatchesError = error => ({
   error
 })
 
+const getBatch = id => {
+  return async dispatch => {
+    dispatch(getBatchBegin())
+    const result = await service.getBatch(id)
+    if (result instanceof TypeError) {
+      dispatch(getBatchError(result.message))
+    } else {
+      dispatch(getBatchSuccess(result))
+      dispatch(batchesActions.loadRecipients(result.recipients))
+      dispatch(reset())
+    }
+  }
+}
+
+const getBatchBegin = () => ({
+  type: types.GET_SOURCE_BATCH_BEGIN
+})
+
+const getBatchSuccess = data => ({
+  type: types.GET_SOURCE_BATCH_SUCCESS,
+  data
+})
+
+const getBatchError = error => ({
+  type: types.GET_SOURCE_BATCH_ERROR,
+  error
+})
+
+const reset = () => ({
+  type: types.RESET_SOURCE
+})
+
 export default {
-  getBatches
+  getBatches,
+  getBatch,
+  reset
 }

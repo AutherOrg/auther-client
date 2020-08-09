@@ -1,6 +1,6 @@
 import helper from './source.helper'
 
-const route = `${process.env.REACT_APP_SOURCE}/batches`
+const route = `${process.env.REACT_APP_SOURCE}/batches/`
 
 const getBatches = async () => {
   try {
@@ -10,7 +10,21 @@ const getBatches = async () => {
         headers: helper.setHeaders()
       }
     )
-    console.log(response)
+    const result = await response.json()
+    return result
+  } catch (e) {
+    return e
+  }
+}
+
+const getBatch = async id => {
+  try {
+    const response = await window.fetch(
+      `${route}${id}/`, {
+        method: 'GET',
+        headers: helper.setHeaders()
+      }
+    )
     const result = await response.json()
     return result
   } catch (e) {
@@ -19,5 +33,6 @@ const getBatches = async () => {
 }
 
 export default {
-  getBatches
+  getBatches,
+  getBatch
 }
