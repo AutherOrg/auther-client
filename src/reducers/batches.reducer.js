@@ -9,7 +9,8 @@ const initialState = {
   modelId: '',
   certificates: [],
   merkleTreeRoot: '',
-  batches: []
+  batches: [],
+  postFinalizationJob: {}
 }
 
 export default (state = initialState, action) => {
@@ -39,6 +40,12 @@ export default (state = initialState, action) => {
         ...state,
         [action.name]: action.value,
         hasChanged: true
+      }
+
+    case types.SET_BATCH_POST_FINALIZATION_JOB:
+      return {
+        ...state,
+        postFinalizationJob: action.data
       }
 
     case types.SIGN_BATCH_SUCCESS:

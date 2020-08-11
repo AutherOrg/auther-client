@@ -1,9 +1,11 @@
 import types from '../constants/actions.types.constants'
+import jobsConstants from '../constants/jobs.constants'
 import service from '../services/source/source.service'
 import batchesActions from './batches.actions'
 
 const getBatches = params => {
   return async dispatch => {
+    dispatch(batchesActions.reset())
     dispatch(getBatchesBegin())
     const result = await service.getBatches(params)
     if (result instanceof TypeError) {
@@ -37,6 +39,12 @@ const getBatch = id => {
     } else {
       dispatch(getBatchSuccess(result))
       dispatch(batchesActions.loadRecipients(result.recipients))
+      dispatch(batchesActions.setPostFinalizationJob({
+        status: jobsConstants.STATUS.QUEUED,
+        name: 'Update source',
+        action: 'updateSource',
+        data: result
+      }))
       dispatch(reset())
     }
   }

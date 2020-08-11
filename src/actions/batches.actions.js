@@ -165,6 +165,11 @@ const setError = error => ({
   error
 })
 
+const setPostFinalizationJob = data => ({
+  type: types.SET_BATCH_POST_FINALIZATION_JOB,
+  data
+})
+
 const setPreview = data => ({
   type: types.SET_BATCH_PREVIEW,
   data
@@ -176,7 +181,7 @@ const setValue = (name, value) => ({
   value
 })
 
-const sign = (certificates, hash, chainId) => {
+const sign = (certificates, hash, chainId, postFinalizationJob) => {
   return async dispatch => {
     dispatch(signBegin())
     const result = await signBatch(certificates, 'ETHData', hash, chainId, { validate: true })
@@ -199,7 +204,11 @@ const sign = (certificates, hash, chainId) => {
           data: certificate
         }
       })))
-      dispatch(push('/'))
+      if (postFinalizationJob.data) {
+        postFinalizationJob.data.txHash = hash
+        dispatch(jobsActions.create(postFinalizationJob))
+      }
+      dispatch(push('/certificates'))
     }
   }
 }
@@ -226,6 +235,7 @@ export default {
   loadRecipients,
   reset,
   set,
+  setPostFinalizationJob,
   setPreview,
   setValue,
   sign

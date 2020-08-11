@@ -174,7 +174,12 @@ export default function CreateBatch () {
   }
 
   const handleFinalize = () => {
-    dispatch(batchesActions.sign(batchesReducer.certificates, transactionsReducer.hash, ethereumConstants.NETWORK.CHAIN[context.chainId]))
+    dispatch(batchesActions.sign(
+      batchesReducer.certificates,
+      transactionsReducer.hash,
+      ethereumConstants.NETWORK.CHAIN[context.chainId],
+      batchesReducer.postFinalizationJob
+    ))
   }
 
   React.useEffect(() => {

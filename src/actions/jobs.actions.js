@@ -1,6 +1,7 @@
 import types from '../constants/actions.types.constants'
 import jobsDexieService from '../services/dexie/jobs.dexie.service'
 import certificatesService from '../services/api/certificates.api.service'
+import sourceService from '../services/source/source.service'
 
 const create = data => {
   return async dispatch => {
@@ -91,7 +92,13 @@ const getError = error => ({
 const runJob = job => {
   return async dispatch => {
     dispatch(runJobBegin())
-    const result = await certificatesService.create(job.data)
+    let result
+    if (job.action === 'uploadCertificate') {
+      result = await certificatesService.create(job.data)
+    }
+    if (job.action === 'updateSource') {
+      result = await sourceService.update(job.data.id, job.data)
+    }
     if (result instanceof TypeError) {
       dispatch(runJobError(result.message))
     } else {
@@ -119,7 +126,13 @@ const runJobs = jobs => {
     dispatch(runJobsBegin())
     await Promise.all(jobs.map(async job => {
       dispatch(runJobBegin())
-      const result = await certificatesService.create(job.data)
+      let result
+      if (job.action === 'uploadCertificate') {
+        result = await certificatesService.create(job.data)
+      }
+      if (job.action === 'updateSource') {
+        result = await sourceService.updateBatch(job.data.id, job.data)
+      }
       if (result instanceof TypeError) {
         dispatch(runJobError(result.message))
       } else {

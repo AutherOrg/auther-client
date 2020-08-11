@@ -13,7 +13,6 @@ import sourceActions from '../../actions/source.actions'
 
 export default function RecipientsFromSource () {
   const dispatch = useDispatch()
-  // const batchesReducer = useSelector(state => state.batchesReducer)
   const sourceReducer = useSelector(state => state.sourceReducer)
   const source = process.env.REACT_APP_SOURCE
 

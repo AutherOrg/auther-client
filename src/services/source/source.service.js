@@ -1,4 +1,5 @@
 import helper from './source.helper'
+import sourceConstants from '../../constants/source.constants'
 
 const route = `${process.env.REACT_APP_SOURCE}/batches/`
 
@@ -32,7 +33,31 @@ const getBatch = async id => {
   }
 }
 
+const updateBatch = async (id, data) => {
+  try {
+    const processedData = {
+      status: sourceConstants.STATUS.ISSUED,
+      transaction: data.txHash
+    }
+    const response = await window.fetch(
+      `${route}${id}`, {
+        method: 'PATCH',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(processedData)
+      }
+    )
+    const result = await response.json()
+    return result
+  } catch (e) {
+    return e
+  }
+}
+
 export default {
   getBatches,
-  getBatch
+  getBatch,
+  updateBatch
 }

@@ -31,10 +31,10 @@ export default function JobsDialog () {
 
   return (
     <Dialog open={jobsReducer.jobs.length > 0}>
-      <DialogTitle>Uploading certificates</DialogTitle>
+      <DialogTitle>Queued jobs</DialogTitle>
       <DialogContent classes={{ root: classes.dialogContentRoot }}>
         <DialogContentText>
-          {`${jobsReducer.jobs.length} remaining certificates to upload.`}
+          {`${jobsReducer.jobs.length} remaining jobs.`}
         </DialogContentText>
         {jobsReducer.isRunning && (
           <CircularProgress />
@@ -47,7 +47,7 @@ export default function JobsDialog () {
           color='primary'
           disabled={jobsReducer.isRunning}
         >
-          Upload certificates
+          Launch jobs
         </Button>
       </DialogActions>
     </Dialog>
