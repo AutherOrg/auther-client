@@ -33,20 +33,12 @@ const getBatch = async id => {
   }
 }
 
-const updateBatch = async (id, data) => {
+const updateBatch = async id => {
   try {
-    const processedData = {
-      status: sourceConstants.STATUS.ISSUED,
-      transaction: data.txHash
-    }
     const response = await window.fetch(
-      `${route}${id}`, {
-        method: 'PATCH',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(processedData)
+      `${route}${id}/finalize`, {
+        method: 'GET',
+        headers: helper.setHeaders()
       }
     )
     const result = await response.json()
