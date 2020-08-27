@@ -131,7 +131,7 @@ const runJobs = jobs => {
         result = await certificatesService.create(job.data)
       }
       if (job.action === 'updateSource') {
-        result = await sourceService.updateBatch(job.data.id)
+        result = await sourceService.updateBatch(job.data.id, job.data.txHash)
       }
       if (result instanceof TypeError) {
         dispatch(runJobError(result.message))

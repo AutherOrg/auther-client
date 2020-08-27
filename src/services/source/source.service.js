@@ -33,10 +33,10 @@ const getBatch = async id => {
   }
 }
 
-const updateBatch = async id => {
+const updateBatch = async (id, txHash) => {
   try {
     const response = await window.fetch(
-      `${route}${id}/finalize`, {
+      `${route}${id}/finalize/${txHash}`, {
         method: 'GET',
         headers: helper.setHeaders()
       }
