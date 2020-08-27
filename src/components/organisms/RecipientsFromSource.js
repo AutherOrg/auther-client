@@ -40,7 +40,7 @@ export default function RecipientsFromSource () {
                     button
                   >
                     <ListItemText
-                      primary={`ID: ${batch.id}`}
+                      primary={`${batch.name} (ID: ${batch.id})`}
                     />
                   </ListItem>
                 ))}
