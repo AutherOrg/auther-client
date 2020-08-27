@@ -1,5 +1,4 @@
 import helper from './source.helper'
-import sourceConstants from '../../constants/source.constants'
 
 const route = `${process.env.REACT_APP_SOURCE}/batches/`
 
