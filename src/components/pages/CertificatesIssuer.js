@@ -13,6 +13,7 @@ import {
 import { Add, Create, Link } from '@material-ui/icons'
 
 import actions from '../../actions/certificates.actions'
+import batchesActions from '../../actions/batches.actions'
 
 export default function CertificatesIssuer () {
   const dispatch = useDispatch()
@@ -23,6 +24,7 @@ export default function CertificatesIssuer () {
   }
   React.useEffect(() => {
     dispatch(actions.getMany())
+    dispatch(batchesActions.reset())
   }, [dispatch])
 
   return (

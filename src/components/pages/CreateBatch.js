@@ -57,6 +57,9 @@ export default function CreateBatch () {
   }
 
   const getPreview = () => {
+    if (batchesReducer.recipients.length === 0) {
+      return null
+    }
     if (batchesReducer.preview === 'all') {
       return batchesReducer.recipients.map((recipient, index) => (
         <div key={index}>
@@ -100,6 +103,7 @@ export default function CreateBatch () {
       }
     })
     certificate.setSignatureLines(model.Signatures)
+    console.log(certificate.get())
     const displayHtml = template.build(certificate.get())
     certificate.setDisplayHtml(displayHtml)
     return certificate
