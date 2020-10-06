@@ -9,59 +9,45 @@ Demo: https://auther.org/demo
 
 ## Introduction
 
-**Auther client** is an opensource client to create, issue, manage and share online Blockcerts certificates on the Ethereum blockchain.
+**Auther client** is an opensource client to create, issue, manage and share online Blockcerts certificates on the Ethereum blockchain. This project is intended to be used with the [Auther API](https://github.com/AutherOrg/auther-api) project.
 
-This project is intended to be used with the [Auther API](https://github.com/AutherOrg/auther-api) project.
+*This project was bootstrapped with [Create React App](https://create-react-app.dev/). Please read the documentation if you are new to *React.
 
-This project was bootstrapped with [Create React App](https://create-react-app.dev/). Please read the documentation if you are new to React.
+## Requirements
 
-## Installation
++ Node.JS 13 (below might be possible)
++ Yarn (you can also use NPM but only in second choice)
++ Installation of [Auther API](https://github.com/AutherOrg/auther-api).
++ [Metamask extension for Chrome & Firefox](https://metamask.io/).
 
-You must first install the [Auther API](https://github.com/AutherOrg/auther-api) project.
+## Local / development install
 
-Then clone this project, go in the directory and install dependencies:
+Install dependencies: ````yarn install````
 
-````
-yarn install
-````
-
-Configure:
+Then, eventually customize:
 
 ````
 cp .env.development .env.development.local
 nano .env.development.local
 ````
 
-Start the app (in development mode)
+Finally, start the app: ````yarn start````
 
-````
-yarn start
-````
+### Configuration
 
-Now, you need to install the [Metamask extension](https://metamask.io/).
+Open the app (http://localhost:3000), login with the admin account created in Auther API and click on *System* then *Edit issuer profile*.
 
-## Configuration
+Edit your Ethereum public key: **it must be the one in Metamask**.
 
-Open the app (http://localhost:3000), login and click on *System* then *Edit issuer profile*.
+By default, Issuer profile URL and Revocation list URL are:
++ http://localhost:4000/blockcerts/issuer
++ http://localhost:4000/blockcerts/revocations
 
-There are 3 important things:
+If you are not using localhost:4000 for Auther API, edit those fields as needed.
 
-+ Your Ethereum public key: use the one you just generated or imported with Metamask.
-+ Issuer profile URL
-+ Revocation list URL
+Customize all the other fields as you like.
 
-**Those must NEVER change once you have issued real certificates, otherwise they will not validate any more.**
-
-For the Issuer profile URL and Revocation list URL you have 2 options:
-
-+ In development or test, the most practical is to host 2 files in a classic HTTP cloud server. In the issuer profile, enter their future URLs, like https://mystorage/issuer.json and https://mystorage/revocations.json (I'm just [using Github for this](https://github.com/AutherOrg/static/tree/master/ethereum/mainnet/issuers/fictionaluniversity))
-+ In production, the most practical is to let Auther API serve the issuer profile and revocation list. Just replace api.fictionaluniversity.auther.org by your Auther API instance base URL in https://api.fictionaluniversity.auther.org/blockcerts/issuer and https://api.fictionaluniversity.auther.org/blockcerts/revocations
-
-The big advantage of letting Auther serve the profile and the revocations is that you don't have to download those 2 files from the App and then upload them on your storage.
-
-There is a big disadvantage as well: if, for one reason or another, your Auther API is not available one day, then ALL the certificates you issued will not validate any more.
-
-In *System* there is a dashboard that checks that everything is fine.
+Finally, verify in *System* that the config is valid.
 
 ## Issuing certificates
 
@@ -81,11 +67,18 @@ The app will ask you to switch to MainNet if you are on another network.
 
 ### Issuing process
 
-At the moment, there's only 1 process which uses a .csv file for the list of recipients, signatures and models.
++ Certificates are built from Models (course name, description etc.) and Templates.
++ Models need at least 1 signature (the course responsible).
 
-1. You must at least create 1 signature
-2. You must at least create 1 model
-3. You must have a .csv file listing your recipients (example below)
+There is 1 signature by default, 1 model by default and 1 template by default.
+
+You can easily:
++ Add, edit, remove signatures
++ Same for models
+
+For templates, see the adhoc doc section.
+
+Finally, to issue a certificate batch, you need a .csv file listing your recipients, like this:
 
 recipients.csv:
 ````
@@ -93,6 +86,8 @@ Name,Email
 Jane Doe,jane.doe@example.com
 John Doe,john.doe@example.com
 ````
+
+To issue a certificates batch:
 
 + Click on *Certificates* and create a new certificates batch
 + Select your .csv file
@@ -102,9 +97,11 @@ John Doe,john.doe@example.com
 + A Metamask popup should open. Sign the transaction here.
 + Wait for the transaction to be mined.
 + Click on *Finalize*
-+ Click on *Upload certificates* when it appears.
++ Click on *Finalize jobs* when it appears.
 
-### Gas price = 0
+### Workarounds
+
+#### Gas price = 0
 
 Especially on Ropsten, from time to time when submitting a transaction to Metamask, the gas price is set to 0 which would lead to a rejection. When it's the case, please click on "Edit" in the Metamask popup and click on a transaction speed (medium for instance).
 
@@ -131,6 +128,32 @@ Then you can modify the *build* method in `src/templates/custom/custom.template.
 
 The app has a route to help template development by displaying a preview of a certificate. If you app runs on http://locahost:3000 then you can access this route at http://locahost:3000/dev/template
 By default this route uses the *default* template. To use your custom template, edit `src/components/dev/DevTemplate` and replace `import template from '../../templates/default/default.template'` by `import template from '../../templates/custom/custom.template'`
+
+## Production install
+
+Like any *Create React* app:
+
+````
+cp .environment.prod .environment.prod.local
+nano .environment.prod.local (don't forget to use the URL of your production Auther API and the MainNet Ethereum network)
+yarn build
+````
+
+And upload the build folder somewhere online, for instance on https://myissuer.org. Let's also say that you installed the production Auther API on https://myissuer-api.org
+
+In *System > Edit issuer profile* update:
++ The Issuer profile URL to https://myissuer-api.org/blockcerts/issuer
++ The Revocation list URL to https://myissuer-api.org/blockcerts/revocations
+
+**IMPORTANT: In production, your Ethereum public key, your Issuer profile URL and your Revocation list URL must NEVER change once you have issued real certificates, otherwise they will not validate any more.**
+
+### Advanced
+
+For the Issuer profile URL and Revocation list URL, you can also export them from Auther to files and host them on a basic HTTP server. For instance, if you host those files on your main website that should last as long as your organization exists, then all the certificates that you issue will still validate, even if one day your Auther instance goes down for a reason or another. Beware tough, the links in the emails sent by Auther won't answer any more if your Auther is down...
+
+To do this, in *System*, each time you modify the Issuer profile and revoke/unrevoke a certificate, export the JSON file from Auther and upload the new version on your static server.
+
+Not very practical honestly. The best is to let Auther manage all of this for you and just ensure that your server hosting Auther never goes down.
 
 ## General discussion, installation and configuration help
 
