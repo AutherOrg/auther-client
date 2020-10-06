@@ -89,9 +89,9 @@ At the moment, there's only 1 process which uses a .csv file for the list of rec
 
 recipients.csv:
 ````
-First name,Last name,Email
-Jane,Doe,jane.doe@example.com
-John,Doe,john.doe@example.com
+Name,Email
+Jane Doe,jane.doe@example.com
+John Doe,john.doe@example.com
 ````
 
 + Click on *Certificates* and create a new certificates batch
